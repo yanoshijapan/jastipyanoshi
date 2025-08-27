@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+      /* ----- General Styling ----- */
+      :root {
+        --primary-color: #076eb3;
+        --secondary-color: #0d3b5a;
+        --text-color: #ffffff;
+        --accent-color: #ffc107;
+        --white: #ffffff;
+        --grid-item-bg: rgba(255, 255, 255, 0.15); /* Putih semi transparan untuk item grid */
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Roboto', 'Segoe UI', Tahoma, sans-serif;
+        color: var(--text-color);
+        background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        position: relative;
+        min-height: 100vh;
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('https://yanoshijapan.github.io/jastip/jptk.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.1;
+        filter: grayscale(100%);
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 600px; /* Sesuaikan sesuai kebutuhan */
+        margin: 0 auto;
+      }
+
+      h2, h3 {
+        text-align: center;
+        font-size: 33px;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        color: white;
+      }
+
+      /* ----- Header & Navigation ----- */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: var(--white);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        z-index: 1000;
+        box-sizing: border-box;
+      }
+
+      .logo img {
+        height: 70px;
+        width: auto;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        margin-left: auto; /* Mendorong tombol ke kanan */
+      }
+
+      /* Gaya untuk tombol "Kontak Admin" di header */
+      .contact-btn-header {
+        background-color: var(--secondary-color); /* Warna biru tua */
+        color: var(--white);
+        padding: 10px 21px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 19px;
+        white-space: nowrap; /* Mencegah teks turun baris */
+        transition: background-color 0.3s;
+      }
+
+      .contact-btn-header:hover {
+        background-color: var(--primary-color); /* Efek warna saat disentuh */
+      }
+
+      /* ----- Image Slider ----- */
+      .slider-container {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        border-radius: 10px;
+        aspect-ratio: 1280 / 800;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+      }
+
+      .slider {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        cursor: grab;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+
+      .slide {
+        min-width: 100%;
+        position: relative;
+      }
+
+      .slide img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 1280 / 800;
+        object-fit: cover;
+      }
+
+      .slider-nav {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+      }
+
+      .slider-nav button {
+        background-color: rgba(0,0,0,0.5);
+        border: none;
+        color: white;
+        font-size: 24px;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 0 10px;
+      }
+
+      /* ----- Grid Section (Modified) ----- */
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 kolom untuk semua ukuran layar */
+        gap: 15px; /* Sesuaikan jarak antar item grid */
+        margin-top: 30px;
+      }
+
+      .grid-item {
+        background: var(--grid-item-bg);
+        border-radius: 18px; /* Sudut tumpul untuk wadah */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        padding: 20px; /* Padding di dalam item grid */
+        transition: transform 0.3s, box-shadow 0.3s;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* Pusatkan konten secara vertikal */
+        min-height: 120px; /* Tinggi minimum untuk setiap item grid */
+        cursor: pointer;
+      }
+
+      .grid-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      }
+
+      .icon-container {
+        background-color: rgba(255, 255, 255, 0.3); /* Latar belakang untuk lingkaran */
+        border-radius: 50%;
+        width: 120px; /* Sesuaikan ukuran sesuai kebutuhan */
+        height: 120px; /* Sesuaikan ukuran sesuai kebutuhan */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      .icon-container img {
+        max-width: 100%; /* Sesuaikan ukuran gambar di dalam lingkaran */
+        max-height: 90%;
+        object-fit: contain;
+      }
+
+      .grid-item h4 {
+        margin: 0;
+        padding: 0 5px;
+        color: var(--white);
+        font-size: 25px;
+        font-weight: 700;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ----- Modal (Popup) Styling ----- */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+      }
+
+      .modal-content {
+        background-color: var(--secondary-color);
+        padding: 40px;
+        border-radius: 10px;
+        position: relative;
+        width: 90%;
+        max-width: 800px;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        color: #f0f0f0;
+      }
+
+      .modal-content h3 {
+        font-size: 40px; /* Perbesar ukuran judul popup */
+        margin-bottom: 20px;
+      }
+
+      .modal-content .modal-body {
+        font-size: 31px; /* Perbesar ukuran teks konten */
+        line-height: 1.7;  /* Tambah jarak antar baris agar mudah dibaca */
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 50px;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      #modal6 .modal-content h3 {
+        font-size: 40px; /* Contoh: Perbesar ukuran font judul */
+      }
+
+      /* ----- Chat Modal Specifics ----- */
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .chat-history {
+        height: 35vh; /* Batasi tinggi agar bisa di-scroll */
+        overflow-y: auto; /* Tambahkan scrollbar jika kontennya panjang */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* STYLE BARU: Untuk dropdown pertanyaan */
+      #faq-select {
+        width: 100%;
+        padding: 18px;
+        border-radius: 10px;
+        border: none;
+        font-size: 31px;
+        background-color: #fff;
+        color: #333;
+        cursor: pointer;
+        -webkit-appearance: none; /* Hapus tampilan default di beberapa browser */
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27292.4%27%20height%3D%27292.4%27%3E%3Cpath%20fill%3D%27%23007CB2%27%20d%3D%27M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%27%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px top 50%;
+        background-size: 14px;
+        font-weight: bold;
+      }
+
+      .chat-bubble {
+        font-size: 31px; /* Contoh: Perbesar ukuran font teks chat */
+        padding: 15px 20px; /* Contoh: Tambah sedikit padding agar lebih lega */
+        border-radius: 20px;
+        max-width: 85%;
+        line-height: 1.5;
+        word-wrap: break-word;
+      }
+
+      .chat-bubble.question {
+        background-color: #e1e1e1; /* Warna bubble pertanyaan customer */
+        color: #333;
+        align-self: flex-end; /* Pertanyaan muncul di kanan */
+        border-bottom-right-radius: 5px;
+      }
+
+      .chat-bubble.answer {
+        background-color: var(--primary-color); /* Warna bubble jawaban admin */
+        color: var(--text-color);
+        align-self: flex-start; /* Jawaban muncul di kiri */
+        border-bottom-left-radius: 5px;
+      }
+
+      .typing-indicator {
+        background-color: var(--primary-color);
+        color: var(--text-color);
+        align-self: flex-start;
+        border-bottom-left-radius: 5px;
+        padding: 15px 20px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Titik-titik animasi */
+      .typing-indicator span {
+        height: 8px;
+        width: 8px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 2px;
+        animation: bounce 1.2s infinite;
+      }
+
+      /* Atur jeda animasi agar titik bergerak bergantian */
+      .typing-indicator span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .typing-indicator span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      /* Definisikan animasi 'bounce' */
+      @keyframes bounce {
+        0%, 60%, 100% {
+          transform: translateY(0);
+        }
+        30% {
+          transform: translateY(-8px);
+        }
+      }
+
+      /* ----- Promo & Link Section ----- */
+      .single-promo,
+      .link-image {
+        margin: 40px 0;
+        text-align: center;
+      }
+
+      .single-promo img,
+      .link-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      }
+
+      .link-images-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 10px 0;
+      }
+
+      .link-image {
+        aspect-ratio: 1 / 1;
+        text-align: center;
+      }
+
+      .link-image a {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Pusatkan horizontal */
+        justify-content: center; /* 5. PUSATKAN KONTEN DI TENGAH KOTAK */
+        height: 100%;
+        text-decoration: none;
+        color: var(--text-color);
+        transition: transform 0.3s, background-color 0.3s;
+        background-color: rgba(13, 59, 90, 0.5); /* Latar belakang disamakan dengan grid */
+        border-radius: 18px; /* Sudut tumpul disamakan dengan grid */
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+
+      .link-image a:hover {
+        transform: translateY(-5px);
+        background-color: rgba(13, 59, 90, 0.7);
+      }
+
+      .link-image img {
+        width: 80%; /* Sesuaikan ukuran gambar sesuai selera */
+        object-fit: contain;
+        margin-bottom: 10px;
+      }
+
+      .link-image h4 {
+        background-color: transparent; /* Hapus latar belakang hitam pada teks */
+        padding: 0 10px;
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      /* ----- Social Media Section ----- */
+      .social-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 40px 0;
+        align-items: start;
+      }
+
+      .social-embed {
+        text-align: center;
+        width: 100%;
+        max-height: 700px; /* Contoh tinggi maksimum, sesuaikan nilainya */
+        overflow: hidden;
+      }
+
+      .social-embed blockquote {
+        margin: 0 !important;
+      }
+
+      .social-button {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+
+        background-color: var(--accent-color);
+        color: #000;
+        padding: 12px 25px;
+        border-radius: 8px 8px 0 0;
+        text-decoration: none;
+        font-weight: bold;
+
+
+        margin-bottom: -1px; /* Beri margin negatif agar menyatu dengan embed */
+
+        transition: background-color 0.3s;
+      }
+
+      .social-button:hover {
+        background-color: #ffd54f;
+      }
+      
+      .contact-section {
+        text-align: center; /* Membuat tombol berada di tengah */
+        margin: 10px 0;   /* Memberi jarak atas dan bawah */
+      }
+
+      .contact-admin-btn {
+        display: inline-block;
+        background-color: var(--accent-color); /* Warna kuning dari tema Anda */
+        color: #0d3b5a; /* Warna teks biru tua agar kontras */
+        padding: 20px 40px; /* Ukuran padding di dalam tombol */
+        border-radius: 50px; /* Membuat sudut sangat tumpul (bentuk kapsul) */
+        font-size: 22px;
+        font-weight: bold;
+        text-decoration: none; /* Menghilangkan garis bawah link */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .contact-admin-btn:hover {
+        transform: translateY(-3px); /* Efek sedikit terangkat saat disentuh */
+        box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      }
+
+      /* ----- Responsive Design ----- */
+      @media (max-width: 768px) {
+        /* Ukuran halaman disesuaikan */
+        .container {
+            padding: 10px;
+        }
+        main {
+            padding: 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .grid-container {
+            grid-template-columns: repeat(3, 1fr); /* Tetap 3 kolom */
+        }
+        .icon-container {
+            width: 80px; /* Ukuran ikon diperkecil */
+            height: 80px;
+        }
+        .grid-item {
+            padding: 10px; /* Padding item grid dikurangi */
+        }
+        main {
+          padding: 10px;
+          margin-top: 20px; /* Mengurangi margin atas */
+        }
+        .header {
+          padding: 10px;
+          height: 70px; /* Mengurangi tinggi header */
+        }
+        .logo img {
+          height: 50px; /* Ukuran logo disesuaikan */
+        }
+        .modal-content {
+          padding: 20px;      /* Kurangi padding di sisi agar area konten lebih luas */
+          max-height: 90vh;   /* Izinkan popup sedikit lebih tinggi di layar ponsel */
+        }
+        .modal-content h3 {
+          font-size: 21px;  /* Sesuaikan ukuran judul agar pas untuk ponsel */
+          margin-bottom: 15px;
+        }
+
+        .modal-content .modal-body,
+        .chat-bubble {
+          font-size: 16px;    /* Ukuran font standar (16px) yang nyaman dibaca di ponsel */
+          line-height: 1.6;
+        }
+
+        #faq-select {
+          padding: 15px;      /* Sesuaikan padding dropdown agar mudah disentuh */
+          font-size: 16px; /* Disesuaikan agar konsisten */
+        }
+        .contact-admin-btn {
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        .grid-item h4 {
+            font-size: 14px; /* Font pada grid menu disesuaikan */
+        }
+        h3 {
+            font-size: 24px;
+        }
+        .modal-content .modal-body, .chat-bubble, #faq-select {
+            font-size: 14px;
+        }
+         .modal-content h3, #modal6 .modal-content h3 {
+             font-size: 18px;
+         }
+        .social-embed {
+            max-height: 400px; /* Kontainer embed sosmed disesuaikan */
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <header class="header">
+      <div class="logo">
+        <a href="#"><img src="https://yanoshijapan.github.io/jastip/jastip%202.png" alt="Logo Jastip"></a>
+      </div>
+      <div class="header-right">
+        <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20ikutan%20Jastipnya%20dong" target="_blank" class="contact-btn-header">Kontak Admin</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="slider-container">
+        <div class="slider">
+          <div class="slide"><img src="https://yanoshijapan.github.io/jastip/banner1.jpg" alt="Promo 1"></div>
+          <div class="slide"><img src="https://yanoshijapan.github.io/jastip/banner2.jpg" alt="Promo 2"></div>
+          <div class="slide"><img src="https://yanoshijapan.github.io/jastip/banner3.jpg" alt="Promo 3"></div>
+        </div>
+      </section>
+
+      <section class="grid-container">
+        <div class="grid-item" data-modal-id="modal1">
+          <div class="icon-container">
+            <img src="https://yanoshijapan.github.io/jastip/icon1.png" alt="Tentang Jastip Yanoshi">
+          </div>
+          <h4>Tentang Jastip Yanoshi</h4>
+        </div>
+        <div class="grid-item" data-modal-id="modal2">
+          <div class="icon-container">
+            <img src="https://yanoshijapan.github.io/jastip/icon2.png" alt="Kenapa Harus Jastip di Yanoshi">
+          </div>
+          <h4>Kenapa Harus Jastip di Yanoshi</h4>
+        </div>
+        <div class="grid-item" data-modal-id="modal3">
+          <div class="icon-container">
+            <img src="https://yanoshijapan.github.io/jastip/icon3.png" alt="Ketentuan Barang Bawaan">
+          </div>
+          <h4>Ketentuan Barang Bawaan</h4>
+        </div>
+        <div class="grid-item" data-modal-id="modal4">
+          <div class="icon-container">
+            <img src="https://yanoshijapan.github.io/jastip/icon4.png" alt="Daftar Harga Jastip">
+          </div>
+          <h4>Daftar Harga<br>Jastip</h4>
+        </div>
+        <div class="grid-item" data-modal-id="modal5">
+          <div class="icon-container">
+            <img src="https://yanoshijapan.github.io/jastip/icon5.png" alt="Jadwal Keberangkatan">
+          </div>
+          <h4>Jadwal Keberangkatan</h4>
+        </div>
+        <div class="grid-item" data-modal-id="modal6">
+          <div class="icon-container">
+            <img src="https://yanoshijapan.github.io/jastip/icon6.png" alt="Tanya Jawab Interaktif">
+          </div>
+          <h4>Tanya Jawab Interaktif</h4>
+        </div>
+      </section>
+
+      <br><h3>Klik tombol di bawah untuk daftar Jastip!</h3>
+
+      <section class="link-images-container">
+        <div class="link-image">
+          <a href="https://script.google.com/macros/s/AKfycbyLV8KiXjaYszXkgCnuhx2cGeT4OY8knc9dVrWRqHwRy1AUbyh-ZXc5kGLZn5RzApSi/exec" target="_blank">
+            <img src="https://yanoshijapan.github.io/jastip/idjp.png" alt="Jastip Indo - Jepang">
+          </a>
+        </div>
+        <div class="link-image">
+          <a href="https://script.google.com/macros/s/AKfycbyLV8KiXjaYszXkgCnuhx2cGeT4OY8knc9dVrWRqHwRy1AUbyh-ZXc5kGLZn5RzApSi/exec?page=japan-indo" target="_blank">
+            <img src="https://yanoshijapan.github.io/jastip/jpid.png" alt="Jastip Jepang - Indo">
+          </a>
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20ikutan%20Jastipnya%20dong" target="_blank" class="contact-admin-btn">
+          Hubungi Admin, Klik Disini
+        </a>
+      </section>
+
+      <h3>Follow Sosmed Kami</h3>
+      <section class="social-container">
+        <div class="social-embed">
+          <a href="https://www.instagram.com/yanoshi_jastip" target="_blank" class="social-button">Instagram</a>
+          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DMKbEynS8uL/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DMKbEynS8uL/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DMKbEynS8uL/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Yanoshi jastip (@yanoshi_jastip)</a></p></div></blockquote>
+        </div>
+
+        <div class="social-embed">
+          <a href="https://www.tiktok.com/@jastip_yanoshi" target="_blank" class="social-button">TikTok</a>
+          <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@jastip_yanoshi/video/7499016564197444882" data-video-id="7499016564197444882" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@jastip_yanoshi" href="https://www.tiktok.com/@jastip_yanoshi?refer=embed">@jastip_yanoshi</a> Jadi menurut kalian gimana nih mau yang sampainya cepet atau yang lama? 🤭 <a title="fyp" target="_blank" href="https://www.tiktok.com/tag/fyp?refer=embed">#fyp</a> <a title="handcarry" target="_blank" href="https://www.tiktok.com/tag/handcarry?refer=embed">#handcarry</a>  <a title="jastipindonesiajepang" target="_blank" href="https://www.tiktok.com/tag/jastipindonesiajepang?refer=embed">#jastipindonesiajepang</a> <a title="jastip" target="_blank" href="https://www.tiktok.com/tag/jastip?refer=embed">#jastip</a> <a title="titipbarang" target="_blank" href="https://www.tiktok.com/tag/titipbarang?refer=embed">#titipbarang</a>  <a title="kenshuseijapan🇮🇩🇯🇵🎌" target="_blank" href="https://www.tiktok.com/tag/kenshuseijapan%F0%9F%87%AE%F0%9F%87%A9%F0%9F%87%AF%F0%9F%87%B5%F0%9F%8E%8C?refer=embed">#kenshuseijapan🇮🇩🇯🇵🎌</a> <a title="jishusei" target="_blank" href="https://www.tiktok.com/tag/jishusei?refer=embed">#jishusei</a> <a title="fypage" target="_blank" href="https://www.tiktok.com/tag/fypage?refer=embed">#fypage</a>  <a title="kirimbarang" target="_blank" href="https://www.tiktok.com/tag/kirimbarang?refer=embed">#kirimbarang</a> <a target="_blank" title="♬ original sound  - jastip by yanoshi" href="https://www.tiktok.com/music/original-sound-jastip-by-yanoshi-7499016609114196753?refer=embed">♬ original sound  - jastip by yanoshi</a> </section> </blockquote>
+        </div>
+
+      </section>
+
+      <h3>Beli oleh-oleh Jepang online, klik gambar dibawah ini ya!</h3>
+
+      <section class="single-promo">
+        <a href="https://s.id/yanoshistore" target="_blank">
+          <img src="https://yanoshijapan.github.io/jastip/belio.jpg" alt="Promo Final">
+        </a>
+      </section>
+
+    </main>
+
+    <div id="modal1" class="modal-overlay"><div class="modal-content"><span class="modal-close">&times;</span><h3></h3><div class="modal-body"></div></div></div>
+    <div id="modal2" class="modal-overlay"><div class="modal-content"><span class="modal-close">&times;</span><h3></h3><div class="modal-body"></div></div></div>
+    <div id="modal3" class="modal-overlay"><div class="modal-content"><span class="modal-close">&times;</span><h3></h3><div class="modal-body"></div></div></div>
+    <div id="modal4" class="modal-overlay"><div class="modal-content"><span class="modal-close">&times;</span><h3></h3><div class="modal-body"></div></div></div>
+    <div id="modal5" class="modal-overlay"><div class="modal-content"><span class="modal-close">&times;</span><h3></h3><div class="modal-body"></div></div></div>
+    <div id="modal6" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3>Tanya Jawab Interaktif</h3>
+            <div class="modal-body">
+                <div class="chat-history">
+                    </div>
+                <div class="chat-input">
+                    <select id="faq-select">
+                        <option value="" disabled selected>Pilih pertanyaannya disini...</option>
+                        </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script async src="//www.instagram.com/embed.js"></script>
+    <script async src="https://www.tiktok.com/embed.js"></script>
+
+    <script>
+      // Menunggu hingga seluruh halaman HTML dimuat sebelum menjalankan skrip
+      document.addEventListener('DOMContentLoaded', () => {
+
+        const sliderContainer = document.querySelector('.slider-container');
+        if (sliderContainer) { // Hanya jalankan kode jika slider ada di halaman
+          const slider = sliderContainer.querySelector('.slider');
+          const slides = Array.from(slider.children);
+          const slideCount = slides.length;
+
+          if (slideCount > 0) { // Pastikan ada slide sebelum melanjutkan
+            let currentIndex = 1;
+            let intervalId;
+            let isDragging = false, startPos = 0, currentTranslate = 0, prevTranslate = 0;
+
+            // 1. Kloning slide untuk infinite loop
+            const firstClone = slides[0].cloneNode(true);
+            const lastClone = slides[slideCount - 1].cloneNode(true);
+            slider.appendChild(firstClone);
+            slider.insertBefore(lastClone, slides[0]);
+
+            const getPositionX = e => e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+
+            const setSliderPosition = () => {
+              currentTranslate = -currentIndex * slider.offsetWidth;
+              slider.style.transform = `translateX(${currentTranslate}px)`;
+              prevTranslate = currentTranslate;
+            };
+
+            const animation = () => {
+              slider.style.transform = `translateX(${currentTranslate}px)`;
+            };
+
+            const setPositionByIndex = () => {
+              currentTranslate = -currentIndex * slider.offsetWidth;
+              prevTranslate = currentTranslate;
+              slider.style.transform = `translateX(${currentTranslate}px)`;
+            };
+
+            // Atur posisi awal
+            setPositionByIndex();
+
+            // Listener untuk 'melompat' setelah transisi selesai
+            slider.addEventListener('transitionend', () => {
+              if (currentIndex <= 0) {
+                slider.style.transition = 'none';
+                currentIndex = slideCount;
+                setPositionByIndex();
+              }
+              if (currentIndex >= slideCount + 1) {
+                slider.style.transition = 'none';
+                currentIndex = 1;
+                setPositionByIndex();
+              }
+              // Trik untuk mengembalikan transisi
+              setTimeout(() => {
+                slider.style.transition = 'transform 0.5s ease-in-out';
+              }, 50);
+            });
+
+            // Fungsi untuk slide berikutnya
+            const nextSlide = () => {
+              currentIndex++;
+              setPositionByIndex();
+            };
+
+            // Fungsi untuk auto-slide
+            const startAutoSlide = () => {
+              stopAutoSlide();
+              intervalId = setInterval(nextSlide, 3000);
+            };
+
+            const stopAutoSlide = () => {
+              clearInterval(intervalId);
+            };
+
+            // Fungsi untuk drag/swipe
+            const dragStart = (e) => {
+              stopAutoSlide();
+              isDragging = true;
+              startPos = getPositionX(e);
+              slider.style.transition = 'none';
+            };
+
+            const drag = (e) => {
+              if (isDragging) {
+                const currentPosition = getPositionX(e);
+                currentTranslate = prevTranslate + currentPosition - startPos;
+                animation();
+              }
+            };
+
+            const dragEnd = () => {
+              if (!isDragging) return;
+              isDragging = false;
+              const movedBy = currentTranslate - prevTranslate;
+
+              if (movedBy < -100) currentIndex++;
+              if (movedBy > 100) currentIndex--;
+
+              slider.style.transition = 'transform 0.5s ease-in-out';
+              setPositionByIndex();
+              startAutoSlide();
+            };
+
+            // Event Listeners untuk drag/swipe
+            slider.addEventListener('mousedown', dragStart);
+            slider.addEventListener('touchstart', dragStart, { passive: true });
+            slider.addEventListener('mouseup', dragEnd);
+            slider.addEventListener('touchend', dragEnd);
+            slider.addEventListener('mouseleave', dragEnd);
+            slider.addEventListener('mousemove', drag);
+            slider.addEventListener('touchmove', drag, { passive: true });
+
+            // Atur ulang posisi jika layar diubah ukurannya
+            window.addEventListener('resize', setPositionByIndex);
+
+            // Mulai auto-slide
+            startAutoSlide();
+          }
+        }
+
+        // =========================================
+        // ===== MODAL/POPUP LOGIC (PERBAIKAN) =====
+        // =========================================
+        const gridItems = document.querySelectorAll('.grid-item');
+        const modals = document.querySelectorAll('.modal-overlay');
+        const closeButtons = document.querySelectorAll('.modal-close');
+
+        // --- KONTEN UNTUK MODAL 1-5 (Popup Biasa) ---
+        const modalData = {
+            modal1: {
+            title: "Tentang Jastip Yanoshi",
+            content: "<p>Hai para pejuang barang impian! Kenalan yuk sama Yanoshi Jastip, solusi jastip paling asyik dan terpercaya buat kamu yang butuh kirim-kirim barang dari Jepang ke Indonesia atau sebaliknya.<br><br><strong>Buat yang lagi di Jepang:</strong> Lagi kangen masakan rumah tapi bumbu nggak ada? Butuh skincare kesayangan atau obat-obatan penting dari Indonesia? Atau dokumen yang ketinggalan? Tenang, nggak perlu terbang pulang! Yanoshi siap bawain semua itu langsung ke Jepang. Pulang ke Indonesia bawaan numpuk? Aduh, jangan pusing! Titipin aja barang-barangmu, mulai dari baju, elektronik, sampai oleh-oleh Jepang yang super banyak itu. Kami yang urus antar sampai alamat di Indonesia.<br><br><strong>Buat yang di Indonesia:</strong> Ngiler sama produk Jepang terbaru tapi mager ke sana? Tenang aja! Yanoshi hadir buat bikin belanjamu makin gampang. Tinggal tunjuk, kami yang datangkan barangnya dari Jepang ke rumahmu. Gampang kan?.</p>"
+            },
+            modal2: {
+              title: "Kenapa Harus Jastip di Yanoshi?",
+              // PERBAIKAN: Menggunakan kutip tunggal ' untuk class
+              content: "<ul class='list-disc list-inside space-y-2'>" +
+                      "<li><strong>Cepat:</strong> Karena kami bawa sendiri alias handcarry, barangmu bakal sampai di pelukanmu lebih cepat dari kirim kargo</li>" +
+                      "<li><strong>Aman & Terpercaya:</strong> Kamu nitip di Yanoshi Jastip? Itu artinya kamu kasih kepercayaan penuh ke kami. Tenang aja, barangmu dijaga banget biar sampai dengan selamat sentosa.</li>" +
+                      "<li><strong>Transparan:</strong> Nggak perlu khawatir ada biaya siluman! Semua rincian jelas di awal, tanpa drama dan tanpa ada yang disembunyikan.</li>" +
+                      "<li><strong>Komunikatif:</strong> Butuh info atau ada pertanyaan? CS kami responsif dan siap bantu kamu kapan aja, sampai barangmu tiba di tujuan.</li>" +
+                      "</ul>"
+            },
+            modal3: {
+              title: "Barang apa aja sih yang bisa di Jastipin?",
+              // PERBAIKAN: Menggunakan kutip tunggal ' untuk class
+              content: "<ul class='list-disc list-inside space-y-2 mt-2'>" +
+                      "<li>Skincare & Kosmetik</li>" +
+                      "<li>Snack & Makanan Kering</li>" +
+                      "<li>Bumbu Masakan</li>" +
+                      "<li>Obat-Obatan Legal</li>" +
+                      "<li>Dokumen & Surat-Surat</li>" +
+                      "<li>Perlengkapan Pribadi</li>" +
+                      "<li>Perlengkapan Olahraga</li>" +
+                      "<li>Fashion & Aksesoris</li>" +
+                      "<li>Action Figure & Merchandise Anime</li>" +
+                      "<li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li>" +
+                      "</ul>" +
+                      "<p class='mt-2'>Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.</p>"
+            },
+            modal4: {
+              title: "Price List",
+              // PERBAIKAN: Menggunakan kutip tunggal ' untuk class
+              content: "<ul class='list-disc list-inside space-y-2 mt-2'>" +
+                      "<li><strong>Barang biasa:</strong> 1.500 yen/kg.</li>" +
+                      "<li><strong>Handphone (All brand):</strong> 2.000 yen/unit.</li>" +
+                      "<li><strong>Laptop, tablet (All brand):</strong> 1.500 yen/kg.</li>" +
+                      "<li><strong>Rokok:</strong> 2.000 yen/slop.</li>" +
+                      "<li><strong>Rokok elektrik (Vape/Pod):</strong> 1.000 yen/unit.</li>" +
+                      "<li><strong>Liquid rokok elektrik:</strong> 500 yen/unit.</li>" +
+                      "<li><strong>Sepatu dengan box:</strong> 2.000 yen/pasang.</li>" +
+                      "<li><strong>Sepatu tanpa box:</strong> 1.500 yen/pasang.</li>" +
+                      "</ul>" +
+                      "<p class='mt-2 text-sm'>Silakan hubungi CS untuk informasi lebih lanjut.</p>"
+            },
+            modal5: {
+              title: "Jadwal Keberangkatan",
+              // PERBAIKAN: Menggunakan kutip tunggal ' untuk class
+              content: "<p><strong>Jadwal bulan Agustus:</strong></p>" +
+                      "<ul class='list-disc list-inside space-y-2 mt-2'>" +
+                      "<li><strong>Indonesia > Jepang:</strong> 9 Agustus 2025</li>" +
+                      "<li><strong>Jepang > Indonesia:</strong> 18 Agustus 2025</li>" +
+                      "</ul><br><p><strong>Jadwal bulan September:</strong></p>" +
+                      "<ul class='list-disc list-inside space-y-2 mt-2'>" +
+                      "<strong>#1</strong>" +
+                      "<li><strong>Indonesia > Jepang:</strong> 10 September 2025</li>" +
+                      "<li><strong>Jepang > Indonesia:</strong> 15 September 2025</li>" +
+                      "<strong>#2</strong>" +
+                      "<li><strong>Indonesia > Jepang:</strong> 21 September 2025</li>" +
+                      "<li><strong>Jepang > Indonesia:</strong> 27 September 2025</li>" +
+                      "</ul><br><p><strong>Jadwal bulan Oktober:</strong></p>" +
+                      "<ul class='list-disc list-inside space-y-2 mt-2'>" +
+                      "<li><strong>Indonesia > Jepang:</strong> 18 Oktober 2025</li>" +
+                      "<li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025</li>" +
+                      "</ul>" +
+                      "<p class='mt-2 text-sm'>Silakan hubungi CS untuk konsultasi lebih lanjut.</p>"
+            }
+        };
+
+        function populateModal(modalId, data) {
+          const modal = document.getElementById(modalId);
+          if(modal) {
+            modal.querySelector('h3').textContent = data.title;
+            // Periksa apakah ada .modal-body sebelum mengisi
+            const modalBody = modal.querySelector('.modal-body');
+            if (modalBody && modalBody.querySelector('.chat-history') == null) { // Pastikan ini bukan modal chat
+                modalBody.innerHTML = data.content;
+            }
+          }
+        }
+
+        for (const key in modalData) {
+          populateModal(key, modalData[key]);
+        }
+
+        // --- LOGIKA UNTUK MODAL 6 (Popup Interaktif) ---
+        const qaData = [
+          { question: "Minat nih kak, terus saya harus apa?",
+          answer: "Kakak cukup isi formnya aja, klik tombol join jastip indo-jepang buat ikut jastip dari indonesia ke jepang, atau tombol join jastip jepang-indo buat ikut jastip dari jepang ke indonesia." },
+
+          { question: "Kalo udah isi form terus gimana lagi kak?",
+          answer: "Kalo udah isi form kakak bisa konfirmasi ke CS kita, klik aja tombol hubungi CS kami, terus kakak chat aja 'kak saya udah isi form ya', nanti biar admin kita bisa verifikasi data kakak." },
+
+          { question: "Kalo mau kirim dari Indonesia buat ke Jepang, tapi barangnya di beli terus di kirim dari olshop kaya dari shopee gitu bisa kak?",
+          answer: "Bisa, nanti alamat kirimnya di kirim ke alamat basecamp kita di Bekasi ya kak, di alamat tujuan kakak tetep cantumin 'yanoshi(nama kakak)' di bagian nama tujuannya biar staff kita tau kalo itu barang punya kakak. Buat alamat lengkap basecamp kita bisa langsung chat ke CS ya kak." },
+
+          { question: "Kalo mau kirim dari apato di Jepang gimana kak?",
+          answer: "Bisa, kirim aja ke basecamp kita di Saitama, biasanya pakai kuroneko Yamato atau kakak bisa kirim dari konbini kayak 7eleven, lawson, atau di jemput kuroneko Yamato dari apato kakak juga bisa, kakak bisa lihat cara order pickup paket yamato di link ini : https://www.kuronekoyamato.co.jp/ytc/en/send/services/tc-receive/ , nah di bagian bawah ada opsi 'request pickup' itu bisa kakak klik. Buat alamat lengkap basecamp kita bisa langsung chat ke CS ya kak." },
+
+          { question: "Bisa gak kak kalo mau kirim dari Indo buat ke Jepang, tapi barangnya tolong di belanjain dari Indo?",
+          answer: "Bisa kak, di formnya nanti cukup di tandain 'ya' aja ya di bagian 'ada yang perlu di belanjakan', nanti kakak konfirmasi ke CS terus kakak bisa DP atau pembayaran awal biar bisa kita belanjain." },
+
+          { question: "Bisa gak kak kalo minta tolong di belanjain dari Jepang?",
+          answer: "Bisa kak, di formnya nanti cukup di tandain 'ya' aja ya di bagian 'ada yang perlu di belanjakan', nanti kakak bisa isi barang apa yang mau di belanjain, semisal sepatu, elektronik atau jajanan Jepang, kalo udah nanti kakak konfirmasi ke CS terus kakak bisa DP atau pembayaran awal biar bisa kita belanjain pas di Jepang." },
+
+          { question: "Barang apa yang gak boleh dibawa?",
+          answer: "Yang gak boleh dibawa itu kaya daging-dagingan, buah-buahan, sayur-sayuran, biji-bijian, tanaman maupun bibit tanaman, beras, makanan olahan daging kaya bakso, bakso aci dan sejenisnya, lalu cemilan yang terbuat dari hewan atau jeroan kaya usus dan sejenisnya, serta makanan yang di bungkusnya ada gambar atau nama yang mengandung hewani." },
+
+          { question: "Berapa lama pengirimannya?",
+          answer: "Karena kita bawa sendiri (handcarry), barang bakal sampai lebih cepat. Biasanya sesuai dengan jadwal keberangkatan kami dari Jepang atau Indonesia. Semisal kita berangkat tanggal 5 pagi dan direct flight, maka tanggal 5 sore pas kita sampai di Jepang barang langsung kita kirim di hari itu juga pakai pengiriman Yamato." },
+
+          { question: "Gimana cara menghitung biayanya?",
+          answer: "Biaya dihitung per kilogram. Untuk daftar harga lengkapnya, klik tombol 'Price List' di halaman utama ya." }
+        ];
+
+        const faqModal = document.getElementById('modal6');
+        if(faqModal) {
+          const chatHistory = faqModal.querySelector('.chat-history');
+          const faqSelect = faqModal.querySelector('#faq-select');
+
+          function addBubble(text, type) {
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${type}`;
+            bubble.textContent = text;
+            chatHistory.appendChild(bubble);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+          }
+
+          function initializeChat() {
+            chatHistory.innerHTML = '';
+            faqSelect.innerHTML = '<option value="" disabled selected>Pilih pertanyaannya disini...</option>';
+            addBubble("Halo kak! Ada yang mau ditanyain? Silakan pilih pertanyaan dari menu di bawah ini ya.", 'answer');
+            qaData.forEach((item, index) => {
+              const option = document.createElement('option');
+              option.value = index;
+              option.textContent = item.question;
+              faqSelect.appendChild(option);
+            });
+          }
+
+          faqSelect.addEventListener('change', (event) => {
+            const selectedIndex = event.target.value;
+            if (selectedIndex === "") return;
+            const selectedQA = qaData[selectedIndex];
+            addBubble(selectedQA.question, 'question');
+
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'chat-bubble typing-indicator';
+            typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+            chatHistory.appendChild(typingIndicator);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            setTimeout(() => {
+              chatHistory.removeChild(typingIndicator);
+              addBubble(selectedQA.answer, 'answer');
+            }, 2000);
+            // faqSelect.value = ""; //
+          });
+
+          const faqGridItem = document.querySelector('.grid-item[data-modal-id="modal6"]');
+          if (faqGridItem) {
+            faqGridItem.addEventListener('click', () => {
+              initializeChat();
+              faqModal.style.display = 'flex';
+            });
+          }
+        }
+
+        // --- LOGIKA GABUNGAN UNTUK MEMBUKA SEMUA MODAL ---
+        gridItems.forEach(item => {
+          item.addEventListener('click', () => {
+              const modalId = item.getAttribute('data-modal-id');
+              const modalToOpen = document.getElementById(modalId);
+              if (modalToOpen) {
+                  // Jika ini adalah modal FAQ, inisialisasi dulu
+                  if (modalId === 'modal6') {
+                      initializeChat();
+                  }
+                  modalToOpen.style.display = 'flex';
+              }
+          });
+        });
+
+        // --- LOGIKA UNTUK MENUTUP SEMUA MODAL ---
+        function closeModal() {
+          modals.forEach(modal => {
+            modal.style.display = 'none';
+          });
+        }
+
+        // Tambahkan event ke setiap tombol 'x'
+        closeButtons.forEach(button => {
+          button.addEventListener('click', closeModal);
+        });
+
+        // Tambahkan event untuk klik di luar area popup
+        modals.forEach(modal => {
+          modal.addEventListener('click', (event) => {
+            if (event.target === modal) { // Jika yang diklik adalah area overlay abu-abu
+              closeModal();
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
