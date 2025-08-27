@@ -18,6 +18,7 @@
         --grid-item-bg: rgba(255, 255, 255, 0.15);
       }
 
+      /* PERBAIKAN: Body dibuat transparan */
       body {
         margin: 0;
         font-family: 'Roboto', 'Segoe UI', Tahoma, sans-serif;
@@ -28,6 +29,7 @@
         -webkit-font-smoothing: antialiased;
       }
       
+      /* PERBAIKAN: Latar belakang kompleks dipindahkan ke div terpisah */
       .main-background {
         content: '';
         position: fixed;
@@ -67,9 +69,9 @@
 
       h2, h3 {
         text-align: center;
-        font-size: 18px; /* Ukuran font H3 dasar */
+        font-size: 18px;
         letter-spacing: 1px;
-        margin: 15px 0 5px 0; /* Jarak atas dan bawah untuk H3 */
+        margin: 15px 0 5px 0;
         color: white;
       }
 
@@ -141,6 +143,9 @@
         min-width: 100%;
         position: relative;
         background-color: transparent;
+        /* Anti-flicker jika masih dibutuhkan setelah perbaikan background */
+        -webkit-backface-visibility: hidden;
+        transform: translateZ(0); 
       }
 
       .slide img {
@@ -208,7 +213,20 @@
       }
 
       /* ----- Modal (Popup) Styling ----- */
-      .modal-overlay { display: flex; flex-direction: column; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); justify-content: center; align-items: center; z-index: 2000; }
+      /* PERBAIKAN: display diubah menjadi none agar tersembunyi di awal */
+      .modal-overlay { 
+        display: none; 
+        flex-direction: column; 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        background-color: rgba(0, 0, 0, 0.7); 
+        justify-content: center; 
+        align-items: center; 
+        z-index: 2000; 
+      }
       .modal-content { background-color: var(--secondary-color); padding: 30px; border-radius: 10px; position: relative; width: 80%; max-width: 300px; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.5); color: #f0f0f0; }
       .modal-content h3 { font-size: 28px; margin-top: 0; margin-bottom: 15px; }
       .modal-content .modal-body { font-size: 16px; line-height: 1.7; }
@@ -240,11 +258,8 @@
 
       /* ----- Social Media Section ----- */
       .social-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; align-items: start; }
-      .social-embed { text-align: center; width: 100%; max-height: 300px; overflow: hidden; }
-      .social-embed blockquote { margin: 0 !important; }
+      .social-embed { text-align: center; width: 100%; max-height: 550px; overflow: hidden; position: relative; }
       .social-embed iframe { width: 100%; height: 100%; border: none; }
-      .social-embed iframe.instagram-iframe { width: 100%; height: 100%; border: none; }
-      .social-embed iframe.tiktok-iframe { width: 100%; height: 100%; border: none; }
       .social-button { display: block; width: 100%; box-sizing: border-box; background-color: var(--accent-color); color: #000; padding: 12px 25px; border-radius: 8px 8px 0 0; text-decoration: none; font-weight: bold; margin-bottom: -1px; transition: background-color 0.3s; }
       .social-button:hover { background-color: #ffd54f; }
       
@@ -283,6 +298,8 @@
     </style>
   </head>
   <body>
+
+    <div class="main-background"></div>
 
     <header class="header">
       <div class="logo">
@@ -353,7 +370,6 @@
       <section class="social-container">
         <div class="social-embed">
           <a href="https://www.instagram.com/yanoshi_jastip" target="_blank" class="social-button">Instagram</a>
-          
           <iframe 
             class="instagram-iframe"
             src="https://www.instagram.com/reel/DMKbEynS8uL/embed"
@@ -363,12 +379,10 @@
             scrolling="no" 
             allowtransparency="true">
           </iframe>
-      
         </div>
         
         <div class="social-embed">
           <a href="https://www.tiktok.com/@jastip_yanoshi" target="_blank" class="social-button">TikTok</a>
-          
           <iframe 
             class="tiktok-iframe"
             src="https://www.tiktok.com/embed/v2/7499016564197444882"
@@ -378,43 +392,51 @@
             allowfullscreen
             scrolling="no">
           </iframe>
-        
         </div>
-
       </section>
 
       <h3>Beli oleh-oleh Jepang online, klik gambar dibawah ini ya!</h3>
-
       <section class="single-promo">
         <a href="https://s.id/yanoshistore" target="_blank">
           <img src="https://yanoshijapan.github.io/jastip/belio.jpg" alt="Promo Final">
         </a>
       </section>
-
     </main>
 
-    <div id="modal1" class="modal-overlay"><div class="modal-content"><h3></h3><div class="modal-body"></div></div><span class="modal-close">&times;</span></div>
-    <div id="modal2" class="modal-overlay"><div class="modal-content"><h3></h3><div class="modal-body"></div></div><span class="modal-close">&times;</span></div>
-    <div id="modal3" class="modal-overlay"><div class="modal-content"><h3></h3><div class="modal-body"></div></div><span class="modal-close">&times;</span></div>
-    <div id="modal4" class="modal-overlay"><div class="modal-content"><h3></h3><div class="modal-body"></div></div><span class="modal-close">&times;</span></div>
-    <div id="modal5" class="modal-overlay"><div class="modal-content"><h3></h3><div class="modal-body"></div></div><span class="modal-close">&times;</span></div>
-    <div id="modal6" class="modal-overlay">
-        <div class="modal-content">
-            <h3>Tanya Jawab Interaktif</h3>
-            <div class="modal-body">
-                <div class="chat-history"></div>
-                <div class="chat-input">
-                    <select id="faq-select">
-                        <option value="" disabled selected>Pilih pertanyaannya disini...</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+    <div id="modal1" class="modal-overlay">
+        <div class="modal-content"><h3></h3><div class="modal-body"></div></div>
         <span class="modal-close">&times;</span>
     </div>
-
-    <script async src="//www.instagram.com/embed.js"></script>
-    <script async src="https://www.tiktok.com/embed.js"></script>
+    <div id="modal2" class="modal-overlay">
+        <div class="modal-content"><h3></h3><div class="modal-body"></div></div>
+        <span class="modal-close">&times;</span>
+    </div>
+    <div id="modal3" class="modal-overlay">
+        <div class="modal-content"><h3></h3><div class="modal-body"></div></div>
+        <span class="modal-close">&times;</span>
+    </div>
+    <div id="modal4" class="modal-overlay">
+        <div class="modal-content"><h3></h3><div class="modal-body"></div></div>
+        <span class="modal-close">&times;</span>
+    </div>
+    <div id="modal5" class="modal-overlay">
+        <div class="modal-content"><h3></h3><div class="modal-body"></div></div>
+        <span class="modal-close">&times;</span>
+    </div>
+    <div id="modal6" class="modal-overlay">
+      <div class="modal-content">
+        <h3>Tanya Jawab Interaktif</h3>
+        <div class="modal-body">
+          <div class="chat-history"></div>
+          <div class="chat-input">
+            <select id="faq-select">
+              <option value="" disabled selected>Pilih pertanyaannya disini...</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <span class="modal-close">&times;</span>
+    </div>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -462,34 +484,20 @@
         const modals = document.querySelectorAll('.modal-overlay');
         const closeButtons = document.querySelectorAll('.modal-close');
 
-        // PERBAIKAN: Memastikan semua data popup lengkap
         const modalData = {
-            modal1: { 
-                title: "Tentang Jastip Yanoshi", 
-                content: "<p>Hai para pejuang barang impian! Kenalan yuk sama Yanoshi Jastip, solusi jastip paling asyik dan terpercaya buat kamu yang butuh kirim-kirim barang dari Jepang ke Indonesia atau sebaliknya.<br><br><strong>Buat yang lagi di Jepang:</strong> Lagi kangen masakan rumah tapi bumbu nggak ada? Butuh skincare kesayangan atau obat-obatan penting dari Indonesia? Atau dokumen yang ketinggalan? Tenang, nggak perlu terbang pulang! Yanoshi siap bawain semua itu langsung ke Jepang. Pulang ke Indonesia bawaan numpuk? Aduh, jangan pusing! Titipin aja barang-barangmu, mulai dari baju, elektronik, sampai oleh-oleh Jepang yang super banyak itu. Kami yang urus antar sampai alamat di Indonesia.<br><br><strong>Buat yang di Indonesia:</strong> Ngiler sama produk Jepang terbaru tapi mager ke sana? Tenang aja! Yanoshi hadir buat bikin belanjamu makin gampang. Tinggal tunjuk, kami yang datangkan barangnya dari Jepang ke rumahmu. Gampang kan?.</p>" 
-            },
-            modal2: { 
-                title: "Kenapa Harus Jastip di Yanoshi?", 
-                content: "<ul><li><strong>Cepat:</strong> Karena kami bawa sendiri alias handcarry, barangmu bakal sampai di pelukanmu lebih cepat dari kirim kargo.</li><li><strong>Aman & Terpercaya:</strong> Kamu nitip di Yanoshi Jastip? Itu artinya kamu kasih kepercayaan penuh ke kami. Tenang aja, barangmu dijaga banget biar sampai dengan selamat sentosa.</li><li><strong>Transparan:</strong> Nggak perlu khawatir ada biaya siluman! Semua rincian jelas di awal, tanpa drama dan tanpa ada yang disembunyikan.</li><li><strong>Komunikatif:</strong> Butuh info atau ada pertanyaan? CS kami responsif dan siap bantu kamu kapan aja, sampai barangmu tiba di tujuan.</li></ul>" 
-            },
-            modal3: { 
-                title: "Barang apa aja sih yang bisa di Jastipin?", 
-                content: "<ul><li>Skincare & Kosmetik</li><li>Snack & Makanan Kering</li><li>Bumbu Masakan</li><li>Obat-Obatan Legal</li><li>Dokumen & Surat-Surat</li><li>Perlengkapan Pribadi</li><li>Perlengkapan Olahraga</li><li>Fashion & Aksesoris</li><li>Action Figure & Merchandise Anime</li><li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li></ul><p style='margin-top:1em;'>Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.</p>" 
-            },
-            modal4: { 
-                title: "Price List Jastip", 
-                content: "<ul><li><strong>Barang biasa:</strong> 1.500 yen/kg.</li><li><strong>Handphone (All brand):</strong> 2.000 yen/unit.</li><li><strong>Laptop, tablet (All brand):</strong> 1.500 yen/kg.</li><li><strong>Rokok:</strong> 2.000 yen/slop.</li><li><strong>Rokok elektrik (Vape/Pod):</strong> 1.000 yen/unit.</li><li><strong>Liquid rokok elektrik:</strong> 500 yen/unit.</li><li><strong>Sepatu dengan box:</strong> 2.000 yen/pasang.</li><li><strong>Sepatu tanpa box:</strong> 1.500 yen/pasang.</li></ul><p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk informasi lebih lanjut.</p>" 
-            },
-            modal5: { 
-                title: "Jadwal Keberangkatan", 
-                content: "<p><strong>Jadwal bulan Agustus:</strong></p><ul><li><strong>Indonesia > Jepang:</strong> 9 Agustus 2025</li><li><strong>Jepang > Indonesia:</strong> 18 Agustus 2025</li></ul><br><p><strong>Jadwal bulan September:</strong></p><ul><strong>#1</strong><li><strong>Indonesia > Jepang:</strong> 10 September 2025</li><li><strong>Jepang > Indonesia:</strong> 15 September 2025</li><strong>#2</strong><li><strong>Indonesia > Jepang:</strong> 21 September 2025</li><li><strong>Jepang > Indonesia:</strong> 27 September 2025</li></ul><br><p><strong>Jadwal bulan Oktober:</strong></p><ul><li><strong>Indonesia > Jepang:</strong> 18 Oktober 2025</li><li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025</li></ul><p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk konsultasi lebih lanjut.</p>" 
-            }
+            modal1: { title: "Tentang Jastip Yanoshi", content: "<p>Hai para pejuang barang impian! Kenalan yuk sama Yanoshi Jastip, solusi jastip paling asyik dan terpercaya buat kamu yang butuh kirim-kirim barang dari Jepang ke Indonesia atau sebaliknya.<br><br><strong>Buat yang lagi di Jepang:</strong> Lagi kangen masakan rumah tapi bumbu nggak ada? Butuh skincare kesayangan atau obat-obatan penting dari Indonesia? Atau dokumen yang ketinggalan? Tenang, nggak perlu terbang pulang! Yanoshi siap bawain semua itu langsung ke Jepang. Pulang ke Indonesia bawaan numpuk? Aduh, jangan pusing! Titipin aja barang-barangmu, mulai dari baju, elektronik, sampai oleh-oleh Jepang yang super banyak itu. Kami yang urus antar sampai alamat di Indonesia.<br><br><strong>Buat yang di Indonesia:</strong> Ngiler sama produk Jepang terbaru tapi mager ke sana? Tenang aja! Yanoshi hadir buat bikin belanjamu makin gampang. Tinggal tunjuk, kami yang datangkan barangnya dari Jepang ke rumahmu. Gampang kan?.</p>" },
+            modal2: { title: "Kenapa Harus Jastip di Yanoshi?", content: "<ul><li><strong>Cepat:</strong> Karena kami bawa sendiri alias handcarry, barangmu bakal sampai di pelukanmu lebih cepat dari kirim kargo.</li><li><strong>Aman & Terpercaya:</strong> Kamu nitip di Yanoshi Jastip? Itu artinya kamu kasih kepercayaan penuh ke kami. Tenang aja, barangmu dijaga banget biar sampai dengan selamat sentosa.</li><li><strong>Transparan:</strong> Nggak perlu khawatir ada biaya siluman! Semua rincian jelas di awal, tanpa drama dan tanpa ada yang disembunyikan.</li><li><strong>Komunikatif:</strong> Butuh info atau ada pertanyaan? CS kami responsif dan siap bantu kamu kapan aja, sampai barangmu tiba di tujuan.</li></ul>" },
+            modal3: { title: "Barang apa aja sih yang bisa di Jastipin?", content: "<ul><li>Skincare & Kosmetik</li><li>Snack & Makanan Kering</li><li>Bumbu Masakan</li><li>Obat-Obatan Legal</li><li>Dokumen & Surat-Surat</li><li>Perlengkapan Pribadi</li><li>Perlengkapan Olahraga</li><li>Fashion & Aksesoris</li><li>Action Figure & Merchandise Anime</li><li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li></ul><p style='margin-top:1em;'>Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.</p>" },
+            modal4: { title: "Price List Jastip", content: "<ul><li><strong>Barang biasa:</strong> 1.500 yen/kg.</li><li><strong>Handphone (All brand):</strong> 2.000 yen/unit.</li><li><strong>Laptop, tablet (All brand):</strong> 1.500 yen/kg.</li><li><strong>Rokok:</strong> 2.000 yen/slop.</li><li><strong>Rokok elektrik (Vape/Pod):</strong> 1.000 yen/unit.</li><li><strong>Liquid rokok elektrik:</strong> 500 yen/unit.</li><li><strong>Sepatu dengan box:</strong> 2.000 yen/pasang.</li><li><strong>Sepatu tanpa box:</strong> 1.500 yen/pasang.</li></ul><p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk informasi lebih lanjut.</p>" },
+            modal5: { title: "Jadwal Keberangkatan", content: "<p><strong>Jadwal bulan Agustus:</strong></p><ul><li><strong>Indonesia > Jepang:</strong> 9 Agustus 2025</li><li><strong>Jepang > Indonesia:</strong> 18 Agustus 2025</li></ul><br><p><strong>Jadwal bulan September:</strong></p><ul><strong>#1</strong><li><strong>Indonesia > Jepang:</strong> 10 September 2025</li><li><strong>Jepang > Indonesia:</strong> 15 September 2025</li><strong>#2</strong><li><strong>Indonesia > Jepang:</strong> 21 September 2025</li><li><strong>Jepang > Indonesia:</strong> 27 September 2025</li></ul><br><p><strong>Jadwal bulan Oktober:</strong></p><ul><li><strong>Indonesia > Jepang:</strong> 18 Oktober 2025</li><li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025</li></ul><p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk konsultasi lebih lanjut.</p>" }
         };
 
         function populateModal(modalId, data) {
           const modal = document.getElementById(modalId);
           if (modal) {
-            modal.querySelector('h3').textContent = data.title;
+            const h3 = modal.querySelector('h3');
+            if(h3) h3.textContent = data.title;
+            
             const modalBody = modal.querySelector('.modal-body');
             if (modalBody && !modalBody.querySelector('.chat-history')) {
               modalBody.innerHTML = data.content;
@@ -542,16 +550,4 @@
   </body>
 </html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+apakah sudah benar semua?
