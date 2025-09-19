@@ -12,7 +12,7 @@
       :root {
         --primary-color: #076eb3; 
         --secondary-color: #0d3b5a;
-        --text-color: #076eb3;    
+        --text-color: #076eb3;   
         --bg-color: #ffffff;      
         --accent-color: #ffc107;
         --white: #ffffff;
@@ -60,7 +60,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 15px 20px;
-        background-color: var(--bg-color); /* PERUBAHAN: Header jadi putih */
+        background-color: var(--bg-color);
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         position: sticky;
         top: 0;
@@ -83,8 +83,8 @@
       }
 
       .contact-btn-header {
-        background-color: var(--primary-color); /* PERUBAHAN: Tombol jadi biru */
-        color: var(--white); /* PERUBAHAN: Teks tombol jadi putih */
+        background-color: var(--primary-color);
+        color: var(--white);
         padding: 10px 20px;
         border-radius: 5px;
         text-decoration: none;
@@ -123,13 +123,45 @@
       .icon-container img { max-width: 90%; max-height: 90%; object-fit: contain; }
       .grid-item h4 { margin: 0; padding: 0 5px; color: var(--text-color); font-size: 17px; font-weight: 500; text-shadow: none; transition: font-size 0.3s; }
 
-      /* ----- Modal (Popup) Styling ----- */
-      .modal-overlay { display: none; flex-direction: column; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; z-index: 2000; }
+      /* ----- Modal (Popup) Styling -- INI BAGIAN YANG DIPERBARUI ----- */
+      .modal-overlay {
+        display: flex; /* Selalu flex agar bisa di-tengah */
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        /* Properti untuk animasi */
+        visibility: hidden; /* Sembunyikan tapi tetap ada di DOM */
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      }
+      
+      /* Kelas baru untuk menampilkan modal */
+      .modal-overlay.visible {
+        visibility: visible;
+        opacity: 1;
+      }
+
       .modal-content {
         background-color: var(--bg-color); 
         color: var(--text-color); 
         padding: 30px; border-radius: 10px; position: relative; width: 80%; max-width: 300px; max-height: 85vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.5); 
+        /* Properti untuk animasi zoom */
+        transform: scale(0.95);
+        transition: transform 0.3s ease-in-out;
       }
+
+      /* Saat modal terlihat, kontennya akan membesar ke ukuran normal */
+      .modal-overlay.visible .modal-content {
+        transform: scale(1);
+      }
+
       .modal-content h3 { font-size: 28px; margin-top: 0; margin-bottom: 15px; color: var(--text-color); }
       .modal-content .modal-body { font-size: 16px; line-height: 1.7; }
       .modal-close { position: static; margin-top: 15px; background-color: #e0e0e0; color: var(--secondary-color); border-radius: 50%; width: 45px; height: 45px; font-size: 30px; font-weight: bold; display: flex; justify-content: center; align-items: center; line-height: 1; cursor: pointer; border: none; transition: transform 0.2s, background-color 0.2s; }
@@ -371,65 +403,65 @@
           }
         }
 
-        // --- Bagian Modal (tidak diubah) ---
+        // --- Bagian Modal -- INI BAGIAN YANG DIPERBARUI ---
         const gridItems = document.querySelectorAll('.grid-item');
         const modals = document.querySelectorAll('.modal-overlay');
         const closeButtons = document.querySelectorAll('.modal-close');
 
         const modalData = {
-            modal1: { title: "Tentang Jastip Yanoshi", content: "<p>Hai para pejuang barang impian! Kenalan yuk sama Yanoshi Jastip, solusi jastip paling asyik dan terpercaya buat kamu yang butuh kirim-kirim barang dari Jepang ke Indonesia atau sebaliknya.<br><br><strong>Buat yang lagi di Jepang:</strong> Lagi kangen masakan rumah tapi bumbu nggak ada? Butuh skincare kesayangan atau obat-obatan penting dari Indonesia? Atau dokumen yang ketinggalan? Tenang, nggak perlu terbang pulang! Yanoshi siap bawain semua itu langsung ke Jepang. Pulang ke Indonesia bawaan numpuk? Aduh, jangan pusing! Titipin aja barang-barangmu, mulai dari baju, elektronik, sampai oleh-oleh Jepang yang super banyak itu. Kami yang urus antar sampai alamat di Indonesia.<br><br><strong>Buat yang di Indonesia:</strong> Ngiler sama produk Jepang terbaru tapi mager ke sana? Tenang aja! Yanoshi hadir buat bikin belanjamu makin gampang. Tinggal tunjuk, kami yang datangkan barangnya dari Jepang ke rumahmu. Gampang kan?.</p>" },
-            modal2: { title: "Kenapa Harus Jastip di Yanoshi?", content: "<ul><li><strong>Cepat:</strong> Karena kami bawa sendiri alias handcarry, barangmu bakal sampai di pelukanmu lebih cepat dari kirim kargo.</li><li><strong>Aman & Terpercaya:</strong> Kamu nitip di Yanoshi Jastip? Itu artinya kamu kasih kepercayaan penuh ke kami. Tenang aja, barangmu dijaga banget biar sampai dengan selamat sentosa.</li><li><strong>Transparan:</strong> Nggak perlu khawatir ada biaya siluman! Semua rincian jelas di awal, tanpa drama dan tanpa ada yang disembunyikan.</li><li><strong>Komunikatif:</strong> Butuh info atau ada pertanyaan? CS kami responsif dan siap bantu kamu kapan aja, sampai barangmu tiba di tujuan.</li></ul>" },
-            modal3: { title: "Barang apa aja sih yang bisa di Jastipin?", content: "<ul><li>Skincare & Kosmetik</li><li>Snack & Makanan Kering</li><li>Bumbu Masakan</li><li>Obat-Obatan Legal</li><li>Dokumen & Surat-Surat</li><li>Perlengkapan Pribadi</li><li>Perlengkapan Olahraga</li><li>Fashion & Aksesoris</li><li>Action Figure & Merchandise Anime</li><li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li></ul><p style='margin-top:1em;'>Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.</p>" },
-            modal4: { 
-                title: "Price List Jastip",
-                content: `
-                    <ul>
-                        <li><strong>Barang biasa:</strong> 1.500 yen/kg.</li>
-                        <li><strong>Handphone (All brand):</strong> 2.000 yen/unit.</li>
-                        <li><strong>Laptop, tablet (All brand):</strong> 1.500 yen/kg.</li>
-                        <li><strong>Rokok:</strong> 2.000 yen/slop.</li>
-                        <li><strong>Rokok elektrik (Vape/Pod):</strong> 1.000 yen/unit.</li>
-                        <li><strong>Liquid rokok elektrik:</strong> 500 yen/unit.</li>
-                        <li><strong>Sepatu dengan box:</strong> 2.000 yen/pasang.</li>
-                        <li><strong>Sepatu tanpa box:</strong> 1.500 yen/pasang.</li>
-                    </ul>
-                    <p style='margin-top:1em; font-size: smaller;'>Harga belum termasuk ongkos kirim barang ke basecamp.</p>
-                    <p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk informasi lebih lanjut disini.</p>
-                    <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20tanya%20Jadwalnya%20dong" target="_blank" class="contact-admin-btn">Hubungi Admin</a>
-                `
-            },
-            modal5: {
-                title: "Jadwal Keberangkatan",
-                content: `
-                    <p><strong>Jadwal bulan September:</strong></p>
-                    <ul>
-                        <li><strong>Indonesia > Jepang:</strong> 21 September 2025</li>
-                        <li><strong>Jepang > Indonesia:</strong> 27 September 2025</li>
-                    </ul>
-                    <br>
-                    <p><strong>Jadwal bulan Oktober:</strong></p>
-                    <ul>
-                        <li><strong>Batch 1 :</strong>
-                            <ul>
-                                <li><strong>Indonesia > Jepang:</strong> 16 Oktober 2025</li>
-                                <li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025</li>
-                            </ul>
-                        </li>
-                        <li><strong>Batch 2 :</strong>
-                            <ul>
-                                <li><strong>Indonesia > Jepang:</strong> 28 Oktober 2025</li>
-                                <li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <p><strong>Jadwal bulan November:</strong></p>
-                    <ul>
-                        <li><strong>Jepang > Indonesia:</strong> 4 November 2025</li>
-                    </ul>
-                    <p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk konsultasi lebih lanjut disini.</p>
-                    <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20tanya%20Jadwalnya%20dong" target="_blank" class="contact-admin-btn">Hubungi Admin</a>
-                `
-            }
+              modal1: { title: "Tentang Jastip Yanoshi", content: "<p>Hai para pejuang barang impian! Kenalan yuk sama Yanoshi Jastip, solusi jastip paling asyik dan terpercaya buat kamu yang butuh kirim-kirim barang dari Jepang ke Indonesia atau sebaliknya.<br><br><strong>Buat yang lagi di Jepang:</strong> Lagi kangen masakan rumah tapi bumbu nggak ada? Butuh skincare kesayangan atau obat-obatan penting dari Indonesia? Atau dokumen yang ketinggalan? Tenang, nggak perlu terbang pulang! Yanoshi siap bawain semua itu langsung ke Jepang. Pulang ke Indonesia bawaan numpuk? Aduh, jangan pusing! Titipin aja barang-barangmu, mulai dari baju, elektronik, sampai oleh-oleh Jepang yang super banyak itu. Kami yang urus antar sampai alamat di Indonesia.<br><br><strong>Buat yang di Indonesia:</strong> Ngiler sama produk Jepang terbaru tapi mager ke sana? Tenang aja! Yanoshi hadir buat bikin belanjamu makin gampang. Tinggal tunjuk, kami yang datangkan barangnya dari Jepang ke rumahmu. Gampang kan?.</p>" },
+              modal2: { title: "Kenapa Harus Jastip di Yanoshi?", content: "<ul><li><strong>Cepat:</strong> Karena kami bawa sendiri alias handcarry, barangmu bakal sampai di pelukanmu lebih cepat dari kirim kargo.</li><li><strong>Aman & Terpercaya:</strong> Kamu nitip di Yanoshi Jastip? Itu artinya kamu kasih kepercayaan penuh ke kami. Tenang aja, barangmu dijaga banget biar sampai dengan selamat sentosa.</li><li><strong>Transparan:</strong> Nggak perlu khawatir ada biaya siluman! Semua rincian jelas di awal, tanpa drama dan tanpa ada yang disembunyikan.</li><li><strong>Komunikatif:</strong> Butuh info atau ada pertanyaan? CS kami responsif dan siap bantu kamu kapan aja, sampai barangmu tiba di tujuan.</li></ul>" },
+              modal3: { title: "Barang apa aja sih yang bisa di Jastipin?", content: "<ul><li>Skincare & Kosmetik</li><li>Snack & Makanan Kering</li><li>Bumbu Masakan</li><li>Obat-Obatan Legal</li><li>Dokumen & Surat-Surat</li><li>Perlengkapan Pribadi</li><li>Perlengkapan Olahraga</li><li>Fashion & Aksesoris</li><li>Action Figure & Merchandise Anime</li><li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li></ul><p style='margin-top:1em;'>Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.</p>" },
+              modal4: { 
+                  title: "Price List Jastip",
+                  content: `
+                      <ul>
+                          <li><strong>Barang biasa:</strong> 1.500 yen/kg.</li>
+                          <li><strong>Handphone (All brand):</strong> 2.000 yen/unit.</li>
+                          <li><strong>Laptop, tablet (All brand):</strong> 1.500 yen/kg.</li>
+                          <li><strong>Rokok:</strong> 2.000 yen/slop.</li>
+                          <li><strong>Rokok elektrik (Vape/Pod):</strong> 1.000 yen/unit.</li>
+                          <li><strong>Liquid rokok elektrik:</strong> 500 yen/unit.</li>
+                          <li><strong>Sepatu dengan box:</strong> 2.000 yen/pasang.</li>
+                          <li><strong>Sepatu tanpa box:</strong> 1.500 yen/pasang.</li>
+                      </ul>
+                      <p style='margin-top:1em; font-size: smaller;'>Harga belum termasuk ongkos kirim barang ke basecamp.</p>
+                      <p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk informasi lebih lanjut disini.</p>
+                      <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20tanya%20Jadwalnya%20dong" target="_blank" class="contact-admin-btn">Hubungi Admin</a>
+                  `
+              },
+              modal5: {
+                  title: "Jadwal Keberangkatan",
+                  content: `
+                      <p><strong>Jadwal bulan September:</strong></p>
+                      <ul>
+                          <li><strong>Indonesia > Jepang:</strong> 21 September 2025</li>
+                          <li><strong>Jepang > Indonesia:</strong> 27 September 2025</li>
+                      </ul>
+                      <br>
+                      <p><strong>Jadwal bulan Oktober:</strong></p>
+                      <ul>
+                          <li><strong>Batch 1 :</strong>
+                              <ul>
+                                  <li><strong>Indonesia > Jepang:</strong> 16 Oktober 2025</li>
+                                  <li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025</li>
+                              </ul>
+                          </li>
+                          <li><strong>Batch 2 :</strong>
+                              <ul>
+                                  <li><strong>Indonesia > Jepang:</strong> 28 Oktober 2025</li>
+                                  <li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025</li>
+                              </ul>
+                          </li>
+                      </ul>
+                      <p><strong>Jadwal bulan November:</strong></p>
+                      <ul>
+                          <li><strong>Jepang > Indonesia:</strong> 4 November 2025</li>
+                      </ul>
+                      <p style='margin-top:1em; font-size: smaller;'>Silakan hubungi CS untuk konsultasi lebih lanjut disini.</p>
+                      <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20tanya%20Jadwalnya%20dong" target="_blank" class="contact-admin-btn">Hubungi Admin</a>
+                  `
+              }
         };
 
         function populateModal(modalId, data) {
@@ -477,15 +509,43 @@
             setTimeout(() => { chatHistory.removeChild(typingIndicator); addBubble(selectedQA.answer, 'answer'); }, 1500);
           });
           const faqGridItem = document.querySelector('.grid-item[data-modal-id="modal6"]');
-          if (faqGridItem) { faqGridItem.addEventListener('click', () => { initializeChat(); faqModal.style.display = 'flex'; }); }
+          if (faqGridItem) { faqGridItem.addEventListener('click', () => { initializeChat(); faqModal.classList.add('visible'); }); }
         }
 
-        gridItems.forEach(item => { item.addEventListener('click', () => { const modalId = item.getAttribute('data-modal-id'); const modalToOpen = document.getElementById(modalId); if (modalToOpen) { if (modalId === 'modal6') { initializeChat(); } modalToOpen.style.display = 'flex'; } }); });
-        function closeModal() { modals.forEach(modal => { modal.style.display = 'none'; }); }
-        closeButtons.forEach(button => { button.addEventListener('click', closeModal); });
-        modals.forEach(modal => { modal.addEventListener('click', (event) => { if (event.target === modal) { closeModal(); } }); });
+        gridItems.forEach(item => {
+          item.addEventListener('click', () => {
+            const modalId = item.getAttribute('data-modal-id');
+            const modalToOpen = document.getElementById(modalId);
+            if (modalToOpen) {
+              if (modalId === 'modal6') {
+                initializeChat();
+              }
+              // Menggunakan classList.add, bukan style.display
+              modalToOpen.classList.add('visible'); 
+            }
+          });
+        });
+        
+        function closeModal() {
+          modals.forEach(modal => {
+            // Menggunakan classList.remove, bukan style.display
+            modal.classList.remove('visible'); 
+          });
+        }
 
-        // JavaScript untuk Animasi Scroll
+        closeButtons.forEach(button => {
+          button.addEventListener('click', closeModal);
+        });
+        
+        modals.forEach(modal => {
+          modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+              closeModal();
+            }
+          });
+        });
+
+        // JavaScript untuk Animasi Scroll (tidak diubah)
         const sections = document.querySelectorAll('.fade-in-section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -505,4 +565,3 @@
     </script>
   </body>
 </html>
-
