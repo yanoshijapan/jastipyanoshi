@@ -364,7 +364,7 @@
         
         /* ----- Responsive Design ----- */
         @media (max-width: 768px) {
-            h3 { font-size: 1.0rem; }
+            h3 { font-size: 1.2rem; }
             .grid-container { grid-template-columns: repeat(3, 1fr); }
             .social-container { grid-template-columns: 1fr; }
             .grid-item { padding: 15px 10px; }
@@ -372,7 +372,7 @@
             .grid-item h4 { font-size: 0.6rem; font-weight: 600; }
         }
         @media (max-width: 480px) {
-            h3 { font-size: 1.0rem; }
+            h3 { font-size: 1.2rem; }
             .header { padding: 0.8rem 1rem; }
             .logo img { height: 35px; }
             .contact-btn-header { font-size: 0.8rem; padding: 0.5rem 1rem; }
@@ -386,7 +386,7 @@
             .calculator-button-item { min-height: 100px; }
         }
         .jastip-title {
-            letter-spacing: -2px; /* UBAH NILAI INI UNTUK MENGATUR KERAPATAN */
+            letter-spacing: -1px; /* UBAH NILAI INI UNTUK MENGATUR KERAPATAN */
         }
     </style>
 </head>
@@ -564,13 +564,61 @@
         const sliderContainer = document.querySelector('.slider-container');
         if (sliderContainer) {
             const slider = sliderContainer.querySelector('.slider');
-            const slides = Array.from(slider.children);
+            let slides = Array.from(slider.children);
+
             if (slides.length > 1) {
-                let currentIndex = 0;
-                setInterval(() => {
-                    currentIndex = (currentIndex + 1) % slides.length;
-                    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-                }, 3000);
+                // 1. Kloning slide pertama dan terakhir
+                const firstClone = slides[0].cloneNode(true);
+                const lastClone = slides[slides.length - 1].cloneNode(true);
+                firstClone.id = 'first-clone';
+                lastClone.id = 'last-clone';
+                slider.appendChild(firstClone);
+                slider.insertBefore(lastClone, slides[0]);
+
+                // Update array slides setelah kloning
+                slides = Array.from(slider.children);
+
+                let currentIndex = 1; // Mulai dari slide pertama yang asli, bukan klon
+                const slideWidth = slides[0].getBoundingClientRect().width;
+
+                // 2. Atur posisi awal slider
+                slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+
+                // Fungsi untuk slide berikutnya
+                const moveToNextSlide = () => {
+                    currentIndex++;
+                    slider.style.transition = 'transform 0.5s ease-in-out';
+                    slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+                };
+
+                // 3. Atur interval untuk auto-slide
+                let slideInterval = setInterval(moveToNextSlide, 3000);
+
+                // 4. Tambahkan event listener untuk 'trik' perpindahan mulus
+                slider.addEventListener('transitionend', () => {
+                    // Jika slider sampai di klon terakhir (salinan slide pertama)
+                    if (slides[currentIndex].id === 'first-clone') {
+                        slider.style.transition = 'none'; // Matikan animasi
+                        currentIndex = 1; // Pindah ke slide pertama yang asli
+                        slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+                    }
+
+                    // Logika ini berguna jika Anda menambahkan tombol 'previous'
+                    if (slides[currentIndex].id === 'last-clone') {
+                        slider.style.transition = 'none'; // Matikan animasi
+                        currentIndex = slides.length - 2; // Pindah ke slide terakhir yang asli
+                        slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+                    }
+                });
+
+                // Reset interval saat mouse berada di atas slider (opsional, tapi bagus)
+                sliderContainer.addEventListener('mouseenter', () => {
+                    clearInterval(slideInterval);
+                });
+
+                sliderContainer.addEventListener('mouseleave', () => {
+                    slideInterval = setInterval(moveToNextSlide, 3000);
+                });
             }
         }
 
@@ -740,6 +788,7 @@
     </script>
 </body>
 </html>
+
 
 
 
