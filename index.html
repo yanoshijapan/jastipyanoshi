@@ -4,7 +4,7 @@
     <base target="_top">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jastip Yanoshi - Kalkulator & Informasi</title>
+    <title>Jastip Yanoshi</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -378,6 +378,118 @@
         .jastip-title {
             letter-spacing: -1px;
         }
+        
+        /**************************************************/
+        /* -- MULAI: STYLE KHUSUS UNTUK GAME             -- */
+        /**************************************************/
+
+        #game-button-container {
+            text-align: center;
+            padding: 20px 0 40px 0;
+        }
+
+        #open-game-btn {
+            background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #open-game-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-modal {
+            position: fixed;
+            z-index: 9999; /* Pastikan di atas segalanya */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+
+        .game-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Menggunakan style game di sini */
+        #game-container {
+            width: 100%; max-width: 400px; aspect-ratio: 9 / 16; position: relative;
+            background: linear-gradient(45deg, #e6f7ff, #fdf8e1, #e6f7ff, #fdf8e1);
+            background-size: 400% 400%;
+            animation: animateGradient 15s ease infinite;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+            overflow: hidden; border: 1px solid var(--border-color);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .game-modal.visible #game-container {
+            transform: scale(1);
+        }
+
+        #info-bar {
+            padding: 10px; text-align: center; font-size: 1.5em; font-weight: bold;
+            background-color: transparent; border-bottom: 2px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        #score-display::before { content: 'Skor: '; }
+        #canvas-wrapper { height: 85%; width: 100%; background-color: transparent; }
+        canvas { width: 100%; height: 100%; display: block; }
+        #controls {
+            height: 15%; width: 100%; background-color: rgba(240, 240, 240, 0.7);
+            display: flex; justify-content: center; align-items: center;
+            border-top: 2px solid var(--border-color);
+            backdrop-filter: blur(4px);
+        }
+        #drop-button {
+            padding: 15px 50px; font-size: 1.5em; font-weight: bold; color: white;
+            background-color: var(--accent-color); border: none; border-radius: 12px;
+            cursor: pointer; transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #game-container .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(255, 255, 255, 0.8); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            color: var(--text-color); z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+
+        #game-container .button {
+             padding: 15px 30px; font-size: 1.2em; font-weight: bold; color: #fff;
+            background-color: var(--danger-color); border: none; border-radius: 10px;
+            cursor: pointer; transition: background-color 0.3s;
+        }
+
+        .hidden { display: none; }
+
+        @keyframes animateGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        /**************************************************/
+        /* -- SELESAI: STYLE KHUSUS UNTUK GAME           -- */
+        /**************************************************/
+
     </style>
 </head>
 <body>
@@ -474,63 +586,40 @@
                 </a>
             </section>
         </div>
-    </main>
+        
+        <section class="game-button-container fade-in-section">
+            <button id="open-game-btn">🎮 Bosan? Main game dulu yuk!</button>
+        </section>
 
+    </main>
+    
     <div id="modal1" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
     <div id="modal2" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
     <div id="modal3" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
     <div id="modal4" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
     <div id="modal5" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
+    <div id="modal6" class="modal"><div class="modal-content"><h3>Tanya Jawab Interaktif</h3><div class="modal-body"><div class="chat-history"></div><select id="faq-select"><option value="" disabled selected>Pilih pertanyaannya disini...</option></select></div><button class="modal-close-btn">Tutup</button></div></div>
+    <div id="calculator-modal-form" class="modal"><div class="modal-content"><div class="calculator-card"><form id="jastip-form" onsubmit="return false;"></form></div><button class="modal-close-btn" style="margin-top:20px;">Tutup</button></div></div>
+    <div id="result-modal" class="modal"><div class="modal-content"><h2>Detail Biaya Jastip</h2><div class="modal-body"><div class="result-detail"><p><span>Harga Jastip</span> <span id="harga-jastip-result"></span></p><p><span>Estimasi Ongkir</span> <span id="biaya-ongkir-result"></span></p></div><div class="total-biaya"><p><span>TOTAL BIAYA</span> <span id="total-biaya-result"></span></p></div><p class="box-note">Harga di atas belum termasuk box kirim Yamato, harga box disesuaikan dari berat dan dimensi barang.</p><div class="image-container"><img id="box-image" src="https://yanoshijapan.github.io/asetonline/boxs.png" alt="Ukuran Box Yamato"></div></div><p class="tax-note">Harga belum termasuk tax 10% dari Yamato Bandara Narita.</p><button class="modal-close-btn">Tutup</button></div></div>
+    <div id="image-viewer" class="image-viewer-modal"><span class="image-viewer-close">&times;</span><img id="zoomed-image" class="zoomed-image"></div>
     
-    <div id="modal6" class="modal">
-        <div class="modal-content">
-            <h3>Tanya Jawab Interaktif</h3>
-            <div class="modal-body">
-                <div class="chat-history"></div>
-                <select id="faq-select">
-                    <option value="" disabled selected>Pilih pertanyaannya disini...</option>
-                </select>
+    <div id="game-modal" class="game-modal">
+        <div id="game-container">
+            <div id="info-bar"><span id="score-display">0</span></div>
+            <div id="canvas-wrapper"><canvas id="gameCanvas"></canvas></div>
+            <div id="controls"><button id="drop-button">JATUHKAN</button></div>
+            <div id="start-screen" class="overlay">
+                <h1>Drop n Drop</h1>
+                <p>Atur posisi barang, lalu jatuhkan untuk menggabungkannya!</p>
+                <button id="start-game-btn" class="button" style="background-color: #28a745;">Mulai Game</button>
             </div>
-            <button class="modal-close-btn">Tutup</button>
+            <div id="game-over-screen" class="overlay hidden">
+                <h1>Game Over</h1>
+                <p>Skor Akhir: <span id="final-score">0</span></p>
+                <button id="restart-game-btn" class="button">Coba Lagi</button>
+            </div>
         </div>
     </div>
-    
-    <div id="calculator-modal-form" class="modal">
-        <div class="modal-content">
-            <div class="calculator-card">
-                 <form id="jastip-form" onsubmit="return false;">
-                    </form>
-            </div>
-             <button class="modal-close-btn" style="margin-top:20px;">Tutup</button>
-        </div>
-    </div>
-
-    <div id="result-modal" class="modal">
-        <div class="modal-content">
-            <h2>Detail Biaya Jastip</h2>
-            <div class="modal-body">
-                <div class="result-detail">
-                    <p><span>Harga Jastip</span> <span id="harga-jastip-result"></span></p>
-                    <p><span>Estimasi Ongkir</span> <span id="biaya-ongkir-result"></span></p>
-                </div>
-                <div class="total-biaya">
-                    <p><span>TOTAL BIAYA</span> <span id="total-biaya-result"></span></p>
-                </div>
-                <p class="box-note">Harga di atas belum termasuk box kirim Yamato, harga box disesuaikan dari berat dan dimensi barang.</p>
-                <div class="image-container">
-                    <img id="box-image" src="https://yanoshijapan.github.io/asetonline/boxs.png" alt="Ukuran Box Yamato">
-                </div>
-            </div>
-            <p class="tax-note">Harga belum termasuk tax 10% dari Yamato Bandara Narita.</p>
-            <button class="modal-close-btn">Tutup</button>
-        </div>
-    </div>
-
-    <div id="image-viewer" class="image-viewer-modal">
-        <span class="image-viewer-close">&times;</span>
-        <img id="zoomed-image" class="zoomed-image">
-    </div>
-
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- Slider Logic ---
@@ -792,13 +881,284 @@
         
         // --- <<<<<<<<<<<<<<<<<<<< END: CALCULATOR LOGIC INTEGRATION >>>>>>>>>>>>>>>>>>>> ---
 
+        
+        /**************************************************/
+        /* -- MULAI: SEMUA LOGIKA GAME DIPINDAHKAN KE SINI -- */
+        /**************************************************/
+
+        // --- Elemen UI Game ---
+        const gameModal = document.getElementById('game-modal');
+        const openGameBtn = document.getElementById('open-game-btn');
+        const gameCanvas = document.getElementById('gameCanvas');
+        const gameCtx = gameCanvas.getContext('2d');
+        const gameDropButton = document.getElementById('drop-button');
+        const gameStartScreen = document.getElementById('start-screen');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const gameStartButton = document.getElementById('start-game-btn');
+        const gameRestartButton = document.getElementById('restart-game-btn');
+        const gameScoreDisplay = document.getElementById('score-display');
+        const gameFinalScoreDisplay = document.getElementById('final-score');
+        
+        let gameInitialized = false;
+
+        openGameBtn.addEventListener('click', () => {
+            gameModal.classList.add('visible');
+            // Hanya inisialisasi game sekali saja saat pertama kali dibuka
+            if (!gameInitialized) {
+                gameStartButton.textContent = "Memuat Aset...";
+                gameStartButton.disabled = true;
+                loadGameImages(() => {
+                    gameStartButton.textContent = "Mulai Game";
+                    gameStartButton.disabled = false;
+                    gameInitialized = true;
+                });
+            }
+        });
+
+        // Menambahkan event listener untuk menutup modal game
+        gameModal.addEventListener('click', (event) => {
+            // Cek jika yang diklik adalah area latar belakang modal, bukan konten di dalamnya
+            if (event.target === gameModal) {
+                gameModal.classList.remove('visible');
+                // Optional: Hentikan game loop jika modal ditutup
+                if (gameAnimationFrameId) cancelAnimationFrame(gameAnimationFrameId);
+            }
+        });
+        
+        // --- Pengaturan Game ---
+        const GAME_COLS = 4;
+        let GAME_ROWS, GAME_BLOCK_SIZE;
+        const GAME_ITEMS = { EMPTY: 0, BOX: 1, KOPER: 2, PESAWAT: 3 };
+
+        function setGameCanvasDimensions() {
+            const wrapper = document.getElementById('canvas-wrapper');
+            gameCanvas.width = wrapper.offsetWidth;
+            gameCanvas.height = wrapper.offsetHeight;
+            GAME_BLOCK_SIZE = gameCanvas.width / GAME_COLS;
+            GAME_ROWS = Math.floor(gameCanvas.height / GAME_BLOCK_SIZE);
+        }
+
+        const GAME_ITEM_PROPS = {
+            [GAME_ITEMS.BOX]:     { src: 'https://yanoshijapan.github.io/asetonline/dus.png', img: null },
+            [GAME_ITEMS.KOPER]:   { src: 'https://yanoshijapan.github.io/asetonline/ckoper.png', img: null },
+            [GAME_ITEMS.PESAWAT]: { src: 'https://yanoshijapan.github.io/asetonline/pesawat.png', img: null }
+        };
+
+        function loadGameImages(callback) {
+            const totalImages = Object.keys(GAME_ITEM_PROPS).length;
+            let loadedCount = 0;
+            const onImageLoadOrError = () => {
+                loadedCount++;
+                if (loadedCount === totalImages) {
+                    callback();
+                }
+            };
+            for(const key in GAME_ITEM_PROPS) {
+                const item = GAME_ITEM_PROPS[key];
+                item.img = new Image();
+                item.img.crossOrigin = "Anonymous";
+                item.img.src = item.src;
+                item.img.onload = onImageLoadOrError;
+                item.img.onerror = () => {
+                    console.error(`Gagal memuat gambar game: ${item.src}.`);
+                    onImageLoadOrError();
+                };
+            }
+        }
+        
+        // --- Variabel Status Game ---
+        let gameGrid, gameCurrentItem, gameScore, isGameGameOver, isGameDropping;
+        let gameAnimationFrameId;
+        let gameFloatingScores = [];
+
+        class GameItem {
+            constructor(type, x, y) { this.type = type; this.x = x; this.y = y; }
+        }
+        
+        function initGame() {
+            setGameCanvasDimensions();
+            gameGrid = Array.from({ length: GAME_ROWS }, () => Array(GAME_COLS).fill(GAME_ITEMS.EMPTY));
+            gameScore = 0; isGameGameOver = false; isGameDropping = false;
+            gameFloatingScores = [];
+            gameScoreDisplay.textContent = gameScore;
+            gameDropButton.disabled = false;
+            spawnNewGameItem();
+            if (gameAnimationFrameId) cancelAnimationFrame(gameAnimationFrameId);
+            gameLoop();
+        }
+
+        function spawnNewGameItem() {
+            const randomType = Math.floor(Math.random() * 3) + 1;
+            gameCurrentItem = new GameItem(randomType, Math.floor(GAME_COLS / 2), 0);
+            if (checkGameCollision(gameCurrentItem.x, gameCurrentItem.y)) isGameGameOver = true;
+        }
+        
+        function drawGame() {
+            gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+            gameCtx.strokeStyle = '#dc3545'; gameCtx.lineWidth = 3;
+            gameCtx.beginPath(); gameCtx.moveTo(0, GAME_BLOCK_SIZE); gameCtx.lineTo(gameCanvas.width, GAME_BLOCK_SIZE); gameCtx.stroke();
+            for (let r = 0; r < GAME_ROWS; r++) {
+                for (let c = 0; c < GAME_COLS; c++) {
+                    if (gameGrid[r][c] !== GAME_ITEMS.EMPTY) drawGameBlock(c, r, gameGrid[r][c]);
+                }
+            }
+            if (gameCurrentItem && !isGameGameOver) drawGameBlock(gameCurrentItem.x, gameCurrentItem.y, gameCurrentItem.type);
+            handleGameFloatingScores();
+        }
+        
+        function handleGameFloatingScores() {
+            for (let i = gameFloatingScores.length - 1; i >= 0; i--) {
+                const fs = gameFloatingScores[i];
+                fs.y -= 0.5; fs.lifetime--; fs.alpha = fs.lifetime / 60;
+                gameCtx.font = `bold ${GAME_BLOCK_SIZE * 0.5}px Arial`;
+                gameCtx.fillStyle = `rgba(76, 175, 80, ${fs.alpha})`;
+                gameCtx.textAlign = 'center';
+                gameCtx.fillText(fs.text, fs.x, fs.y);
+                if (fs.lifetime <= 0) {
+                    gameFloatingScores.splice(i, 1);
+                }
+            }
+        }
+
+        function drawGameBlock(x, y, type) {
+            const props = GAME_ITEM_PROPS[type];
+            if (props && props.img && props.img.complete && props.img.naturalHeight !== 0) {
+                gameCtx.drawImage(props.img, x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, GAME_BLOCK_SIZE, GAME_BLOCK_SIZE);
+            } else {
+                gameCtx.fillStyle = '#ccc';
+                gameCtx.fillRect(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, GAME_BLOCK_SIZE - 1, GAME_BLOCK_SIZE - 1);
+            }
+        }
+        
+        function dropGameItem() {
+            if (isGameDropping || isGameGameOver || !gameCurrentItem) return;
+            isGameDropping = true;
+            gameDropButton.disabled = true;
+            let dropAnimationFrame;
+            let currentPixelY = gameCurrentItem.y * GAME_BLOCK_SIZE;
+            const dropSpeed = GAME_BLOCK_SIZE / 2; 
+
+            function animateDrop() {
+                if (gameAnimationFrameId) cancelAnimationFrame(gameAnimationFrameId);
+                currentPixelY += dropSpeed;
+                const nextGridY = Math.floor((currentPixelY + GAME_BLOCK_SIZE - 1) / GAME_BLOCK_SIZE);
+                if (checkGameCollision(gameCurrentItem.x, nextGridY)) {
+                    gameCurrentItem.y = nextGridY - 1;
+                    solidifyGameItem();
+                    checkGameMerges();
+                    spawnNewGameItem();
+                    isGameDropping = false;
+                    gameDropButton.disabled = isGameGameOver;
+                    cancelAnimationFrame(dropAnimationFrame);
+                    gameLoop(); 
+                    return;
+                }
+                gameCurrentItem.y = currentPixelY / GAME_BLOCK_SIZE;
+                drawGame();
+                dropAnimationFrame = requestAnimationFrame(animateDrop);
+            }
+            animateDrop();
+        }
+
+        function gameLoop() {
+            if(isGameDropping) return;
+            if (!isGameGameOver) {
+                drawGame();
+                gameAnimationFrameId = requestAnimationFrame(gameLoop);
+            } else {
+                showGameGameOver();
+            }
+        }
+
+        function showGameGameOver() {
+            gameFinalScoreDisplay.textContent = gameScore;
+            gameOverScreen.classList.remove('hidden');
+            gameDropButton.disabled = true;
+        }
+
+        function checkGameCollision(x, y) {
+            if (x < 0 || x >= GAME_COLS || y >= GAME_ROWS) return true;
+            return gameGrid[y] && gameGrid[y][x] !== GAME_ITEMS.EMPTY;
+        }
+
+        function solidifyGameItem() {
+            gameCurrentItem.y = Math.round(gameCurrentItem.y);
+            if (gameCurrentItem.y < GAME_ROWS) gameGrid[gameCurrentItem.y][gameCurrentItem.x] = gameCurrentItem.type;
+            if (gameCurrentItem.y < 1) isGameGameOver = true;
+        }
+
+        function checkGameMerges() {
+            for (let r = GAME_ROWS - 1; r > 0; r--) {
+                for (let c = 0; c < GAME_COLS; c++) {
+                    const currentType = gameGrid[r][c];
+                    const aboveType = gameGrid[r - 1][c];
+                    let merged = false;
+                    let points = 0;
+
+                    if (currentType !== GAME_ITEMS.EMPTY && currentType === aboveType) {
+                        if (currentType === GAME_ITEMS.BOX) {
+                            gameGrid[r][c] = GAME_ITEMS.KOPER; points = 5; merged = true;
+                        } else if (currentType === GAME_ITEMS.KOPER) {
+                            gameGrid[r][c] = GAME_ITEMS.PESAWAT; points = 10; merged = true;
+                        } else if (currentType === GAME_ITEMS.PESAWAT) {
+                            points = 25;
+                            for (let row = r; row > 1; row--) { gameGrid[row][c] = gameGrid[row - 2] ? gameGrid[row - 2][c] : GAME_ITEMS.EMPTY; }
+                            gameGrid[0][c] = GAME_ITEMS.EMPTY; gameGrid[1][c] = GAME_ITEMS.EMPTY; merged = true;
+                        }
+
+                        if (merged) {
+                            gameScore += points;
+                            gameFloatingScores.push({
+                                text: `+${points}`,
+                                x: (c + 0.5) * GAME_BLOCK_SIZE,
+                                y: r * GAME_BLOCK_SIZE,
+                                lifetime: 60,
+                                alpha: 1.0
+                            });
+
+                            if (currentType !== GAME_ITEMS.PESAWAT) {
+                                for (let row = r - 1; row > 0; row--) { gameGrid[row][c] = gameGrid[row - 1][c]; }
+                                gameGrid[0][c] = GAME_ITEMS.EMPTY;
+                            }
+                            gameScoreDisplay.textContent = gameScore; 
+                            return checkGameMerges();
+                        }
+                    }
+                }
+            }
+        }
+        
+        function handleGameMove(event) {
+            if (!gameCurrentItem || isGameGameOver || isGameDropping) return;
+            const rect = gameCanvas.getBoundingClientRect();
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const x = clientX - rect.left;
+            let newCol = Math.floor(x / GAME_BLOCK_SIZE);
+            newCol = Math.max(0, Math.min(GAME_COLS - 1, newCol));
+            if (!checkGameCollision(newCol, gameCurrentItem.y)) gameCurrentItem.x = newCol;
+        }
+        gameCanvas.addEventListener('mousedown', (e) => handleGameMove(e));
+        gameCanvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) handleGameMove(e); });
+        gameCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleGameMove(e); }, { passive: false });
+        gameCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleGameMove(e); }, { passive: false });
+
+        gameDropButton.addEventListener('click', dropGameItem);
+        gameStartButton.addEventListener('click', () => {
+            gameStartScreen.classList.add('hidden');
+            initGame();
+        });
+        gameRestartButton.addEventListener('click', () => {
+            gameOverScreen.classList.add('hidden');
+            initGame();
+        });
+
+        window.addEventListener('resize', () => {
+            if(gameInitialized) {
+                initGame();
+            }
+        });
+        
     });
     </script>
 </body>
 </html>
-
-
-
-
-
-
