@@ -723,7 +723,7 @@
             const selectedType = itemTypeSelectCalc.value;
             const config = jastipConfigs[selectedType];
             if (config) {
-                jastipDetailsContainerCalc.innerHTML = `<div class="form-group"><label for="jastip-quantity">${config.label}</label><input type="number" id="jastip-quantity" name="jastip-quantity" placeholder="Contoh: 1" min="0" required></div>`;
+                jastipDetailsContainerCalc.innerHTML = `<div class="form-group"><label for="jastip-quantity">${config.label}</label><input type="tel" id="jastip-quantity" name="jastip-quantity" placeholder="Contoh: 1" min="0" required></div>`;
             } else {
                 jastipDetailsContainerCalc.innerHTML = '';
             }
@@ -796,3 +796,4 @@
     </script>
 </body>
 </html>
+
