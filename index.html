@@ -173,51 +173,41 @@
             font-weight: 600; line-height: 1.3;
         }
         .calculator-button-item {
-            grid-column: 1 / -1; /* Tetap memanjang selebar kontainer */
-            background: transparent; /* Hapus latar belakang biru */
-            padding: 0; /* Hapus padding agar gambar pas */
-            box-shadow: none; /* Hapus bayangan dari kontainer */
-            border-radius: 0; /* Hapus radius dari kontainer */
+            grid-column: 1 / -1; 
+            background: transparent; 
+            padding: 0;
+            box-shadow: none;
+            border-radius: 0;
         }
 
         .calculator-button-item img {
-            opacity: 1; /* Gambar terlihat 100% jelas */
-            width: 100%; /* Gambar mengisi seluruh lebar kontainer */
-            height: auto; /* Tinggi gambar menyesuaikan otomatis */
-            display: block; /* Menghilangkan spasi ekstra di bawah gambar */
-            
-            /* Terapkan gaya tombol langsung ke gambar */
+            opacity: 1;
+            width: 100%;
+            height: auto;
+            display: block;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
         }
 
         .calculator-button-item:hover img {
-            transform: scale(1.02); /* Efek zoom saat disentuh mouse */
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Bayangan lebih kuat saat hover */
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         
         .calculator-button-item:hover {
-            transform: scale(1.02); /* Efek zoom saat disentuh mouse */
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: none; /* Reset transform on container */
+            box-shadow: none; /* Reset shadow on container */
         }
 
-        .calculator-button-item h4 {
-            color: var(--white);
-            font-size: 1.5rem; /* Membuat teks lebih besar */
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Bayangan teks agar mudah dibaca */
-            margin: 0;
-            padding: 0;
-        }
         /* ----- Universal Modal Styling (from Calculator) ----- */
         .modal {
             position: fixed; z-index: 2000; left: 0; top: 0;
             width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.6);
-            display: flex; /* Changed from none */
+            display: flex;
             justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; /* Use opacity and visibility for transitions */
+            opacity: 0; visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s 0.3s;
         }
         .modal.visible {
@@ -229,7 +219,7 @@
             padding: 2rem;
             border-radius: var(--border-radius);
             width: 90%;
-            max-width: 500px; /* Standardized max-width */
+            max-width: 500px;
             box-shadow: var(--shadow);
             transform: scale(0.95);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -246,7 +236,7 @@
         }
         .modal-body {
             overflow-y: auto; margin-bottom: 1.5rem;
-            padding-right: 10px; /* Space for scrollbar */
+            padding-right: 10px;
         }
         .modal-body ul { list-style-position: inside; padding-left: 10px; }
         .modal-body li { margin-bottom: 10px; }
@@ -256,7 +246,7 @@
             background-color: var(--accent-orange); color: white; border: none;
             padding: 0.8rem 2rem; border-radius: 50px; cursor: pointer;
             font-weight: 600; transition: all 0.3s ease;
-            flex-shrink: 0; align-self: center; /* Center the button */
+            flex-shrink: 0; align-self: center;
         }
         .modal-close-btn:hover {
             opacity: 0.9; transform: scale(1.05);
@@ -275,19 +265,20 @@
         @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
 
         /* ----- Styles for Calculator Form inside Modal ----- */
-        .calculator-card { padding: 0; box-shadow: none; } /* Reset card style inside modal */
+        .calculator-card { padding: 0; box-shadow: none; animation: none; }
         .calculator-card h1 { color: var(--primary-blue); text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; font-weight: 700; }
         .form-group { margin-bottom: 1.5rem; position: relative; }
-        .form-group label { display: block; color: var(--primary-blue); font-weight: 600; margin-bottom: 0.5rem; }
-        .form-group input { width: 100%; padding: 0.8rem 1rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; }
-        .form-group input:focus { outline: none; border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(240, 169, 45, 0.2); }
+        .form-group label { display: block; color: var(--primary-blue); font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;}
+        .form-group input, .form-group select { width: 100%; padding: 0.8rem 1rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(240, 169, 45, 0.2); }
         .form-group input[readonly] { background-color: var(--light-gray); cursor: not-allowed; }
         .dropdown { position: relative; }
-        .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 100%; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 2001; max-height: 200px; overflow-y: auto; border-radius: 8px; border: 1px solid #eee; margin-top: 5px; }
+        .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 100%; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 2001; max-height: 150px; overflow-y: auto; border-radius: 8px; border: 1px solid #eee; margin-top: 5px; }
         .dropdown-content a { color: var(--dark-gray); padding: 12px 16px; text-decoration: none; display: block; transition: background-color 0.2s ease; }
         .dropdown-content a:hover { background-color: var(--light-gray); color: var(--primary-blue); }
         .calculate-btn { width: 100%; padding: 1rem; border: none; border-radius: 8px; background: linear-gradient(45deg, var(--primary-blue), #0a84e0); color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 1rem; box-shadow: 0 4px 15px rgba(7, 110, 179, 0.4); }
         .calculate-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(7, 110, 179, 0.6); }
+        ::placeholder { color: #999; font-size: 0.8rem; font-style: italic; }
 
         /* ----- Styles for Calculator RESULT Modal ----- */
         .result-detail { text-align: left; margin-bottom: 1.5rem; }
@@ -383,10 +374,9 @@
             .link-images-container, .social-container { gap: 15px; }
             .modal-content { padding: 1.5rem; }
             .calculator-button-item h4 { font-size: 1.1rem; }
-            .calculator-button-item { min-height: 100px; }
         }
         .jastip-title {
-            letter-spacing: -1px; /* UBAH NILAI INI UNTUK MENGATUR KERAPATAN */
+            letter-spacing: -1px;
         }
     </style>
 </head>
@@ -467,11 +457,11 @@
             <section class="social-container">
                 <div class="social-embed">
                     <a href="https://www.instagram.com/yanoshi_jastip" target="_blank" class="social-button">Instagram</a>
-                    <iframe src="https://www.instagram.com/reel/DMKbEynS8uL/embed" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+                    <iframe src="https://www.instagram.com/p/C9z5X_xS_qS/embed" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
                 </div>
                 <div class="social-embed">
                     <a href="https://www.tiktok.com/@jastip_yanoshi" target="_blank" class="social-button">TikTok</a>
-                    <iframe src="https://www.tiktok.com/embed/v2/7499016564197444882" title="TikTok video player" frameborder="0" allow="encrypted-media;" allowfullscreen scrolling="no"></iframe>
+                    <iframe src="https://www.tiktok.com/embed/v2/7393730230302821639" title="TikTok video player" frameborder="0" allow="encrypted-media;" allowfullscreen scrolling="no"></iframe>
                 </div>
             </section>
         </div>
@@ -508,25 +498,8 @@
     <div id="calculator-modal-form" class="modal">
         <div class="modal-content">
             <div class="calculator-card">
-                <h1>Kalkulator Jastip</h1>
-                <form id="jastip-form" onsubmit="return false;">
-                    <div class="form-group">
-                        <label for="kilo">Berat barang (KG)</label>
-                        <input type="number" id="kilo" placeholder="Contoh: 15" min="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="prefecture-search">Dikirim ke perfektur mana?</label>
-                        <div class="dropdown">
-                            <input type="text" id="prefecture-search" placeholder="Cari perfektur..." autocomplete="off" required>
-                            <div id="prefecture-dropdown" class="dropdown-content"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="ongkir">Biaya Ongkir</label>
-                        <input type="text" id="ongkir" readonly placeholder="Terisi otomatis">
-                    </div>
-                    <button type="button" class="calculate-btn" id="calculate-btn-action">Hitung Total Biaya</button>
-                </form>
+                 <form id="jastip-form" onsubmit="return false;">
+                    </form>
             </div>
              <button class="modal-close-btn" style="margin-top:20px;">Tutup</button>
         </div>
@@ -538,7 +511,7 @@
             <div class="modal-body">
                 <div class="result-detail">
                     <p><span>Harga Jastip</span> <span id="harga-jastip-result"></span></p>
-                    <p><span>Biaya Ongkir</span> <span id="biaya-ongkir-result"></span></p>
+                    <p><span>Estimasi Ongkir</span> <span id="biaya-ongkir-result"></span></p>
                 </div>
                 <div class="total-biaya">
                     <p><span>TOTAL BIAYA</span> <span id="total-biaya-result"></span></p>
@@ -567,58 +540,44 @@
             let slides = Array.from(slider.children);
 
             if (slides.length > 1) {
-                // 1. Kloning slide pertama dan terakhir
                 const firstClone = slides[0].cloneNode(true);
                 const lastClone = slides[slides.length - 1].cloneNode(true);
-                firstClone.id = 'first-clone';
-                lastClone.id = 'last-clone';
                 slider.appendChild(firstClone);
                 slider.insertBefore(lastClone, slides[0]);
-
-                // Update array slides setelah kloning
                 slides = Array.from(slider.children);
 
-                let currentIndex = 1; // Mulai dari slide pertama yang asli, bukan klon
-                const slideWidth = slides[0].getBoundingClientRect().width;
+                let currentIndex = 1;
+                const slideWidth = () => slides[0].getBoundingClientRect().width;
 
-                // 2. Atur posisi awal slider
-                slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+                const updateSliderPosition = (withTransition = true) => {
+                    slider.style.transition = withTransition ? 'transform 0.5s ease-in-out' : 'none';
+                    slider.style.transform = `translateX(-${slideWidth() * currentIndex}px)`;
+                }
 
-                // Fungsi untuk slide berikutnya
+                updateSliderPosition();
+
                 const moveToNextSlide = () => {
+                    if (currentIndex >= slides.length - 1) return;
                     currentIndex++;
-                    slider.style.transition = 'transform 0.5s ease-in-out';
-                    slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+                    updateSliderPosition();
                 };
 
-                // 3. Atur interval untuk auto-slide
                 let slideInterval = setInterval(moveToNextSlide, 3000);
 
-                // 4. Tambahkan event listener untuk 'trik' perpindahan mulus
                 slider.addEventListener('transitionend', () => {
-                    // Jika slider sampai di klon terakhir (salinan slide pertama)
-                    if (slides[currentIndex].id === 'first-clone') {
-                        slider.style.transition = 'none'; // Matikan animasi
-                        currentIndex = 1; // Pindah ke slide pertama yang asli
-                        slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+                    if (currentIndex === slides.length - 1) {
+                        currentIndex = 1;
+                        updateSliderPosition(false);
                     }
-
-                    // Logika ini berguna jika Anda menambahkan tombol 'previous'
-                    if (slides[currentIndex].id === 'last-clone') {
-                        slider.style.transition = 'none'; // Matikan animasi
-                        currentIndex = slides.length - 2; // Pindah ke slide terakhir yang asli
-                        slider.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+                    if (currentIndex === 0) {
+                        currentIndex = slides.length - 2;
+                        updateSliderPosition(false);
                     }
                 });
 
-                // Reset interval saat mouse berada di atas slider (opsional, tapi bagus)
-                sliderContainer.addEventListener('mouseenter', () => {
-                    clearInterval(slideInterval);
-                });
-
-                sliderContainer.addEventListener('mouseleave', () => {
-                    slideInterval = setInterval(moveToNextSlide, 3000);
-                });
+                sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+                sliderContainer.addEventListener('mouseleave', () => slideInterval = setInterval(moveToNextSlide, 3000));
+                window.addEventListener('resize', () => updateSliderPosition(false));
             }
         }
 
@@ -678,7 +637,7 @@
         const chatHistory = faqModal.querySelector('.chat-history');
         const faqSelect = faqModal.querySelector('#faq-select');
         
-        function addBubble(text, type) { const bubble = document.createElement('div'); bubble.className = `chat-bubble ${type}`; bubble.textContent = text; chatHistory.appendChild(bubble); chatHistory.scrollTop = chatHistory.scrollHeight; }
+        function addBubble(text, type) { const bubble = document.createElement('div'); bubble.className = `chat-bubble ${type}`; bubble.innerHTML = text; chatHistory.appendChild(bubble); chatHistory.scrollTop = chatHistory.scrollHeight; }
         
         function initializeChat() {
             chatHistory.innerHTML = ''; faqSelect.innerHTML = '<option value="" disabled selected>Pilih pertanyaannya disini...</option>'; addBubble("Halo kak! Ada yang mau ditanyain? Silakan pilih pertanyaan dari menu di bawah ini ya.", 'answer');
@@ -704,99 +663,136 @@
         }, { threshold: 0.1 });
         sections.forEach(section => observer.observe(section));
 
-        // --- CALCULATOR LOGIC INTEGRATION ---
-        const shippingCosts = { 'hokkaido': 1060, 'aomori': 1060, 'akita': 1060, 'iwate': 1060, 'miyagi': 940, 'yamagata': 940, 'fukushima': 940, 'tokyo': 940, 'ibaraki': 940, 'tochigi': 940, 'gunma': 940, 'saitama': 940, 'chiba': 940, 'kanagawa': 940, 'yamanashi': 940, 'nagano': 940, 'niigata': 940, 'toyama': 940, 'ishikawa': 940, 'fukui': 940, 'shizuoka': 940, 'aichi': 940, 'gifu': 940, 'mie': 940, 'kyoto': 1060, 'shiga': 1060, 'nara': 1060, 'wakayama': 1060, 'osaka': 1060, 'hyogo': 1060, 'okayama': 1190, 'hiroshima': 1190, 'yamaguchi': 1190, 'tottori': 1190, 'shimane': 1190, 'kagawa': 1190, 'tokushima': 1190, 'kochi': 1190, 'ehime': 1190, 'fukuoka': 1190, 'saga': 1190, 'nagasaki': 1190, 'kumamoto': 1190, 'oita': 1190, 'miyazaki': 1190, 'kagoshima': 1190, 'okinawa': 1460 };
-        const prefectures = Object.keys(shippingCosts);
+        // --- <<<<<<<<<<<<<<<<<<<< START: CALCULATOR LOGIC INTEGRATION >>>>>>>>>>>>>>>>>>>> ---
+        const jastipForm = document.getElementById('jastip-form');
+        // Inject the calculator form HTML
+        jastipForm.innerHTML = `
+            <h1>Kalkulator Jastip</h1>
+            <div class="form-group">
+                <label for="item-type">Barang apa yang mau di jastip?</label>
+                <select id="item-type" name="item-type" required>
+                    <option value="" disabled selected>-- Pilih Jenis Barang --</option>
+                    <option value="biasa">Barang Biasa</option>
+                    <option value="handphone">Handphone</option>
+                    <option value="laptop">Laptop atau Tablet</option>
+                    <option value="rokok">Rokok</option>
+                    <option value="rokok-elektrik">Rokok Elektrik</option>
+                    <option value="liquid">Liquid Rokok Elektrik</option>
+                    <option value="sepatu-box">Sepatu dengan Box</option>
+                    <option value="sepatu-nobox">Sepatu tanpa Box</option>
+                </select>
+            </div>
+            <div id="jastip-details-container"></div>
+            <div class="form-group">
+                <label for="prefecture-search">Dikirim ke perfektur mana?</label>
+                <div class="dropdown">
+                    <input type="text" id="prefecture-search" name="prefecture" placeholder="Cari perfektur..." autocomplete="off" required>
+                    <div id="prefecture-dropdown" class="dropdown-content"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ongkir">Biaya Dasar Ongkir</label>
+                <input type="text" id="ongkir" name="ongkir" readonly placeholder="Biaya ongkir akan muncul disini">
+            </div>
+            <button type="button" class="calculate-btn">Hitung Total Biaya</button>
+        `;
 
-        const prefectureSearchInput = document.getElementById('prefecture-search');
-        const prefectureDropdown = document.getElementById('prefecture-dropdown');
-        const ongkirInput = document.getElementById('ongkir');
-        const kiloInput = document.getElementById('kilo');
-        const resultModal = document.getElementById('result-modal');
-        const imageViewer = document.getElementById('image-viewer');
-        const zoomedImage = document.getElementById('zoomed-image');
+        const shippingCostsCalc = { 'hokkaido': 1060, 'aomori': 1060, 'akita': 1060, 'iwate': 1060, 'miyagi': 940, 'yamagata': 940, 'fukushima': 940, 'tokyo': 940, 'ibaraki': 940, 'tochigi': 940, 'gunma': 940, 'saitama': 940, 'chiba': 940, 'kanagawa': 940, 'yamanashi': 940, 'nagano': 940, 'niigata': 940, 'toyama': 940, 'ishikawa': 940, 'fukui': 940, 'shizuoka': 940, 'aichi': 940, 'gifu': 940, 'mie': 940, 'kyoto': 1060, 'shiga': 1060, 'nara': 1060, 'wakayama': 1060, 'osaka': 1060, 'hyogo': 1060, 'okayama': 1190, 'hiroshima': 1190, 'yamaguchi': 1190, 'tottori': 1190, 'shimane': 1190, 'kagawa': 1190, 'tokushima': 1190, 'kochi': 1190, 'ehime': 1190, 'fukuoka': 1190, 'saga': 1190, 'nagasaki': 1190, 'kumamoto': 1190, 'oita': 1190, 'miyazaki': 1190, 'kagoshima': 1190, 'okinawa': 1460 };
+        const jastipConfigs = {
+            'biasa':         { label: 'Berapa KG berat barangmu?',         price: 1500, unit: 'kg',    weightPerUnit: 1 },
+            'handphone':     { label: 'Berapa unit?',                      price: 2000, unit: 'unit',  weightPerUnit: 0.5 },
+            'laptop':        { label: 'Berapa KG berat laptop/tabletmu?',  price: 1500, unit: 'kg',    weightPerUnit: 1 },
+            'rokok':         { label: 'Berapa slop?',                      price: 2000, unit: 'slop',  weightPerUnit: 0.3 },
+            'rokok-elektrik':{ label: 'Berapa unit?',                      price: 1000, unit: 'unit',  weightPerUnit: 0.4 },
+            'liquid':        { label: 'Berapa unit?',                      price: 500,  unit: 'unit',  weightPerUnit: 0.2 },
+            'sepatu-box':    { label: 'Berapa pasang?',                    price: 2000, unit: 'pasang',weightPerUnit: 1.2 },
+            'sepatu-nobox':  { label: 'Berapa pasang?',                    price: 1500, unit: 'pasang',weightPerUnit: 0.8 }
+        };
+        const prefecturesCalc = Object.keys(shippingCostsCalc);
+
+        const prefectureSearchInputCalc = document.getElementById('prefecture-search');
+        const prefectureDropdownCalc = document.getElementById('prefecture-dropdown');
+        const ongkirInputCalc = document.getElementById('ongkir');
+        const resultModalCalc = document.getElementById('result-modal');
+        const imageViewerCalc = document.getElementById('image-viewer');
+        const zoomedImageCalc = document.getElementById('zoomed-image');
+        const itemTypeSelectCalc = document.getElementById('item-type');
+        const jastipDetailsContainerCalc = document.getElementById('jastip-details-container');
+
+        function updateJastipInput() {
+            const selectedType = itemTypeSelectCalc.value;
+            const config = jastipConfigs[selectedType];
+            if (config) {
+                jastipDetailsContainerCalc.innerHTML = `<div class="form-group"><label for="jastip-quantity">${config.label}</label><input type="number" id="jastip-quantity" name="jastip-quantity" placeholder="Contoh: 1" min="0" required></div>`;
+            } else {
+                jastipDetailsContainerCalc.innerHTML = '';
+            }
+        }
+        itemTypeSelectCalc.addEventListener('change', updateJastipInput);
 
         function populateDropdown(filter = '') {
-            prefectureDropdown.innerHTML = '';
-            prefectures.filter(p => p.toLowerCase().includes(filter.toLowerCase())).forEach(pref => {
+            prefectureDropdownCalc.innerHTML = '';
+            prefecturesCalc.filter(p => p.toLowerCase().includes(filter.toLowerCase())).forEach(pref => {
                 const a = document.createElement('a');
                 a.href = '#';
                 a.textContent = pref.charAt(0).toUpperCase() + pref.slice(1);
                 a.onclick = (e) => { e.preventDefault(); selectPrefecture(pref); };
-                prefectureDropdown.appendChild(a);
+                prefectureDropdownCalc.appendChild(a);
             });
         }
-
-        prefectureSearchInput.addEventListener('keyup', () => {
-            populateDropdown(prefectureSearchInput.value);
-            prefectureDropdown.style.display = 'block';
-        });
-        prefectureSearchInput.addEventListener('focus', () => {
-            populateDropdown(prefectureSearchInput.value);
-            prefectureDropdown.style.display = 'block';
-        });
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.dropdown')) {
-                prefectureDropdown.style.display = 'none';
-            }
-        });
+        
+        prefectureSearchInputCalc.addEventListener('keyup', () => { populateDropdown(prefectureSearchInputCalc.value); prefectureDropdownCalc.style.display = 'block'; });
+        prefectureSearchInputCalc.addEventListener('focus', () => { populateDropdown(prefectureSearchInputCalc.value); prefectureDropdownCalc.style.display = 'block'; });
+        document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown')) { prefectureDropdownCalc.style.display = 'none'; } });
 
         function selectPrefecture(prefecture) {
-            prefectureSearchInput.value = prefecture.charAt(0).toUpperCase() + prefecture.slice(1);
-            prefectureDropdown.style.display = 'none';
-            const cost = shippingCosts[prefecture.toLowerCase()];
-            if (cost) ongkirInput.value = cost;
+            prefectureSearchInputCalc.value = prefecture.charAt(0).toUpperCase() + prefecture.slice(1);
+            prefectureDropdownCalc.style.display = 'none';
+            const cost = shippingCostsCalc[prefecture.toLowerCase()];
+            if (cost) { ongkirInputCalc.value = formatRupiah(cost); }
         }
+        
+        function formatRupiah(number) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'JPY', minimumFractionDigits: 0 }).format(number).replace('JPY', '¥'); }
 
-        function formatCurrency(number) {
-            return new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(number);
-        }
+        function calculateTotal() {
+            const prefecture = prefectureSearchInputCalc.value.toLowerCase();
+            const baseOngkir = shippingCostsCalc[prefecture];
+            const selectedType = itemTypeSelectCalc.value;
+            const jastipQuantityInput = document.getElementById('jastip-quantity');
+            
+            if (!selectedType || !jastipQuantityInput) { alert('Mohon pilih jenis barang terlebih dahulu.'); return; }
+            
+            const jastipQuantity = parseFloat(jastipQuantityInput.value);
+            if (isNaN(baseOngkir) || isNaN(jastipQuantity) || jastipQuantity <= 0) { alert('Mohon isi semua kolom (jenis barang, jumlah/berat, dan perfektur) dengan benar.'); return; }
 
-        document.getElementById('calculate-btn-action').addEventListener('click', () => {
-            const kilo = parseFloat(kiloInput.value);
-            const baseOngkir = parseFloat(ongkirInput.value);
-            if (isNaN(kilo) || kilo <= 0 || isNaN(baseOngkir)) {
-                alert('Mohon isi berat (KG) dan pilih perfektur tujuan dengan benar.');
-                return;
-            }
-            const hargaJastip = kilo * 1500;
-            const multiplier = Math.ceil(kilo / 30);
+            const config = jastipConfigs[selectedType];
+            const hargaJastip = jastipQuantity * config.price;
+            const estimatedWeight = jastipQuantity * config.weightPerUnit;
+            const multiplier = Math.ceil(estimatedWeight / 30);
             const finalOngkir = baseOngkir * multiplier;
             const totalBiaya = hargaJastip + finalOngkir;
 
-            document.getElementById('harga-jastip-result').textContent = formatCurrency(hargaJastip);
-            document.getElementById('biaya-ongkir-result').textContent = formatCurrency(finalOngkir);
-            document.getElementById('total-biaya-result').textContent = formatCurrency(totalBiaya);
-            
-            // Hide form modal and show result modal
+            document.getElementById('harga-jastip-result').textContent = formatRupiah(hargaJastip);
+            document.getElementById('biaya-ongkir-result').textContent = formatRupiah(finalOngkir);
+            document.getElementById('total-biaya-result').textContent = formatRupiah(totalBiaya);
+
             document.getElementById('calculator-modal-form').classList.remove('visible');
-            resultModal.classList.add('visible');
+            resultModalCalc.classList.add('visible');
+        }
+
+        jastipForm.querySelector('.calculate-btn').addEventListener('click', calculateTotal);
+
+        document.getElementById('box-image').addEventListener('click', (e) => {
+             zoomedImageCalc.src = e.target.src;
+             imageViewerCalc.classList.add('visible');
+        });
+        imageViewerCalc.addEventListener('click', () => {
+             imageViewerCalc.classList.remove('visible');
         });
         
-        // Image Viewer Logic
-        document.getElementById('box-image').addEventListener('click', (e) => {
-             zoomedImage.src = e.target.src;
-             imageViewer.classList.add('visible');
-        });
-        imageViewer.addEventListener('click', () => {
-             imageViewer.classList.remove('visible');
-        });
+        // --- <<<<<<<<<<<<<<<<<<<< END: CALCULATOR LOGIC INTEGRATION >>>>>>>>>>>>>>>>>>>> ---
 
-        // Initial population
-        populateDropdown();
     });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
