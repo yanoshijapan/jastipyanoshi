@@ -1145,7 +1145,9 @@
         gameDropButton.addEventListener('click', dropGameItem);
         gameStartButton.addEventListener('click', () => {
             gameStartScreen.classList.add('hidden');
-            initGame();
+            requestAnimationFrame(() => {
+                initGame();
+            });
         });
         gameRestartButton.addEventListener('click', () => {
             gameOverScreen.classList.add('hidden');
@@ -1153,7 +1155,8 @@
         });
 
         window.addEventListener('resize', () => {
-            if(gameInitialized) {
+            if(gameInitialized && gameModal.classList.contains('visible')) {
+                // Hanya resize game jika modalnya sedang terlihat
                 initGame();
             }
         });
@@ -1162,3 +1165,4 @@
     </script>
 </body>
 </html>
+
