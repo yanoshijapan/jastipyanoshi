@@ -903,24 +903,19 @@
 
         openGameBtn.addEventListener('click', () => {
             gameModal.classList.add('visible');
-            // Hanya inisialisasi game sekali saja saat pertama kali dibuka
             if (!gameInitialized) {
                 gameStartButton.textContent = "Memuat Aset...";
                 gameStartButton.disabled = true;
                 loadGameImages(() => {
                     gameStartButton.textContent = "Mulai Game";
                     gameStartButton.disabled = false;
-                    gameInitialized = true;
                 });
             }
         });
 
-        // Menambahkan event listener untuk menutup modal game
         gameModal.addEventListener('click', (event) => {
-            // Cek jika yang diklik adalah area latar belakang modal, bukan konten di dalamnya
             if (event.target === gameModal) {
                 gameModal.classList.remove('visible');
-                // Optional: Hentikan game loop jika modal ditutup
                 if (gameAnimationFrameId) cancelAnimationFrame(gameAnimationFrameId);
             }
         });
@@ -976,12 +971,16 @@
         }
         
         function initGame() {
+            // --- PERBAIKAN: Tandai game sudah diinisialisasi DI SINI ---
+            gameInitialized = true;
             setGameCanvasDimensions();
             gameGrid = Array.from({ length: GAME_ROWS }, () => Array(GAME_COLS).fill(GAME_ITEMS.EMPTY));
             gameScore = 0; isGameGameOver = false; isGameDropping = false;
             gameFloatingScores = [];
             gameScoreDisplay.textContent = gameScore;
             gameDropButton.disabled = false;
+            // Pastikan game over screen disembunyikan saat mulai
+            gameOverScreen.classList.add('hidden');
             spawnNewGameItem();
             if (gameAnimationFrameId) cancelAnimationFrame(gameAnimationFrameId);
             gameLoop();
@@ -1141,14 +1140,15 @@
         gameCanvas.addEventListener('mousemove', (e) => { if(e.buttons === 1) handleGameMove(e); });
         gameCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleGameMove(e); }, { passive: false });
         gameCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleGameMove(e); }, { passive: false });
-
-        gameDropButton.addEventListener('click', dropGameItem);
+        
         gameStartButton.addEventListener('click', () => {
             gameStartScreen.classList.add('hidden');
             requestAnimationFrame(() => {
                 initGame();
             });
         });
+
+        gameDropButton.addEventListener('click', dropGameItem);
         gameRestartButton.addEventListener('click', () => {
             gameOverScreen.classList.add('hidden');
             initGame();
@@ -1156,13 +1156,14 @@
 
         window.addEventListener('resize', () => {
             if(gameInitialized && gameModal.classList.contains('visible')) {
-                // Hanya resize game jika modalnya sedang terlihat
                 initGame();
             }
         });
         
     });
+  
     </script>
 </body>
 </html>
+
 
