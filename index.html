@@ -625,6 +625,8 @@
                         <li>Action Figure & Merchandise Anime</li>
                         <li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li>
                     </ul>
+                    <img src="https://yanoshijapan.github.io/asetonline/barangumum.jpg" alt="Barang Dilarang Umum">
+                    <img src="https://yanoshijapan.github.io/asetonline/barangspesifik.jpg" alt="Barang Dilarang Spesifik">
                     <p style='margin-top:1em;'>
                         Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.
                     </p>
@@ -635,7 +637,7 @@
                 content: `
                     <ul>
                         <li><strong>Barang biasa:</strong> 1.500 yen/kg.</li>
-                        <li><strong>Handphone:</strong> <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20tanya%20Jastip%20handphone" target="_blank">hubungi admin</a>.</li>
+                        <li><strong>Handphone:</strong> <a href="https://wa.me/6281315431551?text=halo%20min!,%20mau%20tanya%20Jastip%20handphone" target="_blank">hubungi admin disini</a>.</li>
                         <li><strong>Laptop, tablet (All brand):</strong> 1.500 yen/kg.</li>
                         <li><strong>Rokok:</strong> 2.000 yen/slop.</li>
                         <li><strong>Rokok elektrik (Vape/Pod):</strong> 1.000 yen/unit.</li>
@@ -761,7 +763,6 @@
                 <select id="item-type" name="item-type" required>
                     <option value="" disabled selected>-- Pilih Jenis Barang --</option>
                     <option value="biasa">Barang Biasa (Baju, Makanan, Skincare, dll)</option>
-                    <option value="handphone">Handphone</option>
                     <option value="laptop">Laptop atau Tablet</option>
                     <option value="rokok">Rokok</option>
                     <option value="rokok-elektrik">Rokok Elektrik</option>
@@ -788,7 +789,6 @@
         const shippingCostsCalc = { 'hokkaido': 1060, 'aomori': 1060, 'akita': 1060, 'iwate': 1060, 'miyagi': 940, 'yamagata': 940, 'fukushima': 940, 'tokyo': 940, 'ibaraki': 940, 'tochigi': 940, 'gunma': 940, 'saitama': 940, 'chiba': 940, 'kanagawa': 940, 'yamanashi': 940, 'nagano': 940, 'niigata': 940, 'toyama': 940, 'ishikawa': 940, 'fukui': 940, 'shizuoka': 940, 'aichi': 940, 'gifu': 940, 'mie': 940, 'kyoto': 1060, 'shiga': 1060, 'nara': 1060, 'wakayama': 1060, 'osaka': 1060, 'hyogo': 1060, 'okayama': 1190, 'hiroshima': 1190, 'yamaguchi': 1190, 'tottori': 1190, 'shimane': 1190, 'kagawa': 1190, 'tokushima': 1190, 'kochi': 1190, 'ehime': 1190, 'fukuoka': 1190, 'saga': 1190, 'nagasaki': 1190, 'kumamoto': 1190, 'oita': 1190, 'miyazaki': 1190, 'kagoshima': 1190, 'okinawa': 1460 };
         const jastipConfigs = {
             'biasa':         { label: 'Berapa KG berat barangmu?',         price: 1500, unit: 'kg',    weightPerUnit: 1 },
-            'handphone':     { label: 'Berapa unit?',                      price: 2000, unit: 'unit',  weightPerUnit: 0.5 },
             'laptop':        { label: 'Berapa KG berat laptop/tabletmu?',  price: 1500, unit: 'kg',    weightPerUnit: 1 },
             'rokok':         { label: 'Berapa slop?',                      price: 2000, unit: 'slop',  weightPerUnit: 0.3 },
             'rokok-elektrik':{ label: 'Berapa unit?',                      price: 1000, unit: 'unit',  weightPerUnit: 0.4 },
@@ -884,6 +884,7 @@
     </script>
 </body>
 </html>
+
 
 
 
