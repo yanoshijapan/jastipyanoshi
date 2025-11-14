@@ -303,10 +303,26 @@
             transform: scale(1.1);
             animation: none;
         }
-
-        /* Parallax Effect */
+		/* Parallax Effect - OPTIMIZED FOR MOBILE */
         .parallax-bg {
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+        
+        /* Reduce animations on mobile */
+        @media (max-width: 768px) {
+            .animate-float,
+            .animate-bounce-smooth,
+            .animate-rotate {
+                animation: none !important;
+            }
+            
+            .parallax-bg {
+                transform: none !important;
+            }
         }
 
         /* Loading Spinner */
@@ -388,6 +404,19 @@
             background-color: #f9fafb;
             border-radius: 8px;
         }
+		@media (max-width: 768px) {
+			/* Nonaktifkan animasi berat di mobile */
+			.animate-float,
+			.animate-bounce-smooth,
+			.animate-rotate {
+				animation: none !important;
+			}
+			
+			/* Nonaktifkan parallax di mobile */
+			.parallax-bg {
+				transform: none !important;
+			}
+		}
     </style>
 </head>
 <body class="bg-gray-50">
@@ -606,7 +635,6 @@
         </div>
     </footer>
 
-    <!-- Modals -->
     <div id="modal1" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-6 border-b">
@@ -645,7 +673,6 @@
         </div>
     </div>
 
-    <!-- Modal 3 - Ketentuan Barang -->
     <div id="modal3" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-6 border-b">
@@ -667,7 +694,6 @@
         </div>
     </div>
 
-    <!-- Modal 4 - Price List -->
     <div id="modal4" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-6 border-b">
@@ -688,7 +714,6 @@
         </div>
     </div>
 
-    <!-- Modal 5 - Jadwal -->
     <div id="modal5" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-6 border-b">
@@ -708,7 +733,6 @@
         </div>
     </div>
 
-    <!-- Modal 6 - FAQ Interactive -->
     <div id="modal6" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-6 border-b">
@@ -731,7 +755,6 @@
         </div>
     </div>
 
-    <!-- Calculator Modal -->
     <div id="calculator-modal-form" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-6 border-b">
@@ -781,7 +804,6 @@
         </div>
     </div>
 
-    <!-- Result Modal -->
     <div id="result-modal" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center p-6 border-b">
@@ -854,14 +876,36 @@
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll(); // Initial check
         
-        // Parallax Effect
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.parallax-bg');
-            if (parallax) {
-                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+        /* ---------------------------------------------------------------------- */
+        /* OPTIMASI PARALLAX EFFECT (Gerakan Lebih Halus) */
+        /* ---------------------------------------------------------------------- */
+        let scrollPosition = 0;
+        let ticking = false;
+        const parallaxElement = document.querySelector('.parallax-bg');
+
+        function updateParallax() {
+            if (parallaxElement) {
+                // Gunakan translate3d(0, Y, 0) untuk memaksa hardware acceleration
+                parallaxElement.style.transform = `translate3d(0, ${scrollPosition * 0.5}px, 0)`;
             }
-        });
+            ticking = false;
+        }
+
+        // Gunakan requestAnimationFrame untuk sinkronisasi dengan repaint browser
+        window.addEventListener('scroll', () => {
+            scrollPosition = window.pageYOffset;
+            
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true }); // Tambahkan { passive: true } untuk performa scroll yang lebih baik
+
+        // Panggil sekali saat load untuk posisi awal
+        updateParallax();
+        /* ---------------------------------------------------------------------- */
+        /* AKHIR OPTIMASI PARALLAX EFFECT */
+        /* ---------------------------------------------------------------------- */
         
         // Header Scroll Effect
         const header = document.querySelector('header');
