@@ -1,399 +1,59 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <base target="_top">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jastip Yanoshi</title>
+    <title>Jastip Yanoshi - Layanan Jastip Indonesia Jepang</title>
+    <meta name="description" content="Layanan jastip terpercaya dari Indonesia ke Jepang atau sebaliknya. Hand carry service dengan jadwal rutin.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    
     <style>
-        /* ----- General Styling & Color Palette ----- */
-        :root {
-            --primary-blue: #076eb3;
-            --accent-orange: #f0a92d;
-            --light-gray: #f4f7f9;
-            --dark-gray: #333;
-            --white: #ffffff;
-            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
-            --grid-item-bg: rgba(7, 110, 179, 0.05);
+        /* Base Animations from webstyle.html */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
         }
-
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Apply Poppins font */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--white);
-            color: var(--dark-gray);
-            line-height: 1.6;
-            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Animated Background Gradient */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, #e6f7ff, #fdf8e1, #e6f7ff, #fdf8e1);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        main {
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h2, h3 {
-            text-align: center;
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-            margin: 25px 0 15px 0;
-            color: var(--primary-blue);
-            font-weight: 700;
-        }
-        
-        /* ----- Header & Navigation ----- */
-        .header {
-            position: sticky;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
-            animation: slideDown 0.7s ease-out;
-            height: auto;
-        }
-
-        .logo img {
-            height: 45px;
-            transition: transform 0.3s ease;
-        }
-        .logo img:hover {
-            transform: scale(1.1);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .contact-btn-header {
-            background: linear-gradient(45deg, var(--accent-orange), #ffc107);
-            color: var(--white);
-            padding: 0.7rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(240, 169, 45, 0.4);
-        }
-        .contact-btn-header:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(240, 169, 45, 0.6);
-        }
-        
-        /* ----- Image Slider ----- */
-        .slider-container {
-            position: relative; overflow: hidden; width: 100%;
-            border-radius: var(--border-radius); aspect-ratio: 16 / 9;
-            margin-bottom: 30px; box-shadow: var(--shadow);
-        }
-        .slider { display: flex; transition: transform 0.5s ease-in-out; cursor: grab; height: 100%; }
-        .slide { min-width: 100%; }
-        .slide img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
-
-        /* ----- Grid Section ----- */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .grid-item {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            padding: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .grid-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        .icon-container {
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        .icon-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .grid-item h4 {
-            margin: 0; color: var(--primary-blue); font-size: 1.0rem;
-            font-weight: 600; line-height: 1.3;
-        }
-        .calculator-button-item {
-            grid-column: 1 / -1; 
-            background: transparent; 
-            padding: 0;
-            box-shadow: none;
-            border-radius: 0;
-        }
-
-        .calculator-button-item img {
-            opacity: 1;
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .calculator-button-item:hover img {
-            transform: scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        
-        .calculator-button-item:hover {
-            transform: none; /* Reset transform on container */
-            box-shadow: none; /* Reset shadow on container */
-        }
-
-        /* ----- Universal Modal Styling ----- */
-        .modal {
-            position: fixed; z-index: 2000; left: 0; top: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            display: flex;
-            justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0s 0.3s;
-        }
-        .modal.visible {
-            opacity: 1; visibility: visible;
-            transition: opacity 0.3s ease;
-        }
-        .modal-content {
-            background-color: var(--white);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--shadow);
-            transform: scale(0.95);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .modal.visible .modal-content {
-            transform: scale(1);
-        }
-        .modal-content h3, .modal-content h2 {
-             color: var(--primary-blue); margin-bottom: 1.5rem;
-             margin-top: 0; flex-shrink: 0; text-align: center;
-        }
-        .modal-body {
-            overflow-y: auto; margin-bottom: 1.5rem;
-            padding-right: 10px;
-        }
-        .modal-body ul { list-style-position: inside; padding-left: 10px; }
-        .modal-body li { margin-bottom: 10px; }
-        .modal-body p { margin-bottom: 15px; }
-        .modal-body strong { color: var(--primary-blue); }
-        .modal-close-btn {
-            background-color: var(--accent-orange); color: white; border: none;
-            padding: 0.8rem 2rem; border-radius: 50px; cursor: pointer;
-            font-weight: 600; transition: all 0.3s ease;
-            flex-shrink: 0; align-self: center;
-        }
-        .modal-close-btn:hover {
-            opacity: 0.9; transform: scale(1.05);
-        }
-
-        /* ----- FAQ Chat Modal ----- */
-        .chat-history { min-height: 300px; max-height: 50vh; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; }
-        #faq-select { width: 100%; padding: 15px; border-radius: 8px; border: 2px solid #ddd; font-size: 1rem; background-color: #f9f9f9; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27292.4%27%20height%3D%27292.4%27%3E%3Cpath%20fill%3D%27%23076eb3%27%20d%3D%27M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%27%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 14px; font-weight: 600; font-family: 'Poppins', sans-serif; }
-        .chat-bubble { font-size: 0.95rem; padding: 10px 15px; border-radius: 18px; max-width: 85%; line-height: 1.5; word-wrap: break-word; }
-        .chat-bubble.question { background-color: #e9e9e9; color: #333; align-self: flex-end; border-bottom-right-radius: 5px; }
-        .chat-bubble.answer { background-color: var(--primary-blue); color: var(--white); align-self: flex-start; border-bottom-left-radius: 5px; }
-        .typing-indicator { padding: 10px 15px; border-radius: 18px; display: flex; align-items: center; align-self: flex-start; background-color: var(--primary-blue); }
-        .typing-indicator span { height: 8px; width: 8px; background-color: rgba(255, 255, 255, 0.7); border-radius: 50%; display: inline-block; margin: 0 2px; animation: bounce 1.2s infinite; }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
-
-        /* ----- Styles for Calculator Form inside Modal ----- */
-        .calculator-card { padding: 0; box-shadow: none; animation: none; }
-        .calculator-card h1 { color: var(--primary-blue); text-align: center; margin-bottom: 1.7rem; font-size: 1.8rem; font-weight: 700; }
-        .form-group { margin-bottom: 1.5rem; position: relative; }
-        .form-group label { display: block; color: var(--primary-blue); font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;}
-        .form-group input, .form-group select { width: 100%; padding: 0.8rem 1rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent-orange); box-shadow: 0 0 0 3px rgba(240, 169, 45, 0.2); }
-        .form-group input[readonly] { background-color: var(--light-gray); cursor: not-allowed; }
-        .dropdown { position: relative; }
-        .dropdown-content { display: none; position: absolute; background-color: var(--white); min-width: 100%; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 2001; max-height: 150px; overflow-y: auto; border-radius: 8px; border: 1px solid #eee; margin-top: 5px; }
-        .dropdown-content a { color: var(--dark-gray); padding: 12px 16px; text-decoration: none; display: block; transition: background-color 0.2s ease; }
-        .dropdown-content a:hover { background-color: var(--light-gray); color: var(--primary-blue); }
-        .calculate-btn { width: 100%; padding: 1rem; border: none; border-radius: 8px; background: linear-gradient(45deg, var(--primary-blue), #0a84e0); color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 1rem; box-shadow: 0 4px 15px rgba(7, 110, 179, 0.4); }
-        .calculate-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(7, 110, 179, 0.6); }
-        ::placeholder { color: #999; font-size: 0.8rem; font-style: italic; }
-
-        /* ----- Styles for Calculator RESULT Modal ----- */
-        .result-detail { text-align: left; margin-bottom: 1.5rem; }
-        .result-detail p { display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid #eee; font-size: 1rem; }
-        .result-detail p:last-child { border-bottom: none; }
-        .result-detail p span:first-child { font-weight: 600; color: #555; }
-        .result-detail p span:last-child { font-weight: 600; color: var(--primary-blue); }
-        .total-biaya { background-color: var(--light-gray); padding: 1rem; border-radius: 8px; }
-        .total-biaya p { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 700; border: none; padding: 0; }
-        .total-biaya p span:first-child { color: var(--primary-blue); }
-        .total-biaya p span:last-child { color: var(--accent-orange); }
-        .box-note { font-size: 0.85rem; color: #555; background-color: #fff9e6; border-left: 4px solid var(--accent-orange); padding: 0.75rem; border-radius: 4px; margin: 1.5rem 0 1rem 0; text-align: left; }
-        .image-container { margin-bottom: 1rem; text-align: center; }
-        .image-container img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #eee; cursor: zoom-in; transition: transform 0.2s ease; }
-        .image-container img:hover { transform: scale(1.05); }
-        .tax-note { font-size: 0.8rem; color: #888; font-style: italic; margin-bottom: 1.5rem; flex-shrink: 0; text-align: center; }
-
-        /* ----- Image Viewer (Lightbox) ----- */
-        .image-viewer-modal {
-            position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s 0.3s;
-        }
-        .image-viewer-modal.visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
-        .image-viewer-close { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: color 0.3s; }
-        .image-viewer-close:hover { color: #bbb; }
-        .zoomed-image { max-width: 90%; max-height: 90%; object-fit: contain; animation: zoomInAnimation 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        
-        /* ----- Promo & Link Section ----- */
-        .single-promo img, .link-image img {
-            max-width: 100%; height: auto; border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-        .link-images-container {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;
-        }
-        .link-image a {
-            display: block; text-decoration: none; border-radius: var(--border-radius);
-            overflow: hidden; box-shadow: var(--shadow); transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .link-image a:hover {
-            transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-        .link-image img { width: 100%; display: block; }
-        
-        /* ----- Social Media Section ----- */
-        .social-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
-        .social-embed { text-align: center; border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); }
-        .social-button { display: block; background-color: var(--primary-blue); color: var(--white); padding: 12px; text-decoration: none; font-weight: 600; transition: background-color 0.3s; }
-        .social-button:hover { background-color: #0d3b5a; }
-        .social-embed iframe { width: 100%; height: 500px; border: none; display: block; }
-
-        /* ----- Contact Button ----- */
-        .contact-section { text-align: center; margin: 40px 0; }
-        .contact-admin-btn {
-            display: inline-block;
-            background: linear-gradient(45deg, var(--accent-orange), #ffc107);
-            color: var(--white); padding: 1rem 2.5rem;
-            border-radius: 50px; font-size: 1.2rem;
-            font-weight: 700; text-decoration: none;
-            box-shadow: 0 4px 20px rgba(240, 169, 45, 0.5);
-            transition: all 0.3s ease;
-        }
-        .contact-admin-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(240, 169, 45, 0.7);
-        }
-
-        /* ----- Animations ----- */
-        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
-        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-        @keyframes zoomInAnimation { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        /* ----- Responsive Design ----- */
-        @media (max-width: 768px) {
-            h3 { font-size: 1.2rem; }
-            .grid-container { grid-template-columns: repeat(3, 1fr); }
-            .social-container { grid-template-columns: 1fr; }
-            .grid-item { padding: 15px 10px; }
-            .icon-container { width: 70px; height: 70px; margin-bottom: 10px; }
-            .grid-item h4 { font-size: 0.6rem; font-weight: 600; }
-        }
-        @media (max-width: 480px) {
-            h3 { font-size: 1.2rem; }
-            .header { padding: 0.8rem 1rem; }
-            .logo img { height: 35px; }
-            .contact-btn-header { font-size: 0.8rem; padding: 0.5rem 1rem; }
-            .grid-container { grid-template-columns: repeat(3, 1fr); }
-            .grid-item { padding: 15px 10px; }
-            .icon-container { width: 70px; height: 70px; margin-bottom: 10px; }
-            .grid-item h4 { font-size: 0.6rem; }
-            .link-images-container, .social-container { gap: 15px; }
-            .modal-content { padding: 1.5rem; }
-            .calculator-button-item h4 { font-size: 1.1rem; }
-        }
-        .jastip-title {
-            letter-spacing: -1px;
-        }
-        #terms-text img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 10px 0;
-        }
-
-        /* --- START: CSS UNTUK WIDGET CHAT --- */
+        /* --- START: CSS UNTUK WIDGET CHAT (Diadaptasi untuk tema webstyle) --- */
         :root {
-            --chat-primary-color: #007bff; 
-            --chat-secondary-color: #f0f2f5; 
+            /* Menggunakan palet warna dari Tailwind (blue-600 & gray-100) */
+            --chat-primary-color: #2563EB; 
+            --chat-secondary-color: #F3F4F6; 
             --chat-text-color: #0d0d0d;
             --chat-bubble-sent-bg: var(--chat-primary-color); 
             --chat-bubble-received-bg: #e4e6eb;
-            --chat-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --chat-font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             --chat-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
         }
         #chat-fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--chat-primary-color); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; cursor: pointer; box-shadow: var(--chat-shadow); transition: transform 0.2s ease-in-out; z-index: 1001; }
@@ -417,7 +77,6 @@
         #chat-widget .message.sent .timestamp { text-align: right; }
         #chat-widget .read-receipt { font-size: 0.8em; color: #eee; margin-left: 5px; } 
         #chat-widget .read-receipt.read { color: #4fc3f7; }
-        #typing-indicator { padding: 0 20px 10px 20px; display: none; }
         #chat-widget .typing-bubble .dot { display: inline-block; width: 8px; height: 8px; background-color: #999; border-radius: 50%; margin: 0 2px; animation: typing 1.4s infinite; }
         #chat-widget .typing-bubble .dot:nth-child(2) { animation-delay: 0.2s; } 
         #chat-widget .typing-bubble .dot:nth-child(3) { animation-delay: 0.4s; }
@@ -434,166 +93,381 @@
         #welcome-popup.open #popup-content { transform: scale(1); opacity: 1; }
         #popup-content h3 { margin-top: 0; color: var(--chat-primary-color); font-size: 1.8em; margin-bottom: 10px; }
         #popup-content p { color: var(--chat-text-color); font-size: 1em; margin-bottom: 25px; }
-        #popup-content input { width: calc(100% - 24px); padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 1em; font-family: var(--chat-font-family); }
+        #popup-content input { width: 100%; box-sizing: border-box; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 1em; font-family: var(--chat-font-family); }
         #popup-content button { width: 100%; padding: 12px 20px; background-color: var(--chat-primary-color); color: white; border: none; border-radius: 8px; font-size: 1.1em; cursor: pointer; }
         #end-chat-btn { width: 100%; margin-top: 10px; padding: 8px; background-color: transparent; border: 1px solid #dc3545; color: #dc3545; border-radius: 8px; font-size: 0.9em; cursor: pointer; }
         #close-popup-btn { position: absolute; top: -15px; right: -15px; display: flex; font-size: 18px; color: #888; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.2s ease; z-index: 10; }
         #close-popup-btn:hover { background-color: #f0f0f0; color: #333; transform: scale(1.1); }
         /* --- END: CSS UNTUK WIDGET CHAT --- */
+
+        /* CSS untuk modal-body (agar bisa di-scroll) dan gambar */
+        .modal-body {
+            overflow-y: auto;
+        }
+        .modal-body ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        /* Styling untuk chat-history di modal FAQ */
+        .chat-history {
+            min-height: 250px;
+            max-height: 40vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            background-color: #f9fafb; /* bg-gray-50 */
+            border-radius: 8px;
+        }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
 
-    <header class="header">
-        <div class="logo">
-            <a href="#"><img src="https://yanoshijapan.github.io/jastip/jastip%202.png" alt="Logo Jastip"></a>
-        </div>
-        <div class="header-right">
-            <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20ikutan%20Jastipnya%20dong" target="_blank" class="contact-btn-header">Kontak Admin</a>
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3 sm:py-4">
+            <div class="logo">
+                <a href="#"><img src="https://yanoshijapan.github.io/jastip/jastip%202.png" alt="Logo Jastip" class="h-10 sm:h-12"></a>
+            </div>
+            <div class="header-right">
+                <a href="https://lin.ee/LsDKjZo" target="_blank" 
+                   class="bg-gradient-to-r from-amber-500 to-orange-600 text-white px-5 py-2 sm:px-6 sm:py-2.5 rounded-full font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 text-sm sm:text-base">
+                    Kontak Admin
+                </a>
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        <section class="slider-container fade-in-section">
-            <div class="slider">
-                <div class="slide"><img src="https://yanoshijapan.github.io/jastip/banner1.jpg" alt="Promo 1"></div>
-                <div class="slide"><img src="https://yanoshijapan.github.io/jastip/banner2.jpg" alt="Promo 2"></div>
-                <div class="slide"><img src="https://yanoshijapan.github.io/jastip/banner3.jpg" alt="Promo 3"></div>
-            </div>
-        </section>
-
-        <section class="grid-container fade-in-section">
-            <div class="grid-item" data-modal-id="modal1">
-                <div class="icon-container"><img src="https://yanoshijapan.github.io/jastip/icon1.png" alt="Tentang Jastip Yanoshi"></div>
-                <h4>Tentang Jastip Yanoshi</h4>
-            </div>
-            <div class="grid-item" data-modal-id="modal2">
-                <div class="icon-container"><img src="https://yanoshijapan.github.io/jastip/icon2.png" alt="Kenapa Yanoshi"></div>
-                <h4>Kenapa Harus Yanoshi</h4>
-            </div>
-            <div class="grid-item" data-modal-id="modal3">
-                <div class="icon-container"><img src="https://yanoshijapan.github.io/jastip/icon3.png" alt="Ketentuan Barang"></div>
-                <h4>Ketentuan Barang Bawaan</h4>
-            </div>
-            <div class="grid-item" data-modal-id="modal4">
-                <div class="icon-container"><img src="https://yanoshijapan.github.io/jastip/icon4.png" alt="Daftar Harga"></div>
-                <h4>Daftar Harga Jastip</h4>
-            </div>
-            <div class="grid-item" data-modal-id="modal5">
-                <div class="icon-container"><img src="https://yanoshijapan.github.io/jastip/icon5.png" alt="Jadwal"></div>
-                <h4>Jadwal Jastip</h4>
-            </div>
-            <div class="grid-item" data-modal-id="modal6">
-                <div class="icon-container"><img src="https://yanoshijapan.github.io/jastip/icon6.png" alt="Tanya Jawab"></div>
-                <h4>Tanya Jawab Interaktif</h4>
-            </div>
-            <div class="grid-item calculator-button-item" data-modal-id="calculator-modal-form">
-                <img src="https://yanoshijapan.github.io/asetonline/btncal.png" alt="Tombol Kalkulator Biaya Jastip">
-            </div>
-        </section>
-
-        <div class="fade-in-section">
-            <h3 class="jastip-title">Klik tombol di bawah<br>untuk daftar Jastip!</br></h3>
-            <section class="link-images-container">
-                <div class="link-image">
-                    <a href="https://yanoshijapan.github.io/jastipindojepang/" target="_blank">
-                        <img src="https://yanoshijapan.github.io/jastip/idjp.png" alt="Jastip Indo - Jepang">
-                    </a>
-                </div>
-                <div class="link-image">
-                    <a href="https://yanoshijapan.github.io/jastipjepangindo/" target="_blank">
-                        <img src="https://yanoshijapan.github.io/jastip/jpid.png" alt="Jastip Jepang - Indo">
-                    </a>
-                </div>
-            </section>
+    <section class="relative overflow-hidden pt-20 pb-20 min-h-[70vh] flex items-center">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1920&h=1080&fit=crop" alt="Background" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-indigo-900/60 to-purple-900/70"></div>
+        </div>
+        
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 -left-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
         </div>
 
-        <section class="contact-section fade-in-section">
-            <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20ikutan%20Jastipnya%20dong" target="_blank" class="contact-admin-btn">
-                Hubungi Admin, Klik Disini
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="max-w-4xl mx-auto text-left sm:text-center">
+                <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-500/30 to-orange-500/30 backdrop-blur-md border border-amber-400/30 px-5 py-2.5 rounded-full text-sm font-medium mb-8 shadow-lg">
+                    <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-lg shadow-amber-400/50"></span>
+                    <span class="text-amber-100">HAND CARRY SERVICE</span>
+                </div>
+                
+                <h1 class="text-6xl sm:text-7xl lg:text-8xl font-bold mb-2 leading-none">
+                    <span class="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent drop-shadow-2xl">JASTIP</span><br>
+                    <span class="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 bg-clip-text text-transparent drop-shadow-2xl">JEPANG</span>
+                </h1>
+                
+                <p class="text-base sm:text-lg lg:text-xl text-white mb-12 leading-relaxed drop-shadow-lg max-w-3xl mx-auto sm:mx-auto font-light">
+                    Jastip dari Indonesia ke Jepang atau<br>dari Jepang ke Indonesia dengan layanan<br>cepat dan terpercaya.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-start sm:justify-center items-start sm:items-center">
+                    <a href="https://lin.ee/LsDKjZo" target="_blank" class="group bg-gradient-to-r from-amber-500 to-orange-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-amber-500/50 transform hover:scale-105 transition-all duration-300 flex items-center justify-center sm:justify-start space-x-3">
+                        <span>Mulai Jastip</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <button data-modal-id="modal5" class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 flex items-center justify-center sm:justify-start space-x-3">
+                        <i data-lucide="calendar" class="w-5 h-5"></i>
+                        <span>Lihat Jadwal</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6 mt-16 max-w-2xl mx-auto">
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                        <p class="text-3xl lg:text-4xl font-bold text-white mb-1">400+</p>
+                        <p class="text-sm text-blue-200">Customer</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                        <p class="text-3xl lg:text-4xl font-bold text-white mb-1">4.9★</p>
+                        <p class="text-sm text-blue-200">Rating</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                        <p class="text-3xl lg:text-4xl font-bold text-white mb-1">24/7</p>
+                        <p class="text-sm text-blue-200">Support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full">
+                <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F9FAFB"/>
+            </svg>
+        </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20 pb-20">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 lg:p-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Layanan Kita</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Berbagai layanan lengkap untuk memenuhi kebutuhan jastip Kamu</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                <div data-modal-id="modal1" class="menu-card group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 border-2 border-gray-100 hover:border-transparent hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl mx-auto lg:mx-0">
+                            <i data-lucide="help-circle" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 leading-tight text-center lg:text-left">Tentang Jastip Yanoshi</h3>
+                    </div>
+                </div>
+
+                <div data-modal-id="modal2" class="menu-card group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 border-2 border-gray-100 hover:border-transparent hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl mx-auto lg:mx-0">
+                            <i data-lucide="message-circle" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 leading-tight text-center lg:text-left">Kenapa Harus Yanoshi</h3>
+                    </div>
+                </div>
+
+                <div data-modal-id="modal3" class="menu-card group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 border-2 border-gray-100 hover:border-transparent hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl mx-auto lg:mx-0">
+                            <i data-lucide="shopping-bag" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 leading-tight text-center lg:text-left">Ketentuan Barang Bawaan</h3>
+                    </div>
+                </div>
+
+                <div data-modal-id="modal4" class="menu-card group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 border-2 border-gray-100 hover:border-transparent hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl mx-auto lg:mx-0">
+                            <i data-lucide="file-text" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 leading-tight text-center lg:text-left">Daftar Harga Jastip</h3>
+                    </div>
+                </div>
+
+                <div data-modal-id="modal5" class="menu-card group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 border-2 border-gray-100 hover:border-transparent hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-pink-500 to-rose-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl mx-auto lg:mx-0">
+                            <i data-lucide="calendar" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 leading-tight text-center lg:text-left">Jadwal Jastip</h3>
+                    </div>
+                </div>
+
+                <div data-modal-id="modal6" class="menu-card group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 border-2 border-gray-100 hover:border-transparent hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 cursor-pointer overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center text-white mb-4 lg:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl mx-auto lg:mx-0">
+                            <i data-lucide="message-circle" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-300 leading-tight text-center lg:text-left">Tanya Jawab Interaktif</h3>
+                    </div>
+                </div>
+
+                <div data-modal-id="calculator-modal-form" class="col-span-2 lg:col-span-3 mt-4 sm:mt-6 lg:mt-8 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer">
+                    <img src="https://yanoshijapan.github.io/asetonline/btncal.png" alt="Tombol Kalkulator Biaya Jastip" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-0">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Klik Tombol di Bawah</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">untuk mendaftar Jastip!</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4 sm:gap-8">
+            <a href="https://yanoshijapan.github.io/jastipindojepang/" target="_blank" class="block rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                <img src="https://yanoshijapan.github.io/jastip/idjp.png" alt="Jastip Indo - Jepang" class="w-full h-auto">
             </a>
-        </section>
-
-        <div class="fade-in-section">
-            <h3 class="jastip-title">Follow Sosmed Kami</h3>
-            <section class="social-container">
-                <div class="social-embed">
-                    <a href="https://www.instagram.com/yanoshi_jastip" target="_blank" class="social-button">Instagram</a>
-                    <iframe src="https://www.instagram.com/p/C9z5X_xS_qS/embed" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
-                </div>
-                <div class="social-embed">
-                    <a href="https://www.tiktok.com/@jastip_yanoshi" target="_blank" class="social-button">TikTok</a>
-                    <iframe src="https://www.tiktok.com/embed/v2/7393730230302821639" title="TikTok video player" frameborder="0" allow="encrypted-media;" allowfullscreen scrolling="no"></iframe>
-                </div>
-            </section>
+            <a href="https://yanoshijapan.github.io/jastipjepangindo/" target="_blank" class="block rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                <img src="https://yanoshijapan.github.io/jastip/jpid.png" alt="Jastip Jepang - Indo" class="w-full h-auto">
+            </a>
         </div>
+    </section>
 
-        <div class="fade-in-section">
-            <h3 class="jastip-title">Beli oleh-oleh Jepang online,<br>klik gambar dibawah ini ya!</br></h3>
-            <section class="single-promo">
-                <a href="https://yanoshistore.netlify.app/" target="_blank">
-                    <img src="https://yanoshijapan.github.io/jastip/belio.jpg" alt="Promo Final">
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-8 text-center">
+        <a href="https://lin.ee/LsDKjZo" target="_blank" 
+           class="inline-block bg-gradient-to-r from-amber-500 to-orange-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-amber-500/50 transform hover:scale-105 transition-all duration-300">
+            Hubungi Admin, Klik Disini
+        </a>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Follow Sosmed Kita Ya!</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Jangan sampai ketinggalan update terbaru!</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <a href="https://www.instagram.com/yanoshi_jastip" target="_blank" class="block bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white p-4 text-center font-bold text-lg hover:opacity-90 transition-opacity">
+                    Follow Instagram
                 </a>
-            </section>
+                <iframe src="https://www.instagram.com/p/C9z5X_xS_qS/embed" frameborder="0" scrolling="no" allowtransparency="true" class="w-full h-[500px]"></iframe>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <a href="https://www.tiktok.com/@jastip_yanoshi" target="_blank" class="block bg-gray-900 text-white p-4 text-center font-bold text-lg hover:opacity-90 transition-opacity">
+                    Follow TikTok
+                </a>
+                <iframe src="https://www.tiktok.com/embed/v2/7393730230302821639" title="TikTok video player" frameborder="0" allow="encrypted-media;" allowfullscreen scrolling="no" class="w-full h-[500px]"></iframe>
+            </div>
         </div>
-    </main>
+    </section>
 
-    <div id="modal1" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
-    <div id="modal2" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
-    <div id="modal3" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
-    <div id="modal4" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
-    <div id="modal5" class="modal"><div class="modal-content"><h3></h3><div class="modal-body"></div><button class="modal-close-btn">Tutup</button></div></div>
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="text-center mb-4">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Beli Oleh-Oleh Jepang</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Klik gambar di bawah ini<br>untuk mengunjungi toko oleh-oleh kami</p>
+        </div>
+        <a href="https://yanoshistore.netlify.app/" target="_blank" class="block rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:scale-105">
+            <img src="https://yanoshijapan.github.io/jastip/belio.jpg" alt="Promo Toko Online Yanoshi" class="w-full h-auto">
+        </a>
+    </section>
+
+    <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-gray-400 text-sm max-w-2xl mx-auto">
+                    © 2025 Jastip Yanoshi.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal-template" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="text-2xl font-bold text-blue-600"></h3>
+                <button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="modal-body p-6 text-gray-700">
+                </div>
+            <div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end">
+                <button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
     
-    <div id="modal6" class="modal">
-        <div class="modal-content">
-            <h3>Tanya Jawab Interaktif</h3>
-            <div class="modal-body">
-                <div class="chat-history"></div>
-                <select id="faq-select">
+    <div id="modal1" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in"><div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col"><div class="flex justify-between items-center p-6 border-b"><h3 class="text-2xl font-bold text-blue-600"></h3><button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button></div><div class="modal-body p-6 text-gray-700"></div><div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end"><button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">Tutup</button></div></div></div>
+    <div id="modal2" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in"><div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col"><div class="flex justify-between items-center p-6 border-b"><h3 class="text-2xl font-bold text-blue-600"></h3><button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button></div><div class="modal-body p-6 text-gray-700"></div><div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end"><button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">Tutup</button></div></div></div>
+    <div id="modal3" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in"><div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col"><div class="flex justify-between items-center p-6 border-b"><h3 class="text-2xl font-bold text-blue-600"></h3><button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button></div><div class="modal-body p-6 text-gray-700"></div><div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end"><button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">Tutup</button></div></div></div>
+    <div id="modal4" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in"><div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col"><div class="flex justify-between items-center p-6 border-b"><h3 class="text-2xl font-bold text-blue-600"></h3><button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button></div><div class="modal-body p-6 text-gray-700"></div><div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end"><button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">Tutup</button></div></div></div>
+    <div id="modal5" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in"><div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col"><div class="flex justify-between items-center p-6 border-b"><h3 class="text-2xl font-bold text-blue-600"></h3><button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button></div><div class="modal-body p-6 text-gray-700"></div><div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end"><button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">Tutup</button></div></div></div>
+
+    <div id="modal6" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="text-2xl font-bold text-blue-600">Tanya Jawab Interaktif</h3>
+                <button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="modal-body p-6">
+                <div class="chat-history">
+                    </div>
+                <select id="faq-select" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600 bg-gray-50 cursor-pointer">
                     <option value="" disabled selected>Pilih pertanyaannya disini...</option>
                 </select>
             </div>
-            <button class="modal-close-btn">Tutup</button>
+            <div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end">
+                <button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">
+                    Tutup
+                </button>
+            </div>
         </div>
     </div>
-    
-    <div id="calculator-modal-form" class="modal">
-        <div class="modal-content">
-            <div class="calculator-card">
+
+    <div id="calculator-modal-form" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="text-2xl font-bold text-blue-600">Kalkulator Jastip</h3>
+                <button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="modal-body p-6">
                  <form id="jastip-form" onsubmit="return false;"></form>
             </div>
-             <button class="modal-close-btn" style="margin-top:20px;">Tutup</button>
+             <div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end">
+                <button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">
+                    Tutup
+                </button>
+            </div>
         </div>
     </div>
 
-    <div id="result-modal" class="modal">
-        <div class="modal-content">
-            <h2>Detail Biaya Jastip</h2>
-            <div class="modal-body">
-                <div class="result-detail">
-                    <p><span>Harga Jastip</span> <span id="harga-jastip-result"></span></p>
-                    <p><span>Estimasi Ongkir</span> <span id="biaya-ongkir-result"></span></p>
+    <div id="result-modal" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden animate-fade-in">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="text-2xl font-bold text-blue-600">Detail Biaya Jastip</h3>
+                <button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="modal-body p-6">
+                <div class="result-detail mb-4">
+                    <p class="flex justify-between py-3 border-b border-gray-200">
+                        <span class="font-semibold text-gray-600">Harga Jastip</span>
+                        <span id="harga-jastip-result" class="font-bold text-blue-600"></span>
+                    </p>
+                    <p class="flex justify-between py-3">
+                        <span class="font-semibold text-gray-600">Estimasi Ongkir</span>
+                        <span id="biaya-ongkir-result" class="font-bold text-blue-600"></span>
+                    </p>
                 </div>
-                <div class="total-biaya">
-                    <p><span>TOTAL BIAYA</span> <span id="total-biaya-result"></span></p>
+                <div class="total-biaya bg-blue-50 p-4 rounded-lg mb-4">
+                    <p class="flex justify-between text-lg">
+                        <span class="font-bold text-blue-700">TOTAL BIAYA</span>
+                        <span id="total-biaya-result" class="font-extrabold text-amber-600"></span>
+                    </p>
                 </div>
-                <p class="box-note">Harga estimasi ongkir di atas dapat berubah sesuai dimensi barang, contoh : jika berat barang memiliki berat 5 kg tetapi memiliki dimensi yang besar, maka harga estimasi ongkir dapat memungkinkan kena harga 10 kg atau lebih sesuai dimensi panjang, lebar dan tinggi barang.</p>
-                <div class="image-container">
-                    <img id="yamato-weight-image" src="https://yanoshijapan.github.io/asetonline/yamatobox.png" alt="Ukuran Kilo Yamato">
+                <p class="box-note text-sm text-gray-600 bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-md mb-4">
+                    Harga estimasi ongkir di atas dapat berubah sesuai dimensi barang...
+                </p>
+                <div class="image-container mb-4 text-center">
+                    <img id="yamato-weight-image" src="https://yanoshijapan.github.io/asetonline/yamatobox.png" alt="Ukuran Kilo Yamato" class="max-w-full h-auto rounded-lg border border-gray-200 cursor-zoom-in transition-transform hover:scale-105">
                 </div>
-                <p class="box-note">Harga di atas belum termasuk box kirim Yamato, harga box disesuaikan dari berat dan dimensi barang.</p>
-                <div class="image-container">
-                    <img id="yamato-box-image" src="https://yanoshijapan.github.io/asetonline/boxs.png" alt="Ukuran Box Yamato">
+                <p class="box-note text-sm text-gray-600 bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-md mb-4">
+                    Harga di atas belum termasuk box kirim Yamato...
+                </p>
+                <div class="image-container mb-4 text-center">
+                    <img id="yamato-box-image" src="https://yanoshijapan.github.io/asetonline/boxs.png" alt="Ukuran Box Yamato" class="max-w-full h-auto rounded-lg border border-gray-200 cursor-zoom-in transition-transform hover:scale-105">
                 </div>
             </div>
-            <p class="tax-note">Harga sudah include tax JPY</p>
-            <button class="modal-close-btn">Tutup</button>
+            <div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-between items-center">
+                <p class="tax-note text-xs text-gray-500 italic">Harga sudah include tax JPY</p>
+                <button class="modal-close-btn bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">
+                    Tutup
+                </button>
+            </div>
         </div>
     </div>
 
-    <div id="image-viewer" class="image-viewer-modal">
-        <span class="image-viewer-close">&times;</span>
-        <img id="zoomed-image" class="zoomed-image">
+    <div id="image-viewer" class="image-viewer-modal fixed inset-0 z-[3000] flex items-center justify-center bg-black/85 p-4 hidden transition-opacity duration-300">
+        <span class="image-viewer-close absolute top-5 right-8 text-white text-5xl font-bold cursor-pointer transition-colors hover:text-gray-300">&times;</span>
+        <img id="zoomed-image" class="zoomed-image max-w-full max-h-full object-contain">
     </div>
 
     <div id="welcome-popup">
@@ -615,8 +489,8 @@
             <button id="close-widget"><i class="fa-solid fa-times"></i></button>
         </header>
         <main class="messages-container" id="widget-messages"></main>
-        <div id="typing-indicator">
-            <div class="message received"><div class="bubble typing-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+        <div id="typing-indicator" class="p-4 hidden">
+            <div class="message received"><div class="bubble typing-bubble bg-gray-200 p-3 rounded-2xl inline-flex"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
         </div>
         <footer class="widget-footer">
             <div class="input-area">
@@ -627,343 +501,312 @@
         </footer>
     </div>
     <audio id="notification-sound" src="https://res.cloudinary.com/dhsbixafr/video/upload/v1759203673/new-notification-09-352705_cmjazj.mp3" preload="auto"></audio>
-    
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // --- Slider Logic ---
-        const sliderContainer = document.querySelector('.slider-container');
-        if (sliderContainer) {
-            const slider = sliderContainer.querySelector('.slider');
-            let slides = Array.from(slider.children);
-
-            if (slides.length > 1) {
-                const firstClone = slides[0].cloneNode(true);
-                const lastClone = slides[slides.length - 1].cloneNode(true);
-                slider.appendChild(firstClone);
-                slider.insertBefore(lastClone, slides[0]);
-                slides = Array.from(slider.children);
-
-                let currentIndex = 1;
-                const slideWidth = () => slides[0].getBoundingClientRect().width;
-
-                const updateSliderPosition = (withTransition = true) => {
-                    slider.style.transition = withTransition ? 'transform 0.5s ease-in-out' : 'none';
-                    slider.style.transform = `translateX(-${slideWidth() * currentIndex}px)`;
-                }
-
-                updateSliderPosition();
-
-                const moveToNextSlide = () => {
-                    if (currentIndex >= slides.length - 1) return;
-                    currentIndex++;
-                    updateSliderPosition();
-                };
-
-                let slideInterval = setInterval(moveToNextSlide, 3000);
-
-                slider.addEventListener('transitionend', () => {
-                    if (currentIndex === slides.length - 1) { currentIndex = 1; updateSliderPosition(false); }
-                    if (currentIndex === 0) { currentIndex = slides.length - 2; updateSliderPosition(false); }
-                });
-
-                sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
-                sliderContainer.addEventListener('mouseleave', () => slideInterval = setInterval(moveToNextSlide, 3000));
-                window.addEventListener('resize', () => updateSliderPosition(false));
-            }
-        }
-
-        // --- Generic Modal & Page Logic ---
-        const gridItems = document.querySelectorAll('.grid-item');
-        const allModals = document.querySelectorAll('.modal');
-        const closeButtons = document.querySelectorAll('.modal-close-btn');
-
-        const modalData = {
-            modal1: { title: "Tentang Jastip Yanoshi", content: `<p>Hai para pejuang barang impian! Kenalan yuk sama Yanoshi Jastip, solusi jastip paling asyik dan terpercaya buat kamu yang butuh kirim-kirim barang dari Jepang ke Indonesia atau sebaliknya.<br><br><strong>Buat yang lagi di Jepang:</strong> Lagi kangen masakan rumah tapi bumbu nggak ada? Butuh skincare kesayangan atau obat-obatan penting dari Indonesia? Atau dokumen yang ketinggalan? Tenang, nggak perlu terbang pulang! Yanoshi siap bawain semua itu langsung ke Jepang. Pulang ke Indonesia bawaan numpuk? Aduh, jangan pusing! Titipin aja barang-barangmu, mulai dari baju, elektronik, sampai oleh-oleh Jepang yang super banyak itu. Kami yang urus antar sampai alamat di Indonesia.<br><br><strong>Buat yang di Indonesia:</strong> Ngiler sama produk Jepang terbaru tapi mager ke sana? Tenang aja! Yanoshi hadir buat bikin belanjamu makin gampang. Tinggal tunjuk, kami yang datangkan barangnya dari Jepang ke rumahmu. Gampang kan?.</p>` },
-            modal2: { title: "Kenapa Harus Jastip di Yanoshi?", content: `<ul><li><strong>Cepat:</strong> Karena kami bawa sendiri alias handcarry, barangmu bakal sampai di pelukanmu lebih cepat dari kirim kargo.</li><li><strong>Aman & Terpercaya:</strong> Kamu nitip di Yanoshi Jastip? Itu artinya kamu kasih kepercayaan penuh ke kami. Tenang aja, barangmu dijaga banget biar sampai dengan selamat sentosa.</li><li><strong>Transparan:</strong> Nggak perlu khawatir ada biaya siluman! Semua rincian jelas di awal, tanpa drama dan tanpa ada yang disembunyikan.</li><li><strong>Komunikatif:</strong> Butuh info atau ada pertanyaan? CS kami responsif dan siap bantu kamu kapan aja, sampai barangmu tiba di tujuan.</li></ul>` },
-            modal3: { title: "Barang apa aja sih yang bisa di Jastipin?", content: `<ul><li>Skincare & Kosmetik</li><li>Snack & Makanan Kering</li><li>Bumbu Masakan</li><li>Obat-Obatan Legal</li><li>Dokumen & Surat-Surat</li><li>Perlengkapan Pribadi</li><li>Perlengkapan Olahraga</li><li>Fashion & Aksesoris</li><li>Action Figure & Merchandise Anime</li><li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li></ul><div id="terms-text"><img src="https://yanoshijapan.github.io/asetonline/barangumum.jpg" alt="Barang Dilarang Umum"><img src="https://yanoshijapan.github.io/asetonline/barangspesifik.jpg" alt="Barang Dilarang Spesifik"></div><p style='margin-top:1em;'>Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.</p>` },
-            modal4: { title: "Price List Jastip", content: `<ul><li><strong>Barang biasa :</strong> 1.500 yen/kg.</li><li><strong>Handphone :</strong> <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20tanya%20Jastip%20handphone" target="_blank">hubungi admin disini</a>.</li><li><strong>Laptop, tablet (All brand) :</strong> 1.500 yen/kg.</li><li><strong>Rokok :</strong> 2.000 yen/slop.</li><li><strong>Rokok elektrik (Vape/Pod) :</strong> 1.000 yen/unit.</li><li><strong>Liquid rokok elektrik :</strong> 500 yen/unit.</li><li><strong>Sepatu dengan box :</strong> 2.000 yen/pasang.</li><li><strong>Sepatu tanpa box :</strong> 1.500 yen/pasang.</li><li><strong>Makanan dengan kemasan besar (contoh : mie cup, coklat dengan box besar, dll) :</strong> Dikenakan harga dimensi. Silakan <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20tanya%20Jastip%20dimensi%20makanan" target="_blank">hubungi admin disini</a>.</li><li><strong>Action figure dan mainan dengan kemasan besar :</strong> Dikenakan harga dimensi. Silakan <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20tanya%20Jastip%20action%20figure" target="_blank">hubungi admin disini</a>.</li></ul><p style='margin-top:1em; font-size: smaller;'>Harga belum termasuk ongkos kirim barang ke basecamp.</p>` },
-            modal5: { title: "Jadwal Keberangkatan", content: `<p><strong>Jadwal bulan Oktober:</strong></p><ul><li><strong>Batch 1 (Close) :</strong><ul><li><strong>Indonesia > Jepang:</strong> 16 Oktober 2025 (Close)</li><li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025 (Close)</li></ul></li><li><strong>Batch 2 :</strong><ul><li><strong>Indonesia > Jepang:</strong> 28 Oktober 2025 (Full)</li></ul></li></ul><p><strong>Jadwal bulan November:</strong></p><ul><li><strong>Jepang > Indonesia:</strong> 4 November 2025</li></ul></li></ul><p><strong>Jadwal bulan November:</strong></p><ul><li><strong>Indonesia > Jepang:</strong> 22 November 2025</li></ul>` }
-        };
-
-        function populateModal(modalId, data) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.querySelector('h3').textContent = data.title;
-                modal.querySelector('.modal-body').innerHTML = data.content;
-            }
-        }
-        for (const key in modalData) { populateModal(key, modalData[key]); }
-        
-        gridItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const modalId = item.getAttribute('data-modal-id');
-                const modalToOpen = document.getElementById(modalId);
-                if (modalToOpen) {
-                    if (modalId === 'modal6') initializeFAQChat(); 
-                    modalToOpen.classList.add('visible');
-                }
-            });
-        });
-
-        function closeAllModals() {
-            allModals.forEach(modal => modal.classList.remove('visible'));
-        }
-        
-        closeButtons.forEach(button => button.addEventListener('click', closeAllModals));
-        allModals.forEach(modal => {
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) closeAllModals();
-            });
-        });
-
-        // --- FAQ Chat Logic ---
-        const qaData = [
-            { question: "Minat nih kak, terus saya harus apa?", answer: "Kakak cukup isi formnya aja, klik tombol join jastip indo-jepang buat ikut jastip dari indonesia ke jepang, atau tombol join jastip jepang-indo buat ikut jastip dari jepang ke indonesia." },
-            { question: "Kalo udah isi form terus gimana lagi kak?", answer: "Kalo udah isi form kakak bisa konfirmasi ke CS kita, klik aja tombol hubungi CS kami, terus kakak chat aja 'kak saya udah isi form ya', nanti biar admin kita bisa verifikasi data kakak." },
-            { question: "Bisa tolong belanjain barang dari Jepang?", answer: "Bisa kak, di formnya nanti cukup di tandain 'ya' aja ya di bagian 'ada yang perlu di belanjakan', nanti kakak bisa isi barang apa yang mau di belanjain, semisal sepatu, elektronik atau jajanan Jepang, kalo udah nanti kakak konfirmasi ke CS terus kakak bisa DP atau pembayaran awal biar bisa kita belanjain pas di Jepang." },
-            { question: "Barang apa yang gak boleh dibawa?", answer: "Yang gak boleh dibawa itu kaya daging-dagingan, buah-buahan, sayur-sayuran, biji-bijian, tanaman maupun bibit tanaman, beras, makanan olahan daging kaya bakso, bakso aci dan sejenisnya, serta cemilan yang terbuat dari hewan atau jeroan kaya usus dan sejenisnya, serta makanan yang di bungkusnya ada gambar atau nama yang mengandung hewani." },
-            { question: "Berapa lama pengirimannya?", answer: "Karena kita bawa sendiri (handcarry), barang bakal sampai lebih cepat. Biasanya sesuai dengan jadwal keberangkatan kami. Semisal kita berangkat tanggal 5 pagi dan direct flight, maka tanggal 5 sore pas kita sampai di negara tujuan, barang langsung kita kirim di hari itu juga pakai pengiriman domestik." }
-        ];
-        const faqModal = document.getElementById('modal6');
-        const chatHistory = faqModal.querySelector('.chat-history');
-        const faqSelect = faqModal.querySelector('#faq-select');
-        
-        function addBubble(text, type) { const bubble = document.createElement('div'); bubble.className = `chat-bubble ${type}`; bubble.innerHTML = text; chatHistory.appendChild(bubble); chatHistory.scrollTop = chatHistory.scrollHeight; }
-        
-        function initializeFAQChat() {
-            chatHistory.innerHTML = ''; faqSelect.innerHTML = '<option value="" disabled selected>Pilih pertanyaannya disini...</option>'; addBubble("Halo kak! Ada yang mau ditanyain? Silakan pilih pertanyaan dari menu di bawah ini ya.", 'answer');
-            qaData.forEach((item, index) => { const option = document.createElement('option'); option.value = index; option.textContent = item.question; faqSelect.appendChild(option); });
-        }
-        
-        faqSelect.addEventListener('change', (event) => {
-            const selectedIndex = event.target.value;
-            if (selectedIndex === "") return;
-            const selectedQA = qaData[selectedIndex];
-            addBubble(selectedQA.question, 'question');
-            const typingIndicator = document.createElement('div');
-            typingIndicator.className = 'typing-indicator'; typingIndicator.innerHTML = '<span></span><span></span><span></span>'; chatHistory.appendChild(typingIndicator); chatHistory.scrollTop = chatHistory.scrollHeight;
-            setTimeout(() => { chatHistory.removeChild(typingIndicator); addBubble(selectedQA.answer, 'answer'); }, 1200);
-        });
-
-        // --- Scroll Animation Logic ---
-        const sections = document.querySelectorAll('.fade-in-section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('is-visible');
-            });
-        }, { threshold: 0.1 });
-        sections.forEach(section => observer.observe(section));
-
-        // --- <<<<<<<<<<<< START: NEW CALCULATOR LOGIC INTEGRATION >>>>>>>>>>>> ---
-        const jastipForm = document.getElementById('jastip-form');
-        jastipForm.innerHTML = `
-            <h1>Kalkulator Jastip</h1>
-            <div class="form-group">
-                <label for="item-type">Barang apa yang mau di jastip?</label>
-                <select id="item-type" name="item-type" required>
-                    <option value="" disabled selected>-- Pilih Jenis Barang --</option>
-                    <option value="biasa">Barang Biasa (Baju, Makanan, Skincare, dll)</option>
-                    <option value="handphone">Handphone</option>
-                    <option value="laptop">Laptop atau Tablet</option>
-                    <option value="rokok">Rokok</option>
-                    <option value="rokok-elektrik">Rokok Elektrik</option>
-                    <option value="liquid">Liquid Rokok Elektrik</option>
-                    <option value="sepatu-box">Sepatu dengan Box</option>
-                    <option value="sepatu-nobox">Sepatu tanpa Box</option>
-                </select>
-            </div>
-            <div id="jastip-details-container"></div>
-            <div class="form-group">
-                <label for="prefecture-search">Dikirim ke perfektur mana?</label>
-                <div class="dropdown">
-                    <input type="text" id="prefecture-search" name="prefecture" placeholder="Cari perfektur..." autocomplete="off" required>
-                    <div id="prefecture-dropdown" class="dropdown-content"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="ongkir">Estimasi Ongkir (mulai dari)</label>
-                <input type="text" id="ongkir" name="ongkir" readonly placeholder="Pilih perfektur untuk melihat estimasi">
-            </div>
-            <button type="button" class="calculate-btn">Hitung Total Biaya</button>
-        `;
-
-        // Data Ongkir Berjenjang
-        const tierGroup1 = 
-            [{ maxWeight: 2, cost: 2020 }, 
-             { maxWeight: 5, cost: 2300 },
-             { maxWeight: 10, cost: 2610 }, 
-             { maxWeight: 15, cost: 3170 },
-             { maxWeight: 20, cost: 3810 }, 
-             { maxWeight: 25, cost: 4190 },
-             { maxWeight: 30, cost: 5780 }, 
-             { maxWeight: Infinity, cost: 7100 }];
-        
-        const tierGroup2 = 
-            [{ maxWeight: 2, cost: 1620 }, 
-             { maxWeight: 5, cost: 1910 },
-             { maxWeight: 10, cost: 2210 }, 
-             { maxWeight: 15, cost: 2730 },
-             { maxWeight: 20, cost: 3340 }, 
-             { maxWeight: 25, cost: 3720 },
-             { maxWeight: 30, cost: 5040 }, 
-             { maxWeight: Infinity, cost: 5970 }];
-        
-        const tierGroup3 = 
-            [{ maxWeight: 2, cost: 1500 }, 
-             { maxWeight: 5, cost: 1790 },
-             { maxWeight: 10, cost: 2090 }, 
-             { maxWeight: 15, cost: 2600 },
-             { maxWeight: 20, cost: 3190 }, 
-             { maxWeight: 25, cost: 3580 },
-             { maxWeight: 30, cost: 4240 }, 
-             { maxWeight: Infinity, cost: 5030 }];
-        
-        const tierGroup4 = 
-            [{ maxWeight: 2, cost: 1750 }, 
-             { maxWeight: 5, cost: 2040 },
-             { maxWeight: 10, cost: 2350 }, 
-             { maxWeight: 15, cost: 2870 },
-             { maxWeight: 20, cost: 3490 }, 
-             { maxWeight: 25, cost: 3880 },
-             { maxWeight: 30, cost: 5460 }, 
-             { maxWeight: Infinity, cost: 6780 }];
-        
-        const okinawaTiers = 
-            [{ maxWeight: 2, cost: 2020 }, 
-             { maxWeight: 5, cost: 2630 },
-             { maxWeight: 10, cost: 3270 }, 
-             { maxWeight: 15, cost: 3920 },
-             { maxWeight: 20, cost: 4590 }, 
-             { maxWeight: 25, cost: 5240 },
-             { maxWeight: 30, cost: 7770 }, 
-             { maxWeight: Infinity, cost: 9420 }];
-
-        const shippingCosts = {
-            'hokkaido': tierGroup1, 'aomori': tierGroup2, 'akita': tierGroup2, 'iwate': tierGroup2, 'miyagi': tierGroup3, 'yamagata': tierGroup3, 'fukushima': tierGroup3,
-            'tokyo': tierGroup3, 'ibaraki': tierGroup3, 'tochigi': tierGroup3, 'gunma': tierGroup3, 'saitama': tierGroup3, 'chiba': tierGroup3, 'kanagawa': tierGroup3, 'yamanashi': tierGroup3, 'nagano': tierGroup3,
-            'niigata': tierGroup3, 'toyama': tierGroup3, 'ishikawa': tierGroup3, 'fukui': tierGroup3, 'shizuoka': tierGroup3, 'aichi': tierGroup3, 'gifu': tierGroup3, 'mie': tierGroup3,
-            'kyoto': tierGroup2, 'shiga': tierGroup2, 'nara': tierGroup2, 'wakayama': tierGroup2, 'osaka': tierGroup2, 'hyogo': tierGroup2,
-            'okayama': tierGroup4, 'hiroshima': tierGroup4, 'yamaguchi': tierGroup4, 'tottori': tierGroup4, 'shimane': tierGroup4, 'kagawa': tierGroup4, 'tokushima': tierGroup4, 'kochi': tierGroup4, 'ehime': tierGroup4,
-            'fukuoka': tierGroup1, 'saga': tierGroup1, 'nagasaki': tierGroup1, 'kumamoto': tierGroup1, 'oita': tierGroup1, 'miyazaki': tierGroup1, 'kagoshima': tierGroup1,
-            'okinawa': okinawaTiers
-        };
-
-        const jastipConfigs = {
-            'biasa': { label: 'Berapa KG berat barangmu?', price: 1500, unit: 'kg', weightPerUnit: 1 },
-            'handphone': { label: 'Berapa unit?', price: 2000, unit: 'unit', weightPerUnit: 0.5 },
-            'laptop': { label: 'Berapa KG berat laptop/tabletmu?', price: 1500, unit: 'kg', weightPerUnit: 1 },
-            'rokok': { label: 'Berapa slop?', price: 2000, unit: 'slop', weightPerUnit: 0.3 },
-            'rokok-elektrik': { label: 'Berapa unit?', price: 1000, unit: 'unit', weightPerUnit: 0.4 },
-            'liquid': { label: 'Berapa unit?', price: 500, unit: 'unit', weightPerUnit: 0.2 },
-            'sepatu-box': { label: 'Berapa pasang?', price: 2000, unit: 'pasang', weightPerUnit: 1.2 },
-            'sepatu-nobox': { label: 'Berapa pasang?', price: 1500, unit: 'pasang', weightPerUnit: 0.8 }
-        };
-        
-        const prefectures = Object.keys(shippingCosts);
-        
-        // Elemen DOM Kalkulator
-        const itemTypeSelect = document.getElementById('item-type');
-        const jastipDetailsContainer = document.getElementById('jastip-details-container');
-        const prefectureSearchInput = document.getElementById('prefecture-search');
-        const prefectureDropdown = document.getElementById('prefecture-dropdown');
-        const ongkirInput = document.getElementById('ongkir');
-        const resultModal = document.getElementById('result-modal');
-        const imageViewer = document.getElementById('image-viewer');
-        const zoomedImage = document.getElementById('zoomed-image');
-
-        function updateJastipInput() {
-            const selectedType = itemTypeSelect.value;
-            const config = jastipConfigs[selectedType];
-            if (config) {
-                jastipDetailsContainer.innerHTML = `<div class="form-group"><label for="jastip-quantity">${config.label}</label><input type="number" id="jastip-quantity" name="jastip-quantity" placeholder="Contoh: 1" min="0" step="any" required></div>`;
-            } else {
-                jastipDetailsContainer.innerHTML = '';
-            }
-        }
-        itemTypeSelect.addEventListener('change', updateJastipInput);
-
-        function populateDropdown(filter = '') {
-            prefectureDropdown.innerHTML = '';
-            prefectures.filter(p => p.toLowerCase().includes(filter.toLowerCase())).forEach(pref => {
-                const a = document.createElement('a');
-                a.href = '#';
-                a.textContent = pref.charAt(0).toUpperCase() + pref.slice(1);
-                a.onclick = (e) => { e.preventDefault(); selectPrefecture(pref); };
-                prefectureDropdown.appendChild(a);
-            });
-        }
-
-        prefectureSearchInput.addEventListener('keyup', () => { populateDropdown(prefectureSearchInput.value); prefectureDropdown.style.display = 'block'; });
-        prefectureSearchInput.addEventListener('focus', () => { populateDropdown(prefectureSearchInput.value); prefectureDropdown.style.display = 'block'; });
-        document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown')) { prefectureDropdown.style.display = 'none'; } });
-
-        function selectPrefecture(prefecture) {
-            prefectureSearchInput.value = prefecture.charAt(0).toUpperCase() + prefecture.slice(1);
-            prefectureDropdown.style.display = 'none';
-            const tiers = shippingCosts[prefecture.toLowerCase()];
-            if (tiers && tiers.length > 0) {
-                ongkirInput.value = formatYen(tiers[0].cost) + ' (untuk ~2kg)';
-            }
-        }
-        
-        function formatYen(number) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'JPY', minimumFractionDigits: 0 }).format(number).replace('JPY', '¥'); }
-
-        function getCostByWeight(weight, tiers) {
-            if (!tiers) return null;
-            for (const tier of tiers) {
-                if (weight <= tier.maxWeight) return tier.cost;
-            }
-            return null;
-        }
-
-        function calculateTotal() {
-            const prefecture = prefectureSearchInput.value.toLowerCase();
-            const priceTiers = shippingCosts[prefecture];
-            const selectedType = itemTypeSelect.value;
-            const jastipQuantityInput = document.getElementById('jastip-quantity');
-            
-            if (!selectedType || !jastipQuantityInput) { alert('Mohon pilih jenis barang terlebih dahulu.'); return; }
-            
-            const jastipQuantity = parseFloat(jastipQuantityInput.value);
-            if (!priceTiers || isNaN(jastipQuantity) || jastipQuantity <= 0) { alert('Mohon isi semua kolom (jenis barang, jumlah/berat, dan perfektur) dengan benar.'); return; }
-
-            const config = jastipConfigs[selectedType];
-            const hargaJastip = jastipQuantity * config.price;
-            const estimatedWeight = jastipQuantity * config.weightPerUnit;
-            const finalOngkir = getCostByWeight(estimatedWeight, priceTiers);
-            
-            if (finalOngkir === null) { alert('Tidak dapat menghitung ongkir. Periksa kembali input Anda.'); return; }
-
-            const totalBiaya = hargaJastip + finalOngkir;
-
-            document.getElementById('harga-jastip-result').textContent = formatYen(hargaJastip);
-            document.getElementById('biaya-ongkir-result').textContent = formatYen(finalOngkir);
-            document.getElementById('total-biaya-result').textContent = formatYen(totalBiaya);
-
-            document.getElementById('calculator-modal-form').classList.remove('visible');
-            resultModal.classList.add('visible');
-        }
-
-        jastipForm.querySelector('.calculate-btn').addEventListener('click', calculateTotal);
-
-        function openImageViewer(src) {
-            zoomedImage.src = src;
-            imageViewer.classList.add('visible');
-        }
-        
-        // Event listeners untuk membuka image viewer
-        document.getElementById('yamato-weight-image').addEventListener('click', (e) => openImageViewer(e.target.src));
-        document.getElementById('yamato-box-image').addEventListener('click', (e) => openImageViewer(e.target.src));
-        imageViewer.addEventListener('click', () => imageViewer.classList.remove('visible'));
-
-        // --- <<<<<<<<<<<< END: NEW CALCULATOR LOGIC INTEGRATION >>>>>>>>>>>> ---
-    });
-    </script>
-    
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
     <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // --- Skrip dari jastipweb.html (Dimodifikasi) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Generic Modal & Page Logic (Dimodifikasi untuk Tailwind) ---
+            const modalTriggers = document.querySelectorAll('[data-modal-id]');
+            const allModals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.modal-close-btn, .image-viewer-close');
+
+            const modalData = {
+                modal1: { title: "Tentang Jastip Yanoshi", content: `<p>Hai para pejuang barang impian! Kenalan yuk sama Yanoshi Jastip, solusi jastip paling asyik dan terpercaya buat kamu yang butuh kirim-kirim barang dari Jepang ke Indonesia atau sebaliknya.<br><br><strong>Buat yang lagi di Jepang:</strong> Lagi kangen masakan rumah tapi bumbu nggak ada? Butuh skincare kesayangan atau obat-obatan penting dari Indonesia? Atau dokumen yang ketinggalan? Tenang, nggak perlu terbang pulang! Yanoshi siap bawain semua itu langsung ke Jepang. Pulang ke Indonesia bawaan numpuk? Aduh, jangan pusing! Titipin aja barang-barangmu, mulai dari baju, elektronik, sampai oleh-oleh Jepang yang super banyak itu. Kami yang urus antar sampai alamat di Indonesia.<br><br><strong>Buat yang di Indonesia:</strong> Ngiler sama produk Jepang terbaru tapi mager ke sana? Tenang aja! Yanoshi hadir buat bikin belanjamu makin gampang. Tinggal tunjuk, kami yang datangkan barangnya dari Jepang ke rumahmu. Gampang kan?.</p>` },
+                modal2: { title: "Kenapa Harus Jastip di Yanoshi?", content: `<ul><li><strong>Cepat:</strong> Karena kami bawa sendiri alias handcarry, barangmu bakal sampai di pelukanmu lebih cepat dari kirim kargo.</li><li><strong>Aman & Terpercaya:</strong> Kamu nitip di Yanoshi Jastip? Itu artinya kamu kasih kepercayaan penuh ke kami. Tenang aja, barangmu dijaga banget biar sampai dengan selamat sentosa.</li><li><strong>Transparan:</strong> Nggak perlu khawatir ada biaya siluman! Semua rincian jelas di awal, tanpa drama dan tanpa ada yang disembunyikan.</li><li><strong>Komunikatif:</strong> Butuh info atau ada pertanyaan? CS kami responsif dan siap bantu kamu kapan aja, sampai barangmu tiba di tujuan.</li></ul>` },
+                modal3: { title: "Barang apa aja sih yang bisa di Jastipin?", content: `<ul><li>Skincare & Kosmetik</li><li>Snack & Makanan Kering</li><li>Bumbu Masakan</li><li>Obat-Obatan Legal</li><li>Dokumen & Surat-Surat</li><li>Perlengkapan Pribadi</li><li>Perlengkapan Olahraga</li><li>Fashion & Aksesori</li><li>Action Figure & Merchandise Anime</li><li>Barang Elektronik, Rokok & Vape (konsultasi ke CS terlebih dahulu ya)</li></ul><div id="terms-text"><img src="https://yanoshijapan.github.io/asetonline/barangumum.jpg" alt="Barang Dilarang Umum"><img src="https://yanoshijapan.github.io/asetonline/barangspesifik.jpg" alt="Barang Dilarang Spesifik"></div><p style='margin-top:1em;'>Kita gak nerima barang ilegal, mudah terbakar, atau yang dilarang oleh peraturan bea cukai ya.</p>` },
+                modal4: { title: "Price List Jastip", content: `<ul><li><strong>Barang biasa :</strong> 1.500 yen/kg.</li><li><strong>Handphone :</strong> <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20tanya%20Jastip%20handphone" target="_blank" class="text-blue-600 hover:underline">hubungi admin disini</a>.</li><li><strong>Laptop, tablet (All brand) :</strong> 1.500 yen/kg.</li><li><strong>Rokok :</strong> 2.000 yen/slop.</li><li><strong>Rokok elektrik (Vape/Pod) :</strong> 1.000 yen/unit.</li><li><strong>Liquid rokok elektrik :</strong> 500 yen/unit.</li><li><strong>Sepatu dengan box :</strong> 2.000 yen/pasang.</li><li><strong>Sepatu tanpa box :</strong> 1.500 yen/pasang.</li><li><strong>Makanan dengan kemasan besar (contoh : mie cup, coklat dengan box besar, dll) :</strong> Dikenakan harga dimensi. Silakan <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20tanya%20Jastip%20dimensi%20makanan" target="_blank" class="text-blue-600 hover:underline">hubungi admin disini</a>.</li><li><strong>Action figure dan mainan dengan kemasan besar :</strong> Dikenakan harga dimensi. Silakan <a href="https://wa.me/628132181764?text=halo%20min!,%20mau%20tanya%20Jastip%20action%20figure" target="_blank" class="text-blue-600 hover:underline">hubungi admin disini</a>.</li></ul><p style='margin-top:1em; font-size: smaller;'>Harga belum termasuk ongkos kirim barang ke basecamp.</p>` },
+                modal5: { title: "Jadwal Keberangkatan", content: `<p><strong>Jadwal bulan Oktober:</strong></p><ul><li><strong>Batch 1 (Close) :</strong><ul><li><strong>Indonesia > Jepang:</strong> 16 Oktober 2025 (Close)</li><li><strong>Jepang > Indonesia:</strong> 22 Oktober 2025 (Close)</li></ul></li><li><strong>Batch 2 :</strong><ul><li><strong>Indonesia > Jepang:</strong> 28 Oktober 2025 (Full)</li></ul></li></ul><p><strong>Jadwal bulan November:</strong></p><ul><li><strong>Jepang > Indonesia:</strong> 4 November 2025</li></ul></li></ul><p><strong>Jadwal bulan November:</strong></p><ul><li><strong>Indonesia > Jepang:</strong> 22 November 2025</li></ul>` }
+            };
+
+            function populateModal(modalId, data) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.querySelector('h3').textContent = data.title;
+                    modal.querySelector('.modal-body').innerHTML = data.content;
+                }
+            }
+            for (const key in modalData) { populateModal(key, modalData[key]); }
+            
+            modalTriggers.forEach(item => {
+                item.addEventListener('click', () => {
+                    const modalId = item.getAttribute('data-modal-id');
+                    const modalToOpen = document.getElementById(modalId);
+                    if (modalToOpen) {
+                        if (modalId === 'modal6') initializeFAQChat(); 
+                        modalToOpen.classList.remove('hidden');
+                        lucide.createIcons(); // Re-init icons untuk modal
+                    }
+                });
+            });
+
+            function closeAllModals() {
+                allModals.forEach(modal => modal.classList.add('hidden'));
+            }
+            
+            closeButtons.forEach(button => button.addEventListener('click', closeAllModals));
+            
+            allModals.forEach(modal => {
+                modal.addEventListener('click', (event) => {
+                    // Cek jika klik di backdrop (modal itu sendiri)
+                    if (event.target === modal) closeAllModals();
+                });
+            });
+
+            // --- FAQ Chat Logic (Dimodifikasi untuk Tailwind) ---
+            const qaData = [
+                { question: "Minat nih kak, terus saya harus apa?", answer: "Kakak cukup isi formnya aja, klik tombol join jastip indo-jepang buat ikut jastip dari indonesia ke jepang, atau tombol join jastip jepang-indo buat ikut jastip dari jepang ke indonesia." },
+                { question: "Kalo udah isi form terus gimana lagi kak?", answer: "Kalo udah isi form kakak bisa konfirmasi ke CS kita, klik aja tombol hubungi CS kami, terus kakak chat aja 'kak saya udah isi form ya', nanti biar admin kita bisa verifikasi data kakak." },
+                { question: "Bisa tolong belanjain barang dari Jepang?", answer: "Bisa kak, di formnya nanti cukup di tandain 'ya' aja ya di bagian 'ada yang perlu di belanjakan', nanti kakak bisa isi barang apa yang mau di belanjain, semisal sepatu, elektronik atau jajanan Jepang, kalo udah nanti kakak konfirmasi ke CS terus kakak bisa DP atau pembayaran awal biar bisa kita belanjain pas di Jepang." },
+                { question: "Barang apa yang gak boleh dibawa?", answer: "Yang gak boleh dibawa itu kaya daging-dagingan, buah-buahan, sayur-sayuran, biji-bijian, tanaman maupun bibit tanaman, beras, makanan olahan daging kaya bakso, bakso aci dan sejenisnya, serta cemilan yang terbuat dari hewan atau jeroan kaya usus dan sejenisnya, serta makanan yang di bungkusnya ada gambar atau nama yang mengandung hewani." },
+                { question: "Berapa lama pengirimannya?", answer: "Karena kita bawa sendiri (handcarry), barang bakal sampai lebih cepat. Biasanya sesuai dengan jadwal keberangkatan kami. Semisal kita berangkat tanggal 5 pagi dan direct flight, maka tanggal 5 sore pas kita sampai di negara tujuan, barang langsung kita kirim di hari itu juga pakai pengiriman domestik." }
+            ];
+            const faqModal = document.getElementById('modal6');
+            const chatHistory = faqModal.querySelector('.chat-history');
+            const faqSelect = faqModal.querySelector('#faq-select');
+            
+            function addBubble(text, type) { 
+                const bubble = document.createElement('div');
+                // Menggunakan kelas Tailwind untuk styling
+                const baseStyle = 'p-3 rounded-2xl max-w-[85%] shadow-sm word-wrap break-word';
+                if (type === 'question') {
+                    bubble.className = `${baseStyle} bg-gray-200 text-gray-900 self-end rounded-br-lg`;
+                } else {
+                    bubble.className = `${baseStyle} bg-blue-600 text-white self-start rounded-bl-lg`;
+                }
+                bubble.innerHTML = text; 
+                chatHistory.appendChild(bubble); 
+                chatHistory.scrollTop = chatHistory.scrollHeight; 
+            }
+            
+            function initializeFAQChat() {
+                chatHistory.innerHTML = ''; 
+                faqSelect.innerHTML = '<option value="" disabled selected>Pilih pertanyaannya disini...</option>'; 
+                addBubble("Halo kak! Ada yang mau ditanyain? Silakan pilih pertanyaan dari menu di bawah ini ya.", 'answer');
+                qaData.forEach((item, index) => { 
+                    const option = document.createElement('option'); 
+                    option.value = index; 
+                    option.textContent = item.question; 
+                    faqSelect.appendChild(option); 
+                });
+            }
+            
+            faqSelect.addEventListener('change', (event) => {
+                const selectedIndex = event.target.value;
+                if (selectedIndex === "") return;
+                const selectedQA = qaData[selectedIndex];
+                addBubble(selectedQA.question, 'question');
+                
+                // Typing indicator (dengan style Tailwind)
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'self-start';
+                typingIndicator.innerHTML = `
+                    <div class="bg-blue-600 p-3 rounded-2xl rounded-bl-lg inline-flex space-x-1">
+                        <span class="w-2 h-2 bg-white/70 rounded-full animate-bounce" style="animation-delay: 0s;"></span>
+                        <span class="w-2 h-2 bg-white/70 rounded-full animate-bounce" style="animation-delay: 0.2s;"></span>
+                        <span class="w-2 h-2 bg-white/70 rounded-full animate-bounce" style="animation-delay: 0.4s;"></span>
+                    </div>`;
+                chatHistory.appendChild(typingIndicator); 
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+                
+                setTimeout(() => { 
+                    chatHistory.removeChild(typingIndicator); 
+                    addBubble(selectedQA.answer, 'answer'); 
+                }, 1200);
+            });
+
+            // --- <<<<<<<<<<<< START: CALCULATOR LOGIC (HTML Di-restyle ke Tailwind) >>>>>>>>>>>> ---
+            const jastipForm = document.getElementById('jastip-form');
+            // HTML Form di-restyle menggunakan kelas Tailwind
+            jastipForm.innerHTML = `
+                <div class="mb-5">
+                    <label for="item-type" class="block text-sm font-medium text-gray-700 mb-1.5">Barang apa yang mau di jastip?</label>
+                    <select id="item-type" name="item-type" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600">
+                        <option value="" disabled selected>-- Pilih Jenis Barang --</option>
+                        <option value="biasa">Barang Biasa (Baju, Makanan, Skincare, dll)</option>
+                        <option value="handphone">Handphone</option>
+                        <option value="laptop">Laptop atau Tablet</option>
+                        <option value="rokok">Rokok</option>
+                        <option value="rokok-elektrik">Rokok Elektrik</option>
+                        <option value="liquid">Liquid Rokok Elektrik</option>
+                        <option value="sepatu-box">Sepatu dengan Box</option>
+                        <option value="sepatu-nobox">Sepatu tanpa Box</option>
+                    </select>
+                </div>
+                <div id="jastip-details-container"></div>
+                <div class="mb-5">
+                    <label for="prefecture-search" class="block text-sm font-medium text-gray-700 mb-1.5">Dikirim ke perfektur mana?</label>
+                    <div class="dropdown relative">
+                        <input type="text" id="prefecture-search" name="prefecture" placeholder="Cari perfektur..." autocomplete="off" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600">
+                        <div id="prefecture-dropdown" class="dropdown-content hidden absolute z-10 w-full bg-white shadow-lg border border-gray-200 rounded-lg mt-1 max-h-48 overflow-y-auto">
+                            </div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="ongkir" class="block text-sm font-medium text-gray-700 mb-1.5">Estimasi Ongkir (mulai dari)</label>
+                    <input type="text" id="ongkir" name="ongkir" readonly placeholder="Pilih perfektur untuk melihat estimasi" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm bg-gray-100 cursor-not-allowed">
+                </div>
+                <button type="button" class="calculate-btn w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3.5 px-4 rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    Hitung Total Biaya
+                </button>
+            `;
+
+            // Data Ongkir Berjenjang
+            const tierGroup1 = 
+                [{ maxWeight: 2, cost: 2020 }, { maxWeight: 5, cost: 2300 }, { maxWeight: 10, cost: 2610 }, { maxWeight: 15, cost: 3170 }, { maxWeight: 20, cost: 3810 }, { maxWeight: 25, cost: 4190 }, { maxWeight: 30, cost: 5780 }, { maxWeight: Infinity, cost: 7100 }];
+            const tierGroup2 = 
+                [{ maxWeight: 2, cost: 1620 }, { maxWeight: 5, cost: 1910 }, { maxWeight: 10, cost: 2210 }, { maxWeight: 15, cost: 2730 }, { maxWeight: 20, cost: 3340 }, { maxWeight: 25, cost: 3720 }, { maxWeight: 30, cost: 5040 }, { maxWeight: Infinity, cost: 5970 }];
+            const tierGroup3 = 
+                [{ maxWeight: 2, cost: 1500 }, { maxWeight: 5, cost: 1790 }, { maxWeight: 10, cost: 2090 }, { maxWeight: 15, cost: 2600 }, { maxWeight: 20, cost: 3190 }, { maxWeight: 25, cost: 3580 }, { maxWeight: 30, cost: 4240 }, { maxWeight: Infinity, cost: 5030 }];
+            const tierGroup4 = 
+                [{ maxWeight: 2, cost: 1750 }, { maxWeight: 5, cost: 2040 }, { maxWeight: 10, cost: 2350 }, { maxWeight: 15, cost: 2870 }, { maxWeight: 20, cost: 3490 }, { maxWeight: 25, cost: 3880 }, { maxWeight: 30, cost: 5460 }, { maxWeight: Infinity, cost: 6780 }];
+            const okinawaTiers = 
+                [{ maxWeight: 2, cost: 2020 }, { maxWeight: 5, cost: 2630 }, { maxWeight: 10, cost: 3270 }, { maxWeight: 15, cost: 3920 }, { maxWeight: 20, cost: 4590 }, { maxWeight: 25, cost: 5240 }, { maxWeight: 30, cost: 7770 }, { maxWeight: Infinity, cost: 9420 }];
+
+            const shippingCosts = {
+                'hokkaido': tierGroup1, 'aomori': tierGroup2, 'akita': tierGroup2, 'iwate': tierGroup2, 'miyagi': tierGroup3, 'yamagata': tierGroup3, 'fukushima': tierGroup3,
+                'tokyo': tierGroup3, 'ibaraki': tierGroup3, 'tochigi': tierGroup3, 'gunma': tierGroup3, 'saitama': tierGroup3, 'chiba': tierGroup3, 'kanagawa': tierGroup3, 'yamanashi': tierGroup3, 'nagano': tierGroup3,
+                'niigata': tierGroup3, 'toyama': tierGroup3, 'ishikawa': tierGroup3, 'fukui': tierGroup3, 'shizuoka': tierGroup3, 'aichi': tierGroup3, 'gifu': tierGroup3, 'mie': tierGroup3,
+                'kyoto': tierGroup2, 'shiga': tierGroup2, 'nara': tierGroup2, 'wakayama': tierGroup2, 'osaka': tierGroup2, 'hyogo': tierGroup2,
+                'okayama': tierGroup4, 'hiroshima': tierGroup4, 'yamaguchi': tierGroup4, 'tottori': tierGroup4, 'shimane': tierGroup4, 'kagawa': tierGroup4, 'tokushima': tierGroup4, 'kochi': tierGroup4, 'ehime': tierGroup4,
+                'fukuoka': tierGroup1, 'saga': tierGroup1, 'nagasaki': tierGroup1, 'kumamoto': tierGroup1, 'oita': tierGroup1, 'miyazaki': tierGroup1, 'kagoshima': tierGroup1,
+                'okinawa': okinawaTiers
+            };
+
+            const jastipConfigs = {
+                'biasa': { label: 'Berapa KG berat barangmu?', price: 1500, unit: 'kg', weightPerUnit: 1 },
+                'handphone': { label: 'Berapa unit?', price: 2000, unit: 'unit', weightPerUnit: 0.5 },
+                'laptop': { label: 'Berapa KG berat laptop/tabletmu?', price: 1500, unit: 'kg', weightPerUnit: 1 },
+                'rokok': { label: 'Berapa slop?', price: 2000, unit: 'slop', weightPerUnit: 0.3 },
+                'rokok-elektrik': { label: 'Berapa unit?', price: 1000, unit: 'unit', weightPerUnit: 0.4 },
+                'liquid': { label: 'Berapa unit?', price: 500, unit: 'unit', weightPerUnit: 0.2 },
+                'sepatu-box': { label: 'Berapa pasang?', price: 2000, unit: 'pasang', weightPerUnit: 1.2 },
+                'sepatu-nobox': { label: 'Berapa pasang?', price: 1500, unit: 'pasang', weightPerUnit: 0.8 }
+            };
+            
+            const prefectures = Object.keys(shippingCosts);
+            
+            // Elemen DOM Kalkulator
+            const itemTypeSelect = document.getElementById('item-type');
+            const jastipDetailsContainer = document.getElementById('jastip-details-container');
+            const prefectureSearchInput = document.getElementById('prefecture-search');
+            const prefectureDropdown = document.getElementById('prefecture-dropdown');
+            const ongkirInput = document.getElementById('ongkir');
+            const resultModal = document.getElementById('result-modal');
+            const imageViewer = document.getElementById('image-viewer');
+            const zoomedImage = document.getElementById('zoomed-image');
+
+            function updateJastipInput() {
+                const selectedType = itemTypeSelect.value;
+                const config = jastipConfigs[selectedType];
+                if (config) {
+                    jastipDetailsContainer.innerHTML = `<div class="mb-5"><label for="jastip-quantity" class="block text-sm font-medium text-gray-700 mb-1.5">${config.label}</label><input type="number" id="jastip-quantity" name="jastip-quantity" placeholder="Contoh: 1" min="0" step="any" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600"></div>`;
+                } else {
+                    jastipDetailsContainer.innerHTML = '';
+                }
+            }
+            itemTypeSelect.addEventListener('change', updateJastipInput);
+
+            function populateDropdown(filter = '') {
+                prefectureDropdown.innerHTML = '';
+                prefectures.filter(p => p.toLowerCase().includes(filter.toLowerCase())).forEach(pref => {
+                    const a = document.createElement('a');
+                    a.href = '#';
+                    a.textContent = pref.charAt(0).toUpperCase() + pref.slice(1);
+                    // Style link dropdown dengan Tailwind
+                    a.className = 'block px-4 py-2.5 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors';
+                    a.onclick = (e) => { e.preventDefault(); selectPrefecture(pref); };
+                    prefectureDropdown.appendChild(a);
+                });
+            }
+
+            // === PERUBAHAN 2: Perbaikan Dropdown ===
+            prefectureSearchInput.addEventListener('keyup', () => { 
+                populateDropdown(prefectureSearchInput.value); 
+                prefectureDropdown.classList.remove('hidden'); // Menggunakan classList
+            });
+            prefectureSearchInput.addEventListener('focus', () => { 
+                populateDropdown(prefectureSearchInput.value); 
+                prefectureDropdown.classList.remove('hidden'); // Menggunakan classList
+            });
+            document.addEventListener('click', (e) => { 
+                if (!e.target.closest('.dropdown')) { 
+                    prefectureDropdown.classList.add('hidden'); // Menggunakan classList
+                } 
+            });
+
+            function selectPrefecture(prefecture) {
+                prefectureSearchInput.value = prefecture.charAt(0).toUpperCase() + prefecture.slice(1);
+                prefectureDropdown.classList.add('hidden'); // Menggunakan classList
+                const tiers = shippingCosts[prefecture.toLowerCase()];
+                if (tiers && tiers.length > 0) {
+                    ongkirInput.value = formatYen(tiers[0].cost) + ' (untuk ~2kg)';
+                }
+            }
+            // === END PERUBAHAN 2 ===
+            
+            function formatYen(number) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'JPY', minimumFractionDigits: 0 }).format(number).replace('JPY', '¥'); }
+
+            function getCostByWeight(weight, tiers) {
+                if (!tiers) return null;
+                for (const tier of tiers) {
+                    if (weight <= tier.maxWeight) return tier.cost;
+                }
+                return null;
+            }
+
+            function calculateTotal() {
+                const prefecture = prefectureSearchInput.value.toLowerCase();
+                const priceTiers = shippingCosts[prefecture];
+                const selectedType = itemTypeSelect.value;
+                const jastipQuantityInput = document.getElementById('jastip-quantity');
+                
+                if (!selectedType || !jastipQuantityInput) { alert('Mohon pilih jenis barang terlebih dahulu.'); return; }
+                
+                const jastipQuantity = parseFloat(jastipQuantityInput.value);
+                if (!priceTiers || isNaN(jastipQuantity) || jastipQuantity <= 0) { alert('Mohon isi semua kolom (jenis barang, jumlah/berat, dan perfektur) dengan benar.'); return; }
+
+                const config = jastipConfigs[selectedType];
+                const hargaJastip = jastipQuantity * config.price;
+                const estimatedWeight = jastipQuantity * config.weightPerUnit;
+                const finalOngkir = getCostByWeight(estimatedWeight, priceTiers);
+                
+                if (finalOngkir === null) { alert('Tidak dapat menghitung ongkir. Periksa kembali input Anda.'); return; }
+
+                const totalBiaya = hargaJastip + finalOngkir;
+
+                document.getElementById('harga-jastip-result').textContent = formatYen(hargaJastip);
+                document.getElementById('biaya-ongkir-result').textContent = formatYen(finalOngkir);
+                document.getElementById('total-biaya-result').textContent = formatYen(totalBiaya);
+
+                document.getElementById('calculator-modal-form').classList.add('hidden');
+                resultModal.classList.remove('hidden');
+            }
+
+            jastipForm.querySelector('.calculate-btn').addEventListener('click', calculateTotal);
+
+            function openImageViewer(src) {
+                zoomedImage.src = src;
+                imageViewer.classList.remove('hidden');
+            }
+            
+            // Event listeners untuk membuka image viewer
+            document.getElementById('yamato-weight-image').addEventListener('click', (e) => openImageViewer(e.target.src));
+            document.getElementById('yamato-box-image').addEventListener('click', (e) => openImageViewer(e.target.src));
+            imageViewer.addEventListener('click', () => imageViewer.classList.add('hidden'));
+
+            // --- <<<<<<<<<<<< END: NEW CALCULATOR LOGIC INTEGRATION >>>>>>>>>>>> ---
+        });
+    </script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
         // --- Firebase & Live Chat Logic ---
         const firebaseConfig = {
             apiKey: "AIzaSyA_2R9DBUUpibY2u6MEenCTDDOZ-w0vlx8",
@@ -980,6 +823,8 @@
         const db = firebase.firestore();
         let currentUser = null;
         let unsubscribeChat = null;
+        
+        // Variabel elemen DOM sekarang aman untuk dideklarasikan di sini
         const fab = document.getElementById('chat-fab');
         const widget = document.getElementById('chat-widget');
         const closeBtn = document.getElementById('close-widget');
@@ -989,6 +834,7 @@
             if (user) { currentUser = { uid: user.uid }; } else { auth.signInAnonymously().catch(console.error); }
         });
         
+        // Event listener sekarang akan terpasang dengan benar
         fab.addEventListener('click', async () => {
             if (!currentUser) return;
             widget.classList.remove('open');
@@ -1014,17 +860,90 @@
         
         welcomePopup.addEventListener('click', (event) => { if (event.target === welcomePopup) { welcomePopup.classList.remove('open'); } });
 
-        async function handleStartChat(){const name=document.getElementById("guest-name").value.trim(),whatsapp=document.getElementById("guest-wa").value.trim();if(name){await db.collection("users").doc(currentUser.uid).set({name:name,whatsapp:whatsapp,uid:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:!0}),localStorage.removeItem("chat_session_ended"),welcomePopup.classList.remove('open'),widget.classList.add("open"),listenToChat()}else alert("Nama wajib diisi!")}
-        function endChatSession(){if(currentUser){const e=confirm("Apakah Anda yakin ingin mengakhiri percakapan ini? Riwayat chat Anda akan disembunyikan dan Anda perlu mendaftar ulang untuk memulai chat baru.");e&&(localStorage.setItem("chat_session_ended","true"),alert("Percakapan telah diakhiri. Anda akan memulai sesi baru."),location.reload())}}
-        function listenToChat(){if(currentUser&&!unsubscribeChat){let e=new Set;stopAllListeners();const t=document.getElementById("widget-messages");t.innerHTML="",e.clear(),addMessageToUI({text:"Halo! Ada yang bisa kami bantu?",senderId:ADMIN_UID},!1,null,e),db.collection("chats").doc(currentUser.uid).collection("messages").orderBy("timestamp").get().then((o=>{o.forEach((o=>addMessageToUI(o.data(),!1,o.id,e))),t.scrollTop=t.scrollHeight}));let o=null;unsubscribeChat=db.collection("chats").doc(currentUser.uid).onSnapshot((t=>{const s=t.exists?t.data():{};document.getElementById("typing-indicator").style.display=s.adminIsTyping?"block":"none";const a=s.lastReadByAdmin?s.lastReadByAdmin.toMillis():0;document.querySelectorAll(".read-receipt").forEach((e=>{const t=parseInt(e.getAttribute("data-timestamp"));t<=a&&(e.innerHTML='<i class="fa-solid fa-check-double"></i>',e.classList.add("read"))})),o&&o(),o=db.collection("chats").doc(currentUser.uid).collection("messages").where("timestamp",">",new Date).onSnapshot((t=>{t.docChanges().forEach((t=>{"added"===t.type&&addMessageToUI(t.doc.data(),!0,t.doc.id,e)}))}))}))}}
-        async function sendMessage(){const e=document.getElementById("message-input"),t=e.value.trim();if(""!==t&&currentUser){e.value="";const o={text:t,senderId:currentUser.uid,timestamp:firebase.firestore.FieldValue.serverTimestamp()};await db.collection("chats").doc(currentUser.uid).collection("messages").add(o),await db.collection("users").doc(currentUser.uid).set({lastUpdate:firebase.firestore.FieldValue.serverTimestamp()},{merge:!0}),await db.collection("chats").doc(currentUser.uid).set({lastUpdate:firebase.firestore.FieldValue.serverTimestamp(),adminUnreadCount:firebase.firestore.FieldValue.increment(1)},{merge:!0})}}
-        function addMessageToUI(e,t=!1,o,s){if(o&&s.has(o))return;o&&s.add(o);const a=e.senderId===currentUser.uid,n=document.getElementById("widget-messages"),d=document.createElement("div");d.classList.add("message",a?"sent":"received");const i=e.timestamp?e.timestamp.toDate().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):"",c=e.timestamp?e.timestamp.toMillis():0;d.innerHTML=`<div class="bubble">${e.text}</div><div class="timestamp">${i}${a?`<span class="read-receipt" data-timestamp="${c}"><i class="fa-solid fa-check"></i></span>`:""}</div>`,t&&!a&&document.getElementById("chat-widget").classList.contains("open")&&document.getElementById("notification-sound").play().catch((e=>{})),n.appendChild(d),(t||n.scrollHeight<=n.clientHeight+150)&&(n.scrollTop=n.scrollHeight)}
-        function handleEnterKey(e){"Enter"===e.key&&sendMessage()}
-        function stopAllListeners(){unsubscribeChat&&(unsubscribeChat(),unsubscribeChat=null)}
+        // Fungsi-fungsi lainnya (dibuat global di dalam scope DOMContentLoaded agar bisa diakses oleh HTML onclick)
+        window.handleStartChat = async () => {
+            const name=document.getElementById("guest-name").value.trim();
+            const whatsapp=document.getElementById("guest-wa").value.trim();
+            if(name){
+                await db.collection("users").doc(currentUser.uid).set({name:name,whatsapp:whatsapp,uid:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:!0});
+                localStorage.removeItem("chat_session_ended");
+                welcomePopup.classList.remove('open');
+                widget.classList.add("open");
+                listenToChat();
+            } else {
+                alert("Nama wajib diisi!");
+            }
+        }
+        
+        window.endChatSession = () => {
+            if(currentUser){
+                const e=confirm("Apakah Anda yakin ingin mengakhiri percakapan ini? Riwayat chat Anda akan disembunyikan dan Anda perlu mendaftar ulang untuk memulai chat baru.");
+                e&&(localStorage.setItem("chat_session_ended","true"),alert("Percakapan telah diakhiri. Anda akan memulai sesi baru."),location.reload());
+            }
+        }
+        
+        window.sendMessage = async () => {
+            const e=document.getElementById("message-input"),t=e.value.trim();
+            if(""!==t&&currentUser){
+                e.value="";
+                const o={text:t,senderId:currentUser.uid,timestamp:firebase.firestore.FieldValue.serverTimestamp()};
+                await db.collection("chats").doc(currentUser.uid).collection("messages").add(o);
+                await db.collection("users").doc(currentUser.uid).set({lastUpdate:firebase.firestore.FieldValue.serverTimestamp()},{merge:!0});
+                await db.collection("chats").doc(currentUser.uid).set({lastUpdate:firebase.firestore.FieldValue.serverTimestamp(),adminUnreadCount:firebase.firestore.FieldValue.increment(1)},{merge:!0});
+            }
+        }
+
+        window.handleEnterKey = (e) => {
+            if("Enter"===e.key){
+                sendMessage();
+            }
+        }
+
+        function listenToChat(){
+            if(currentUser&&!unsubscribeChat){
+                let e=new Set;
+                stopAllListeners();
+                const t=document.getElementById("widget-messages");
+                t.innerHTML="";
+                e.clear();
+                addMessageToUI({text:"Halo! Ada yang bisa kami bantu?",senderId:ADMIN_UID},!1,null,e);
+                db.collection("chats").doc(currentUser.uid).collection("messages").orderBy("timestamp").get().then((o=>{o.forEach((o=>addMessageToUI(o.data(),!1,o.id,e))),t.scrollTop=t.scrollHeight}));
+                let o=null;
+                unsubscribeChat=db.collection("chats").doc(currentUser.uid).onSnapshot((t=>{
+                    const s=t.exists?t.data():{};
+                    document.getElementById("typing-indicator").style.display=s.adminIsTyping?"block":"none";
+                    const a=s.lastReadByAdmin?s.lastReadByAdmin.toMillis():0;
+                    document.querySelectorAll(".read-receipt").forEach((e=>{
+                        const t=parseInt(e.getAttribute("data-timestamp"));
+                        t<=a&&(e.innerHTML='<i class="fa-solid fa-check-double"></i>',e.classList.add("read"))
+                    }));
+                    o&&o();
+                    o=db.collection("chats").doc(currentUser.uid).collection("messages").where("timestamp",">",new Date).onSnapshot((t=>{
+                        t.docChanges().forEach((t=>{"added"===t.type&&addMessageToUI(t.doc.data(),!0,t.doc.id,e)}))
+                    }))
+                }))
+            }
+        }
+
+        function addMessageToUI(e,t=!1,o,s){
+            if(o&&s.has(o))return;
+            o&&s.add(o);
+            const a=e.senderId===currentUser.uid;
+            const n=document.getElementById("widget-messages");
+            const d=document.createElement("div");
+            d.classList.add("message",a?"sent":"received");
+            const i=e.timestamp?e.timestamp.toDate().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):"";
+            const c=e.timestamp?e.timestamp.toMillis():0;
+            d.innerHTML=`<div class="bubble">${e.text}</div><div class="timestamp">${i}${a?`<span class="read-receipt" data-timestamp="${c}"><i class="fa-solid fa-check"></i></span>`:""}</div>`;
+            t&&!a&&document.getElementById("chat-widget").classList.contains("open")&&document.getElementById("notification-sound").play().catch((e=>{}));
+            n.appendChild(d);
+            (t||n.scrollHeight<=n.clientHeight+150)&&(n.scrollTop=n.scrollHeight)
+        }
+
+        function stopAllListeners(){
+            unsubscribeChat&&(unsubscribeChat(),unsubscribeChat=null)
+        }
+    });
     </script>
 </body>
 </html>
-
-
-
-
