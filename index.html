@@ -404,6 +404,102 @@
             background-color: #f9fafb;
             border-radius: 8px;
         }
+		.testimonial-slider-container {
+		  width: 100%;
+		  padding: 20px 0;
+		  box-sizing: border-box; /* Pastikan padding tidak merusak layout */
+		}
+
+		.testimonial-slider-container h2 {
+		  text-align: center;
+		  font-family: Arial, sans-serif;
+		  margin-bottom: 24px;
+		}
+
+		/* * INI BAGIAN PENTING UNTUK SLIDER 
+		 * Kita buat container-nya bisa di-scroll secara horizontal
+		*/
+		.testimonial-slider {
+		  display: flex; /* Membuat semua kartu berjajar ke samping */
+		  overflow-x: auto; /* Memungkinkan scroll horizontal */
+		  padding: 20px; /* Jarak agar shadow kartu terlihat */
+		  gap: 16px; /* Jarak antar kartu */
+		  
+		  scroll-behavior: smooth;
+		  /* Menyembunyikan scrollbar bawaan */
+		  -ms-overflow-style: none;  /* IE dan Edge */
+		  scrollbar-width: none;  /* Firefox */
+		}
+
+		/* Menyembunyikan scrollbar bawaan untuk Chrome, Safari */
+		.testimonial-slider::-webkit-scrollbar {
+		  display: none;
+		}
+
+		/* * DESAIN KARTU (CARD UI)
+		*/
+		.testimonial-card {
+		  /* Ukuran & Layout (Masih sama) */
+		  flex: 0 0 80%; 
+		  max-width: 80%;
+		  box-sizing: border-box;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  min-height: 200px;
+		  background-color: rgba(255, 255, 255, 0.1);
+		  backdrop-filter: blur(12px);
+		  -webkit-backdrop-filter: blur(12px);
+		  border-radius: 1rem;
+		  padding: 1rem;
+		  border: 1px solid rgba(255, 255, 255, 0.2);
+		  transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+		
+		.testimonial-card:hover {
+		  /* Mengangkat kartu ke atas 5px */
+		  transform: translateY(-5px);
+		  
+		  /* Tambahkan shadow yang lebih jelas saat terangkat */
+		  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
+		}
+		.card-content {
+		  /* Ini akan menengahkan semua teks di dalamnya (quote & author) */
+		  text-align: center; 
+		  width: 100%; /* Memastikan konten mengisi ruang */
+		}
+		.card-content .quote {
+		  font-family: 'Georgia', serif; /* Font serif bagus untuk kutipan */
+		  font-size: 16px;
+		  line-height: 1.6;
+		  font-style: italic;
+		  color: #ffffff;
+		  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+		  margin: 0;
+		  margin-bottom: 16px;
+		  /* Memastikan teks tidak terlalu panjang sebelum profil */
+		  flex-grow: 1; 
+		}
+
+		.author-name {
+		  font-family: Arial, sans-serif;
+		  font-weight: 700;
+		  color: #ffffff;
+		}
+
+		.author-title {
+		  font-family: Arial, sans-serif;
+		  font-size: 14px;
+		  color: #dddddd;
+		}
+		.author-info .author-name {
+		  display: block; /* Paksa nama untuk mengambil satu baris penuh */
+		}
+
+		.author-info .author-title {
+		  display: block; /* Paksa title untuk pindah ke baris baru di bawahnya */
+		  margin-top: 4px; /* (Opsional) Beri sedikit jarak antara nama dan title */
+		}
 		@media (max-width: 768px) {
 			/* Nonaktifkan animasi berat di mobile */
 			.animate-float,
@@ -415,6 +511,10 @@
 			/* Nonaktifkan parallax di mobile */
 			.parallax-bg {
 				transform: none !important;
+			}
+			.testimonial-card {
+				lex-basis: 300px; /* Lebar kartu di desktop 300px */
+				max-width: 300px;
 			}
 		}
     </style>
@@ -448,7 +548,7 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="max-w-4xl mx-auto text-left sm:text-center">
-                <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-500/30 to-orange-500/30 backdrop-blur-md border border-amber-400/30 px-5 py-2.5 rounded-full text-sm font-medium mb-8 shadow-lg animate-fade-in-up animate-glow">
+                <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-500/30 to-orange-500/30 backdrop-blur-md border border-amber-400/30 px-5 py-2.5 rounded-full text-sm font-medium mb-8 shadow-lg animate-fade-in-up">
                     <span class="w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-lg shadow-amber-400/50"></span>
                     <span class="text-amber-100">HAND CARRY SERVICE</span>
                 </div>
@@ -487,6 +587,163 @@
                         <p class="text-sm text-blue-200">Support</p>
                     </div>
                 </div>
+				
+				<div class="testimonial-slider-container">
+				  
+				  <div class="testimonial-slider">
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Pulang magang koper 2 biji, isinya pakaian 3 tahun. Pusing bawanya. Pakai jastip Yanoshi, semua aman sampai rumah di Solo. Jauh lebih cepat daripada kirim pakai kargo!"</p>
+							<div class="author-info"> 
+								<strong class="author-name">Rizky Pratama</strong>
+								<span class="author-title">Kenshusei, Toyama</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Pengen beliin oleh-oleh buat keluarga dari Donki. Nitip di Jastip Yanoshi, adminnya ramah, barangnya cepet sampai. Keluarga seneng banget dapet snack Jepang."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Anita Sari</strong>
+								<span class="author-title">Pemagang, Shizuoka</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Mau beliin oleh-oleh Skincare Jepang buat pacar, tapi nggak ngerti mana yang bagus. Admin Yanoshi sabar banget bantu milihin. Barang sampai dengan selamat, pacar jadi happy."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Dito Nugroho</strong>
+								<span class="author-title">Kenshusei, Hokkaido</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Berangkat bawa 1 koper, pulang bawa 3. Bingung bawanya, nitip di Yanoshi Jastip. Koper-koper saya sampai duluan di rumah. Amanah banget."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Budi Santoso</strong>
+								<span class="author-title">Eks-Pemagang, Osaka</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Nitip figur anime kesukaan. Packingnya super aman, bubble wrap-nya tebel. Nggak ada lecet sama sekali. Yanoshi Jastip a-must-try banget!"</p>
+							<div class="author-info"> 
+								<strong class="author-name">Laras</strong>
+								<span class="author-title">Mahasiswa, Tokyo</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Pacar lagi magang di Nagoya, ulang tahun. Bingung kirim kado. Yanoshi bisa handcarry kado dari saya! Sampai tepat waktu pas hari H. Servis LDR-saver banget ini."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Rian Hidayat</strong>
+								<span class="author-title">Pegawai, Jakarta</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Anak saya di Gifu kangen berat sambel pecel buatan rumah. Kirim lewat Yanoshi Jastip cepet sampai! Adminnya bantu packing cairan bener bener aman."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Ibu Wati</strong>
+								<span class="author-title">Keluarga Kenshusei, Surabaya</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Adek saya di Jepang butuh dokumen ijazah asli buat urusan kampus. Panik kirimnya. Yanoshi bisa bawa handcarry. Dokumen penting aman sampai di tangan adek saya. Makasih banyak!"</p>
+							<div class="author-info"> 
+								<strong class="author-name">Adit</strong>
+								<span class="author-title">Pegawai, Bandung</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Sahabatku kenshusei di Aichi, kangen Indomie Seblak. Di Jepang nggak ada. Titip di Yanoshi Jastip 1 dus, aman sampai tujuan. Seneng banget lihat dia update story lagi makan indomie seblak."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Fira</strong>
+								<span class="author-title">Mahasiswa, Yogyakarta</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Mau kirim batik tulis asli buat hadiah anak saya ke sachounya di Jepang. Nggak berani kirim sembarangan. Yanoshi Jastip aja, barang berharga saya dijaga baik baik."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Pak Tono</strong>
+								<span class="author-title">Ayah, Medan</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Ini jastip handcarry tercepat yang pernah saya coba. Nggak pakai nunggu PO bulanan. Ada slot langsung berangkat. Keren!"</p>
+							<div class="author-info"> 
+								<strong class="author-name">Kevin</strong>
+								<span class="author-title">Pengguna Jastip, Jakarta</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Awalnya ragu titip barang. Tapi admin Yanoshi Jastip responsif banget, selalu update. Jadi tenang. Recommended!"</p>
+							<div class="author-info"> 
+								<strong class="author-name">Santi</strong>
+								<span class="author-title">Pelanggan, Bekasi</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Butuh obat jerawat dari Indonesia yang nggak ada di Jepang. Nggak bisa nunggu lama. Yanoshi Jastip gercep banget! gak pake lama, barangnya udah di saya. Mantap!"</p>
+							<div class="author-info"> 
+								<strong class="author-name">Eka</strong>
+								<span class="author-title">WNI di Jepang</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Pertama kali pakai Jastip Yanoshi. Prosesnya gampang, nggak ribet. Bayar, tunggu, barang sampai. Pasti bakal pakai lagi buat titip barang dari Jepang."</p>
+							<div class="author-info"> 
+								<strong class="author-name">Gilang</strong>
+								<span class="author-title">Pegawai, Semarang</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="testimonial-card">
+						<div class="card-content">
+							<p class="quote">"Udah 3x pakai Yanoshi (2x JP-ID, 1x ID-JP). Nggak pernah mengecewakan. Selalu amanah, packing rapi, dan adminnya informatif. Sukses terus Yanoshi Jastip!"</p>
+							<div class="author-info"> 
+								<strong class="author-name">Diana</strong>
+								<span class="author-title">Pelanggan Setia</span>
+							</div>
+						</div>
+					</div>
+					
+				  </div>
+				</div>
             </div>
         </div>
 
@@ -604,13 +861,13 @@
                 <a href="https://www.instagram.com/yanoshi_jastip" target="_blank" class="block bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white p-4 text-center font-bold text-lg hover:opacity-90 transition-opacity gradient-animate">
                     Follow Instagram
                 </a>
-                <iframe src="https://www.instagram.com/p/C9z5X_xS_qS/embed" frameborder="0" scrolling="no" allowtransparency="true" class="w-full h-[500px]"></iframe>
+                <iframe src="https://www.instagram.com/reel/DNxhy7E5Dyr/embed" frameborder="0" scrolling="no" allowtransparency="true" class="w-full h-[500px]"></iframe>
             </div>
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover-lift">
                 <a href="https://www.tiktok.com/@jastip_yanoshi" target="_blank" class="block bg-gray-900 text-white p-4 text-center font-bold text-lg hover:opacity-90 transition-opacity">
                     Follow TikTok
                 </a>
-                <iframe src="https://www.tiktok.com/embed/v2/7393730230302821639" title="TikTok video player" frameborder="0" allow="encrypted-media;" allowfullscreen scrolling="no" class="w-full h-[500px]"></iframe>
+								<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@jastip_yanoshi/video/7536544006885362952" data-video-id="7536544006885362952" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@jastip_yanoshi" href="https://www.tiktok.com/@jastip_yanoshi?refer=embed">@jastip_yanoshi</a> <a title="kenshuseijapan" target="_blank" href="https://www.tiktok.com/tag/kenshuseijapan?refer=embed">#kenshuseijapan</a> <a title="jisshusei" target="_blank" href="https://www.tiktok.com/tag/jisshusei?refer=embed">#jisshusei</a> <a title="titipkirim" target="_blank" href="https://www.tiktok.com/tag/titipkirim?refer=embed">#titipkirim</a> <a title="titipbarang" target="_blank" href="https://www.tiktok.com/tag/titipbarang?refer=embed">#titipbarang</a> <a title="jastipjepangindonesia" target="_blank" href="https://www.tiktok.com/tag/jastipjepangindonesia?refer=embed">#jastipjepangindonesia</a> <a title="jastipindonesiajepang" target="_blank" href="https://www.tiktok.com/tag/jastipindonesiajepang?refer=embed">#jastipindonesiajepang</a> <a title="japan" target="_blank" href="https://www.tiktok.com/tag/japan?refer=embed">#japan</a> <a title="fypage" target="_blank" href="https://www.tiktok.com/tag/fypage?refer=embed">#fypage</a> <a target="_blank" title="♬ original sound  - jastip by yanoshi" href="https://www.tiktok.com/music/original-sound-jastip-by-yanoshi-7536544033552747265?refer=embed">♬ original sound  - jastip by yanoshi</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
             </div>
         </div>
     </section>
@@ -1190,6 +1447,104 @@
                 }
             });
         });
+		
+				document.addEventListener("DOMContentLoaded", () => {
+					const slider = document.querySelector('.testimonial-slider');
+					if (!slider) return; // Hentikan jika slider tidak ditemukan
+
+					// Ambil semua kartu ASLI
+					const originalCards = slider.querySelectorAll('.testimonial-card');
+					const cardCount = originalCards.length;
+					
+					// Jika tidak ada kartu, hentikan
+					if (cardCount === 0) return;
+
+					// --- LANGKAH 1: KLONING ---
+					// Duplikasi semua kartu asli dan tambahkan ke akhir slider
+					originalCards.forEach(card => {
+					slider.appendChild(card.cloneNode(true));
+					});
+					// Slider sekarang berisi misal: [1, 2, 3, 1(clone), 2(clone), 3(clone)]
+
+					let currentIndex = 0;
+					const intervalTime = 3000; // Waktu pindah (3 detik)
+					let autoScrollInterval;
+
+					// Dapatkan 'gap' dari CSS Anda (kita asumsikan 16px)
+					const gap = 16; 
+					
+					function getScrollIncrement() {
+					// Ambil lebar kartu pertama
+					const cardWidth = originalCards[0].offsetWidth;
+					// Lebar scroll = lebar kartu + jarak antar kartu
+					return cardWidth + gap;
+					}
+
+					function startAutoScroll() {
+					autoScrollInterval = setInterval(() => {
+						// Pindah ke kartu berikutnya
+						currentIndex++;
+						
+						const scrollIncrement = getScrollIncrement();
+						
+						// Scroll ke posisi kartu berikutnya
+						slider.scrollTo({
+						left: scrollIncrement * currentIndex
+						// 'behavior: smooth' tidak perlu karena sudah ada di CSS
+						});
+
+						// --- LANGKAH 2: TRIK "LOOPING" (The Jump) ---
+						// Jika kita sudah sampai di kartu pertama DARI SET KLONING
+						// (misal: di kartu ke-3, jika total kartu asli ada 3)
+						if (currentIndex === cardCount) {
+						
+						// Kita perlu menunggu animasi smooth scroll selesai.
+						// 500ms adalah angka aman, sesuaikan jika animasinya terasa 'patah'
+						setTimeout(() => {
+							// 1. Matikan 'smooth' untuk lompatan instan
+							slider.style.scrollBehavior = 'auto'; 
+							
+							// 2. Lompat kembali ke awal (posisi 0)
+							slider.scrollTo({ left: 0 }); 
+							
+							// 3. Setel ulang index
+							currentIndex = 0; 
+							
+							// 4. Kembalikan 'smooth' setelah lompatan terjadi
+							// Kita pakai timeout kecil agar browser 'sadar'
+							setTimeout(() => {
+							slider.style.scrollBehavior = 'smooth';
+							}, 50);
+
+						}, 500); // Waktu ini harus cukup untuk animasi scroll-nya selesai
+						}
+					}, intervalTime);
+					}
+
+					function stopAutoScroll() {
+					clearInterval(autoScrollInterval);
+					}
+
+					// Mulai otomatis
+					startAutoScroll();
+
+					// Berhenti saat mouse di atas slider
+					slider.addEventListener('mouseenter', stopAutoScroll);
+					
+					// Mulai lagi saat mouse keluar
+					slider.addEventListener('mouseleave', startAutoScroll);
+					
+					// (Opsional) Jika ukuran window berubah, hitung ulang
+					// Ini agar tidak rusak saat HP di-rotasi
+					window.addEventListener('resize', () => {
+					stopAutoScroll();
+					// Lompat instan ke posisi index saat ini
+					slider.style.scrollBehavior = 'auto';
+					slider.scrollTo({ left: getScrollIncrement() * currentIndex });
+					slider.style.scrollBehavior = 'smooth';
+					startAutoScroll();
+					});
+				});
     </script>
 </body>
 </html>
