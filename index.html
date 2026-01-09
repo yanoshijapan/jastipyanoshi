@@ -1269,20 +1269,64 @@
             <div class="modal-body p-6">
                 <form id="jastip-form">
                     <div class="mb-5">
-                        <label for="item-type" class="block text-sm font-medium text-gray-700 mb-1.5">Barang apa yang mau di jastip?</label>
-                        <select id="item-type" name="item-type" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600">
-                            <option value="" disabled selected>-- Pilih Jenis Barang --</option>
-                            <option value="biasa">Barang Biasa (Baju, Makanan, Skincare, dll)</option>
-                            <option value="handphone">Handphone</option>
-                            <option value="laptop">Laptop atau Tablet</option>
-                            <option value="rokok">Rokok</option>
-                            <option value="rokok-elektrik">Rokok Elektrik</option>
-                            <option value="liquid">Liquid Rokok Elektrik</option>
-                            <option value="sepatu-box">Sepatu dengan Box</option>
-                            <option value="sepatu-nobox">Sepatu tanpa Box</option>
+                        <label for="origin-select" class="block text-sm font-medium text-gray-700 mb-1.5">Mau jastip dari mana?</label>
+                        <select id="origin-select" name="origin-select" required onchange="updateItemConfig();" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600 bg-white">
+                            <option value="" disabled selected>-- Pilih Rute Jastip --</option>
+                            <option value="indo-jpn">Indonesia ke Jepang</option>
+                            <option value="jpn-indo">Jepang ke Indonesia</option>
                         </select>
                     </div>
+
+                    <div class="mb-5">
+                        <label for="item-type" class="block text-sm font-medium text-gray-700 mb-1.5">Barang apa yang mau di jastip?</label>
+                        <select id="item-type" name="item-type" required onchange="updateJastipInput()" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600 bg-white">
+                            <option value="" disabled selected>-- Pilih Jenis Barang --</option>
+                            
+                            <option value="biasa">Barang Biasa (Baju, Makanan, Skincare, dll)</option>
+
+                            <optgroup label="Kategori Elektronik">
+                                <option value="handphone-mati">Handphone (Kondisi Mati)</option>
+                                <option value="handphone-aktif">Handphone (Kondisi Aktif)</option>
+                                <option value="handphone-imei">Handphone + Daftar IMEI</option>
+                                <option value="laptop">Laptop / Tablet</option>
+                                <option value="jam-branded">Jam Tangan (Branded)</option>
+                                <option value="powerbank">Powerbank</option>
+                            </optgroup>
+
+                            <optgroup label="Kategori Perhiasan">
+                                <option value="cincin-emas">Cincin Emas</option>
+                                <option value="cincin-perak">Cincin Perak</option>
+                                <option value="gelang-emas">Gelang Emas</option>
+                                <option value="gelang-perak">Gelang Perak</option>
+                            </optgroup>
+
+                            <optgroup label="Kategori Rokok & Vape">
+                                <option value="rokok">Rokok</option>
+                                <option value="vape-mod">Vape / Mod / Pod</option>
+                                <option value="liquid">Liquid Rokok Elektrik</option>
+                                <option value="cartridge">Cartridge</option>
+                                <option value="coil-kapas">Coil / Kapas</option>
+                                <option value="toolkit">Toolkit</option>
+                                <option value="baterai">Baterai</option>
+                                <option value="rda">RDA</option>
+                            </optgroup>
+
+                            <optgroup label="Kategori Lainnya">
+                                <option value="sepatu">Sepatu</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="mb-5" id="box-select-container">
+                        <label for="box-check" class="block text-sm font-medium text-gray-700 mb-1.5">Apakah ada box kemasan?</label>
+                        <select id="box-check" name="box-check" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600 bg-white">
+                            <option value="tidak">Tidak</option>
+                            <option value="ya">Ya, ada (+¥500)</option>
+                        </select>
+                    </div>
+
                     <div id="jastip-details-container"></div>
+                    
                     <div class="mb-5">
                         <label for="prefecture-search" class="block text-sm font-medium text-gray-700 mb-1.5">Dikirim ke perfektur mana?</label>
                         <div class="dropdown relative">
@@ -1320,6 +1364,10 @@
                     <p class="flex justify-between py-3 border-b border-gray-200">
                         <span class="font-semibold text-gray-600">Harga Jastip</span>
                         <span id="harga-jastip-result" class="font-bold text-blue-600"></span>
+                    </p>
+                    <p class="flex justify-between py-3 border-b border-gray-200 hidden" id="biaya-box-row">
+                        <span class="font-semibold text-gray-600">Biaya Tambahan Box</span>
+                        <span id="biaya-box-result" class="font-bold text-blue-600"></span>
                     </p>
                     <p class="flex justify-between py-3">
                         <span class="font-semibold text-gray-600">Estimasi Ongkir</span>
@@ -1545,16 +1593,35 @@
             }, 1200);
         });
         
-        // Calculator Logic
+        // ==========================================
+        // UPDATED CALCULATOR LOGIC
+        // ==========================================
+        
         const jastipConfigs = {
-            'biasa': { label: 'Berapa KG berat barangmu?', price: 1500, unit: 'kg', weightPerUnit: 1 },
-            'handphone': { label: 'Berapa unit?', price: 2000, unit: 'unit', weightPerUnit: 0.5 },
-            'laptop': { label: 'Berapa KG berat laptop/tabletmu?', price: 1500, unit: 'kg', weightPerUnit: 1 },
+            'biasa': { label: 'Berapa KG berat barangmu?', price: 'dynamic', unit: 'kg', weightPerUnit: 1 },
+            // Elektronik
+            'handphone-mati': { label: 'Berapa unit?', price: 1500, unit: 'unit', weightPerUnit: 0.5 },
+            'handphone-aktif': { label: 'Berapa unit?', price: 3000, unit: 'unit', weightPerUnit: 0.5 },
+            'handphone-imei': { label: 'Berapa unit?', price: 10000, unit: 'unit', weightPerUnit: 0.5 },
+            'laptop': { label: 'Berapa KG berat laptop/tablet?', price: 1700, unit: 'kg', weightPerUnit: 1 },
+            'jam-branded': { label: 'Berapa unit?', price: 2000, unit: 'unit', weightPerUnit: 0.3 },
+            'powerbank': { label: 'Berapa unit?', price: 1500, unit: 'unit', weightPerUnit: 0.4 },
+            // Perhiasan
+            'cincin-emas': { label: 'Berapa pasang?', price: 2000, unit: 'pasang', weightPerUnit: 0.1 },
+            'cincin-perak': { label: 'Berapa pasang?', price: 1500, unit: 'pasang', weightPerUnit: 0.1 },
+            'gelang-emas': { label: 'Berapa unit?', price: 2000, unit: 'unit', weightPerUnit: 0.1 },
+            'gelang-perak': { label: 'Berapa unit?', price: 1500, unit: 'unit', weightPerUnit: 0.1 },
+            // Rokok & Vape
             'rokok': { label: 'Berapa slop?', price: 2000, unit: 'slop', weightPerUnit: 0.3 },
-            'rokok-elektrik': { label: 'Berapa unit?', price: 1000, unit: 'unit', weightPerUnit: 0.4 },
-            'liquid': { label: 'Berapa unit?', price: 500, unit: 'unit', weightPerUnit: 0.2 },
-            'sepatu-box': { label: 'Berapa pasang?', price: 2000, unit: 'pasang', weightPerUnit: 1.2 },
-            'sepatu-nobox': { label: 'Berapa pasang?', price: 1500, unit: 'pasang', weightPerUnit: 0.8 }
+            'vape-mod': { label: 'Berapa unit?', price: 1500, unit: 'unit', weightPerUnit: 0.4 },
+            'liquid': { label: 'Berapa botol?', price: 700, unit: 'botol', weightPerUnit: 0.2 },
+            'cartridge': { label: 'Berapa pack?', price: 500, unit: 'pack', weightPerUnit: 0.1 },
+            'coil-kapas': { label: 'Berapa pack?', price: 250, unit: 'pack', weightPerUnit: 0.1 },
+            'toolkit': { label: 'Berapa pack?', price: 700, unit: 'pack', weightPerUnit: 0.3 },
+            'baterai': { label: 'Berapa pasang?', price: 500, unit: 'pasang', weightPerUnit: 0.2 },
+            'rda': { label: 'Berapa unit?', price: 500, unit: 'unit', weightPerUnit: 0.2 },
+            // Lainnya
+            'sepatu': { label: 'Berapa pasang?', price: 2500, unit: 'pasang', weightPerUnit: 1.2 }
         };
         
         const tierGroup1 = [{ maxWeight: 2, cost: 2020 }, { maxWeight: 5, cost: 2300 }, { maxWeight: 10, cost: 2610 }, { maxWeight: 15, cost: 3170 }, { maxWeight: 20, cost: 3810 }, { maxWeight: 25, cost: 4190 }, { maxWeight: 30, cost: 5780 }, { maxWeight: Infinity, cost: 7100 }];
@@ -1574,23 +1641,32 @@
         };
         
         const prefectures = Object.keys(shippingCosts);
+        
+        // DOM Elements
+        const originSelect = document.getElementById('origin-select');
         const itemTypeSelect = document.getElementById('item-type');
+        const boxCheckSelect = document.getElementById('box-check');
         const jastipDetailsContainer = document.getElementById('jastip-details-container');
         const prefectureSearchInput = document.getElementById('prefecture-search');
         const prefectureDropdown = document.getElementById('prefecture-dropdown');
         const ongkirInput = document.getElementById('ongkir');
         
+        // Helper to refresh input if item type selected
+        function updateItemConfig() {
+            if(itemTypeSelect.value) {
+                updateJastipInput();
+            }
+        }
+
         function updateJastipInput() {
             const selectedType = itemTypeSelect.value;
             const config = jastipConfigs[selectedType];
             if (config) {
-                jastipDetailsContainer.innerHTML = `<div class="mb-5"><label for="jastip-quantity" class="block text-sm font-medium text-gray-700 mb-1.5">${config.label}</label><input type="number" id="jastip-quantity" name="jastip-quantity" placeholder="Contoh: 1" min="0" step="any" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600"></div>`;
+                jastipDetailsContainer.innerHTML = `<div class="mb-5"><label for="jastip-quantity" class="block text-sm font-medium text-gray-700 mb-1.5">${config.label}</label><input type="number" id="jastip-quantity" name="jastip-quantity" placeholder="Masukan angka..." min="0" step="any" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600"></div>`;
             } else {
                 jastipDetailsContainer.innerHTML = '';
             }
         }
-        
-        itemTypeSelect.addEventListener('change', updateJastipInput);
         
         function populateDropdown(filter = '') {
             prefectureDropdown.innerHTML = '';
@@ -1642,37 +1718,78 @@
         }
         
         function calculateTotal() {
+            // 1. Get Inputs
+            const origin = originSelect.value;
+            const itemType = itemTypeSelect.value;
+            const boxStatus = boxCheckSelect.value;
             const prefecture = prefectureSearchInput.value.toLowerCase();
-            const priceTiers = shippingCosts[prefecture];
-            const selectedType = itemTypeSelect.value;
-            const jastipQuantityInput = document.getElementById('jastip-quantity');
+            const quantityInput = document.getElementById('jastip-quantity');
             
-            if (!selectedType || !jastipQuantityInput) {
-                alert('Mohon pilih jenis barang terlebih dahulu.');
+            // 2. Validate
+            if (!origin) {
+                alert('Mohon pilih asal jastip (Indonesia ke Jepang atau sebaliknya).');
+                return;
+            }
+            if (!itemType || !quantityInput) {
+                alert('Mohon pilih jenis barang dan masukkan jumlahnya.');
                 return;
             }
             
-            const jastipQuantity = parseFloat(jastipQuantityInput.value);
+            const jastipQuantity = parseFloat(quantityInput.value);
+            const priceTiers = shippingCosts[prefecture];
+
             if (!priceTiers || isNaN(jastipQuantity) || jastipQuantity <= 0) {
-                alert('Mohon isi semua kolom (jenis barang, jumlah/berat, dan perfektur) dengan benar.');
+                alert('Mohon isi semua kolom dengan benar.');
                 return;
             }
 
-            const config = jastipConfigs[selectedType];
-            const hargaJastip = jastipQuantity * config.price;
+            // 3. Determine Price
+            const config = jastipConfigs[itemType];
+            let itemPrice = config.price;
+
+            // Dynamic price logic for "Barang Biasa"
+            if (itemType === 'biasa') {
+                if (origin === 'indo-jpn') {
+                    itemPrice = 1600;
+                } else if (origin === 'jpn-indo') {
+                    itemPrice = 1700;
+                }
+            }
+
+            // 4. Calculate Item Total
+            const totalItemPrice = itemPrice * jastipQuantity;
+
+            // 5. Calculate Box Fee
+            let boxCost = 0;
+            if (boxStatus === 'ya') {
+                boxCost = 500 * jastipQuantity;
+            }
+
+            // 6. Calculate Estimated Weight & Shipping
             const estimatedWeight = jastipQuantity * config.weightPerUnit;
             const finalOngkir = getCostByWeight(estimatedWeight, priceTiers);
             
             if (finalOngkir === null) {
-                alert('Tidak dapat menghitung ongkir. Periksa kembali input Anda.');
+                alert('Tidak dapat menghitung ongkir. Berat melebihi batas yang tersedia.');
                 return;
             }
 
-            const totalBiaya = hargaJastip + finalOngkir;
+            // 7. Grand Total
+            const totalBiaya = totalItemPrice + boxCost + finalOngkir;
 
-            document.getElementById('harga-jastip-result').textContent = formatYen(hargaJastip);
+            // 8. Update Result Modal
+            document.getElementById('harga-jastip-result').textContent = formatYen(totalItemPrice);
             document.getElementById('biaya-ongkir-result').textContent = formatYen(finalOngkir);
             document.getElementById('total-biaya-result').textContent = formatYen(totalBiaya);
+
+            // Toggle Box Row Visibility
+            const boxRow = document.getElementById('biaya-box-row');
+            if (boxCost > 0) {
+                document.getElementById('biaya-box-result').textContent = formatYen(boxCost);
+                boxRow.classList.remove('hidden');
+            } else {
+                boxRow.classList.add('hidden');
+            }
 
             document.getElementById('calculator-modal-form').classList.add('hidden');
             document.getElementById('result-modal').classList.remove('hidden');
@@ -1794,13 +1911,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
