@@ -1328,9 +1328,9 @@
                     <div id="jastip-details-container"></div>
                     
                     <div class="mb-5">
-                        <label for="prefecture-search" class="block text-sm font-medium text-gray-700 mb-1.5">Dikirim ke perfektur mana?</label>
+                        <label for="prefecture-search" class="block text-sm font-medium text-gray-700 mb-1.5">Dikirim ke perfektur mana? atau di kirim ke Indonesia?</label>
                         <div class="dropdown relative">
-                            <input type="text" id="prefecture-search" name="prefecture" placeholder="Cari perfektur..." autocomplete="off" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600">
+                            <input type="text" id="prefecture-search" name="prefecture" placeholder="Cari perfektur atau pilih kirim ke Indonesia..." autocomplete="off" required class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-600 focus:border-blue-600">
                             <div id="prefecture-dropdown" class="dropdown-content hidden absolute z-10 w-full bg-white shadow-lg border border-gray-200 rounded-lg mt-1 max-h-48 overflow-y-auto"></div>
                         </div>
                     </div>
@@ -1371,7 +1371,7 @@
                     </p>
                     <p class="flex justify-between py-3">
                         <span class="font-semibold text-gray-600">Estimasi Ongkir</span>
-                        <span id="biaya-ongkir-result" class="font-bold text-blue-600"></span>
+                        <span id="biaya-ongkir-result" class="font-bold text-blue-600 text-right"></span>
                     </p>
                 </div>
                 <div class="total-biaya bg-blue-50 p-4 rounded-lg mb-4">
@@ -1670,6 +1670,19 @@
         
         function populateDropdown(filter = '') {
             prefectureDropdown.innerHTML = '';
+
+            // 1. Opsi Kirim ke Indonesia (Selalu muncul jika sesuai filter atau filter kosong)
+            const indoText = "Kirim ke Indonesia";
+            if (indoText.toLowerCase().includes(filter.toLowerCase())) {
+                const aIndo = document.createElement('a');
+                aIndo.href = '#';
+                aIndo.textContent = indoText;
+                aIndo.className = 'block px-4 py-2.5 text-gray-700 hover:bg-blue-600 hover:text-white transition-colors font-bold';
+                aIndo.onclick = (e) => { e.preventDefault(); selectPrefecture('indonesia'); };
+                prefectureDropdown.appendChild(aIndo);
+            }
+
+            // 2. Opsi Perfektur Jepang
             prefectures.filter(p => p.toLowerCase().includes(filter.toLowerCase())).forEach(pref => {
                 const a = document.createElement('a');
                 a.href = '#';
@@ -1697,11 +1710,17 @@
         });
         
         function selectPrefecture(prefecture) {
-            prefectureSearchInput.value = prefecture.charAt(0).toUpperCase() + prefecture.slice(1);
-            prefectureDropdown.classList.add('hidden');
-            const tiers = shippingCosts[prefecture.toLowerCase()];
-            if (tiers && tiers.length > 0) {
-                ongkirInput.value = formatYen(tiers[0].cost) + ' (untuk ~2kg)';
+            if (prefecture === 'indonesia') {
+                prefectureSearchInput.value = "Kirim ke Indonesia";
+                prefectureDropdown.classList.add('hidden');
+                ongkirInput.value = "Akan mengikuti ekspedisi pengiriman di indonesia yang akan dipilih";
+            } else {
+                prefectureSearchInput.value = prefecture.charAt(0).toUpperCase() + prefecture.slice(1);
+                prefectureDropdown.classList.add('hidden');
+                const tiers = shippingCosts[prefecture.toLowerCase()];
+                if (tiers && tiers.length > 0) {
+                    ongkirInput.value = formatYen(tiers[0].cost) + ' (untuk ~2kg)';
+                }
             }
         }
         
@@ -1722,9 +1741,13 @@
             const origin = originSelect.value;
             const itemType = itemTypeSelect.value;
             const boxStatus = boxCheckSelect.value;
-            const prefecture = prefectureSearchInput.value.toLowerCase();
+            const prefectureValue = prefectureSearchInput.value;
             const quantityInput = document.getElementById('jastip-quantity');
             
+            // Check specific case
+            const isIndonesia = prefectureValue === "Kirim ke Indonesia";
+            const prefectureKey = prefectureValue.toLowerCase();
+
             // 2. Validate
             if (!origin) {
                 alert('Mohon pilih asal jastip (Indonesia ke Jepang atau sebaliknya).');
@@ -1736,9 +1759,10 @@
             }
             
             const jastipQuantity = parseFloat(quantityInput.value);
-            const priceTiers = shippingCosts[prefecture];
+            const priceTiers = shippingCosts[prefectureKey];
 
-            if (!priceTiers || isNaN(jastipQuantity) || jastipQuantity <= 0) {
+            // Validasi: Jika bukan Kirim ke Indonesia DAN tier tidak ditemukan, error
+            if ((!isIndonesia && !priceTiers) || isNaN(jastipQuantity) || jastipQuantity <= 0) {
                 alert('Mohon isi semua kolom dengan benar.');
                 return;
             }
@@ -1766,12 +1790,23 @@
             }
 
             // 6. Calculate Estimated Weight & Shipping
-            const estimatedWeight = jastipQuantity * config.weightPerUnit;
-            const finalOngkir = getCostByWeight(estimatedWeight, priceTiers);
-            
-            if (finalOngkir === null) {
-                alert('Tidak dapat menghitung ongkir. Berat melebihi batas yang tersedia.');
-                return;
+            let finalOngkir = 0;
+            let ongkirDisplayText = "";
+
+            if (isIndonesia) {
+                // Logic khusus Indonesia: Ongkir dianggap 0 di total, teks diubah
+                finalOngkir = 0;
+                ongkirDisplayText = "Akan mengikuti ekspedisi pengiriman di indonesia yang akan dipilih";
+            } else {
+                // Logic Perfektur Jepang
+                const estimatedWeight = jastipQuantity * config.weightPerUnit;
+                finalOngkir = getCostByWeight(estimatedWeight, priceTiers);
+                
+                if (finalOngkir === null) {
+                    alert('Tidak dapat menghitung ongkir. Berat melebihi batas yang tersedia.');
+                    return;
+                }
+                ongkirDisplayText = formatYen(finalOngkir);
             }
 
             // 7. Grand Total
@@ -1779,7 +1814,7 @@
 
             // 8. Update Result Modal
             document.getElementById('harga-jastip-result').textContent = formatYen(totalItemPrice);
-            document.getElementById('biaya-ongkir-result').textContent = formatYen(finalOngkir);
+            document.getElementById('biaya-ongkir-result').textContent = ongkirDisplayText;
             document.getElementById('total-biaya-result').textContent = formatYen(totalBiaya);
 
             // Toggle Box Row Visibility
