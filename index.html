@@ -1184,57 +1184,91 @@
     </div>
 
     <div id="modal5" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
-        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
-            
-			<div class="flex justify-between items-center p-6 border-b">
-			    <h3 class="text-2xl font-bold text-blue-600">Jadwal Keberangkatan</h3>
-			    <button class="modal-close-btn text-gray-400 hover:text-gray-600 transition-colors">
-			        <i data-lucide="x" class="w-6 h-6"></i>
-			    </button>
-			</div>
-			
-			<div class="modal-body p-6 text-gray-700">
-			    <div class="mb-4">
-			        <p class="mb-2"><strong>Jadwal bulan Oktober:</strong></p>
-			        <ul style="list-style-type: disc; padding-left: 20px;">
-			            <li>
-			                <strong>Batch 1 (Close) :</strong>
-			                <ul style="list-style-type: circle; padding-left: 20px; margin-top: 4px;">
-			                    <li><strong>Indonesia &gt; Jepang:</strong> 16 Oktober 2025 (Close)</li>
-			                    <li><strong>Jepang &gt; Indonesia:</strong> 22 Oktober 2025 (Close)</li>
-			                </ul>
-			            </li>
-			            <li style="margin-top: 8px;">
-			                <strong>Batch 2 (Close) :</strong>
-			                <ul style="list-style-type: circle; padding-left: 20px; margin-top: 4px;">
-			                    <li><strong>Indonesia &gt; Jepang:</strong> 28 Oktober 2025 (Close)</li>
-			                </ul>
-			            </li>
-			        </ul>
-			    </div>
-			
-			    <div class="mb-4"> <p class="mb-2"><strong>Jadwal bulan November (Close):</strong></p>
-			        <ul style="list-style-type: disc; padding-left: 20px;">
-			            <li><strong>Jepang &gt; Indonesia:</strong> 4 November 2025 (Close)</li>
-			            <li><strong>Indonesia &gt; Jepang:</strong> 22 November 2025 (Close)</li>
-			        </ul>
-			    </div>
-			
-			    <div class="mt-4"> <p class="mb-2"><strong>Jadwal mendatang:</strong></p>
-			        <ul style="list-style-type: disc; padding-left: 20px;">
-			            <li><strong>Indonesia &gt; Jepang:</strong> 11 Desember 2025</li>
-			            <li><strong>Indonesia &gt; Jepang:</strong> Januari 2026</li>
-			        </ul>
-			    </div>
-			</div>
-			
-            <div class="p-4 border-t bg-gray-50 rounded-b-2xl flex justify-end">
-                <button class="modal-close-btn btn-ripple bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all">
-                    Tutup
-                </button>
-            </div>
-        </div>
-    </div>
+	    <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden">
+	        
+	        <div class="flex justify-between items-center p-6 border-b bg-white sticky top-0 z-10">
+	            <h3 class="text-2xl font-bold text-blue-600">Jadwal Keberangkatan</h3>
+	            <button class="modal-close-btn text-gray-400 hover:text-red-500 transition-colors">
+	                <i data-lucide="x" class="w-6 h-6"></i>
+	            </button>
+	        </div>
+	        
+	        <div class="flex-1 overflow-y-auto p-6 bg-gray-50">
+	            <p class="mb-4 text-gray-700 font-semibold text-lg">Jadwal 2026:</p>
+	            
+	            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+	                
+	                <div class="bg-red-50 border border-red-100 p-3 rounded-lg">
+	                    <div class="font-bold text-red-600 mb-1">Januari 2026</div>
+	                    <div class="text-sm text-gray-600 flex justify-between">
+	                        <span>🇯🇵 &gt; 🇮🇩</span> <span class="font-bold text-red-500">Close</span>
+	                    </div>
+	                    <div class="text-sm text-gray-600 flex justify-between mt-1">
+	                        <span>🇮🇩 &gt; 🇯🇵</span> <span class="font-bold text-red-500">Close</span>
+	                    </div>
+	                </div>
+	
+	                <div class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm">
+	                    <div class="font-bold text-blue-600 mb-1">Februari 2026</div>
+	                    <div class="text-sm text-gray-600 flex justify-between">
+	                        <span>🇯🇵 &gt; 🇮🇩</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                    <div class="text-sm text-gray-600 flex justify-between mt-1">
+	                        <span>🇮🇩 &gt; 🇯🇵</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                </div>
+	
+	                <div class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm">
+	                    <div class="font-bold text-blue-600 mb-1">Maret 2026</div>
+	                    <div class="text-sm text-gray-600 flex justify-between">
+	                        <span>🇯🇵 &gt; 🇮🇩</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                    <div class="text-sm text-gray-600 flex justify-between mt-1">
+	                        <span>🇮🇩 &gt; 🇯🇵</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                </div>
+	
+	                <div class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm">
+	                    <div class="font-bold text-blue-600 mb-1">April 2026</div>
+	                    <div class="text-sm text-gray-600 flex justify-between">
+	                        <span>🇯🇵 &gt; 🇮🇩</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                    <div class="text-sm text-gray-600 flex justify-between mt-1">
+	                        <span>🇮🇩 &gt; 🇯🇵</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                </div>
+	
+	                <div class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm">
+	                    <div class="font-bold text-blue-600 mb-1">Mei 2026</div>
+	                    <div class="text-sm text-gray-600 flex justify-between">
+	                        <span>🇯🇵 &gt; 🇮🇩</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                    <div class="text-sm text-gray-600 flex justify-between mt-1">
+	                        <span>🇮🇩 &gt; 🇯🇵</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                </div>
+	
+	                <div class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm">
+	                    <div class="font-bold text-blue-600 mb-1">Juni 2026</div>
+	                    <div class="text-sm text-gray-600 flex justify-between">
+	                        <span>🇯🇵 &gt; 🇮🇩</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                    <div class="text-sm text-gray-600 flex justify-between mt-1">
+	                        <span>🇮🇩 &gt; 🇯🇵</span> <span class="text-green-600 font-medium">Open</span>
+	                    </div>
+	                </div>
+	
+	            </div>
+	        </div>
+	        
+	        <div class="p-4 border-t bg-white flex justify-end">
+	            <button class="modal-close-btn btn-ripple bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full transition-all shadow-md active:scale-95">
+	                Tutup
+	            </button>
+	        </div>
+	
+	    </div>
+	</div>
 
     <div id="modal6" class="modal fixed inset-0 z-[2000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
         <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
@@ -1946,3 +1980,4 @@
     </script>
 </body>
 </html>
+
