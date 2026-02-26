@@ -1157,12 +1157,13 @@
 			
 			    <div class="mb-6">
 			        <h4 class="font-bold text-gray-900 mb-2">Perhitungan Berat Volume</h4>
-			        <p class="mb-2">Kami menggunakan perhitungan berat aktual atau berat volume (volumetric weight), mana yang nilainya lebih besar.</p>
-			        <p class="mb-2 text-xs">Khusus untuk barang yang memiliki volume lebih besar dari berat paket, maka yang dihitung volumenya.</p>
+			        <p class="mb-2">Kami menggunakan perhitungan tambahan extra volume, yang mana nilainya akan di jumlahkan dengan berat normal barang tersebut.</p>
+			        <p class="mb-2 text-xs">Khusus untuk barang yang memiliki volume besar, maka perhitungannya :</p>
 			        <div class="bg-gray-100 p-3 rounded font-mono text-center text-sm border border-gray-300">
-			            RUMUS : Panjang x Lebar x Tinggi / 5000
+			            RUMUS : Panjang x Lebar x Tinggi / 4000
 			        </div>
 			        <p class="text-xs text-gray-500 mt-1 text-center">(Satuan Panjang, Lebar, dan Tinggi dalam cm)</p>
+				 	<p class="mb-2 text-xs">Contoh berat normal 1kg + Berat khusus volume 1,5kg = Jadi totalnya 2,5kg</p>
 			    </div>
 			
 			    <div class="mb-4 text-xs text-gray-500 space-y-2">
@@ -1980,4 +1981,5 @@
     </script>
 </body>
 </html>
+
 
